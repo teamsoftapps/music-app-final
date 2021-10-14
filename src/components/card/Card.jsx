@@ -3,14 +3,22 @@ import classes from "./Card.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSongs, setSong } from "../../store/musicReducer";
 
+const postSelector = (state) => state.music;
 const Card = ({ album, url }) => {
-    const router = useRouter();
+    const { user } = useSelector(postSelector, shallowEqual);
+
+    const route = useRouter();
     const dispatch = useDispatch();
 
     const handleClick = async () => {
+        if (!user) {
+            route.replace("/auth");
+            return;
+        }
+
         try {
             const { data } = await axios.get(`https://music-appps.herokuapp.com/api/songs/${album?._id}`);
             dispatch(setSongs(data));
