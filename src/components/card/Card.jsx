@@ -12,7 +12,7 @@ const Card = ({ album, url }) => {
 
     const handleClick = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/songs/${album?._id}`);
+            const { data } = await axios.get(`https://music-appps.herokuapp.com/api/songs/${album?._id}`);
             dispatch(setSongs(data));
             dispatch(setSong(data[0]));
             router.push("/album");

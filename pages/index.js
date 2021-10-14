@@ -6,7 +6,7 @@ const index = ({ albums }) => <HomePage albums={albums} />;
 export default index;
 
 export async function getStaticProps() {
-    const { data } = await axios.get(`http://localhost:5000/api/albums`);
+    const { data } = await axios.get(`https://music-appps.herokuapp.com/api/albums`);
 
     return {
         props: {

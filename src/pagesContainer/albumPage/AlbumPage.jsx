@@ -22,7 +22,7 @@ function AlbumPage() {
         <div className={classes.albums}>
             <h1>{song?.Album_Name}</h1>
             <div className={classes.albumsMain}>
-                <Card title={song?.Album_Name} url={`http://localhost:5000/${song?.Album_Image}`} />
+                <Card title={song?.Album_Name} url={`https://music-appps.herokuapp.com/${song?.Album_Image}`} />
                 <div className={classes.albumsMainPlaylist}>
                     {songs?.map((albumSong, i) => (
                         <MusicTracker key={i} albumSong={albumSong} />
