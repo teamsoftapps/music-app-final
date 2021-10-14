@@ -23,7 +23,7 @@ const Card = ({ album, url }) => {
             const { data } = await axios.get(`https://music-appps.herokuapp.com/api/songs/${album?._id}`);
             dispatch(setSongs(data));
             dispatch(setSong(data[0]));
-            router.push("/album");
+            route.push("/album");
             console.log({ data });
         } catch (err) {
             console.log({ err });
