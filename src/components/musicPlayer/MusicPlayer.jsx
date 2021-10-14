@@ -156,7 +156,12 @@ function MusicPlayer() {
                             <SkipNextSharp fontSize="large" />
                         </IconButton>
                     </div>
-                    <audio ref={audioPlayer} preload="auto" src={`http://localhost:5000/songs/${song?.Song_File}`} type="audio/mp3">
+                    <audio
+                        ref={audioPlayer}
+                        preload="auto"
+                        src={`https://music-appps.herokuapp.com/songs/${song?.Song_File}`}
+                        type="audio/mp3"
+                    >
                         {/* <source  src={`songs/${song}.mp3`} type="audio/mp3" /> */}
                         Your browser does not support the audio element.
                     </audio>
