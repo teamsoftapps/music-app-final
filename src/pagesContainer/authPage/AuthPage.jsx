@@ -18,7 +18,7 @@ function AuthPage() {
         const email = passwordRef.current.value;
         const payload = { email, password };
 
-        const url = !isSignIn ? "https://music-appps.herokuapp.com/api" + "/signup" : "/signin";
+        const url = "https://music-appps.herokuapp.com/api" + !isSignIn ? "/signup" : "/signin";
 
         try {
             const { data } = await axios.post(url, payload);
