@@ -1,0 +1,79 @@
+.header {
+    width: clamp(300px, 95%, 1600px);
+    margin: auto;
+    padding: calc(25px + 2vw);
+    /* background-color: var(--base-color); */
+    /* box-shadow: inset 0 -20px 20px 0 rgba(0, 0, 0, 0.3); */
+}
+.headerTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header .search {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--secondary-color);
+    border-radius: 100px;
+    padding-right: 1rem;
+}
+
+.search button {
+    color: var(--secondary-color);
+}
+.search button * {
+    font-size: 1.5rem !important;
+}
+
+.search input {
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 1rem;
+    color: var(--primary-color);
+}
+
+.search input::placeholder {
+    color: var(--secondary-color);
+}
+
+.headerActions button {
+    margin-left: 1rem;
+    color: var(--primary-color);
+}
+.headerMain {
+    text-align: center;
+}
+
+.headerMain h1 {
+    text-align: center;
+    margin: 2rem 0;
+    font-size: calc(5vw + 2rem);
+    font-family: "script-mt";
+    color: var(--primary-color);
+}
+
+.headerNavigation ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--secondary-color);
+    padding-bottom: 2rem;
+}
+
+.headerNavigation ul li {
+    font-size: calc(1vw + 0.5rem);
+    color: var(--primary-color);
+    font-weight: 600 !important;
+    margin: 0 1vw;
+    min-width: max-content;
+}
+.headerMainImage {
+    margin: 2rem 0;
+}
+.headerActions button:nth-child(3) {
+    color: white;
+    background-color: var(--button-color);
+}

@@ -1,0 +1,114 @@
+/* See the Utils at the bottom of this file*/
+
+.albumsMusicContainer {
+    padding: 0 2rem;
+    background-color: #171a1a;
+    width: 100%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    box-shadow: 2px 6px 20px 8px rgba(34, 42, 63, 1);
+    transition: height 0.3s ease;
+    height: 125px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    transition: height 0.3s ease;
+}
+.albumsMusicDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 20px;
+    position: absolute;
+    color: #fff;
+    width: calc(100% - 3rem);
+}
+.albumsMusicDetails h3 {
+    font-weight: 500;
+    margin: 0.5rem 0;
+    border-bottom: 1px solid;
+}
+
+.albumsMusicPlayer {
+    padding: 1rem 0;
+    z-index: 1;
+    background-color: #171a1a !important;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+}
+
+.albumsMusicPlayerMain {
+    /* flex: 1; */
+    margin: 0 auto;
+    flex-direction: column;
+    width: clamp(300px, 90%, 850px);
+}
+
+.slider {
+    width: 100%;
+}
+
+.showDecs {
+    min-height: max-content;
+}
+.musicTrackImage {
+    min-width: 60px;
+    min-height: 60px;
+}
+
+.musicTrackImage img {
+    border-radius: 50% !important;
+    object-fit: cover !important;
+}
+.albumsMusicPlayerTitle {
+    margin: 0 1rem;
+    color: var(--primary-color);
+    width: 150px;
+}
+
+.albumsMusicPlayerTitle * {
+    font-weight: 500;
+}
+
+.musicController *,
+.musicVolume * {
+    color: var(--primary-color) !important;
+}
+
+.musicControllerBtn {
+    transition: transform 0.3s ease !important;
+    padding: 0.5rem !important;
+}
+.musicControllerBtn:hover {
+    transform: scale(1.2);
+}
+
+.albumsMusicPlayer p {
+    font-weight: 600;
+    margin: 0 2rem;
+    text-align: center;
+    color: var(--primary-color);
+    width: 30px;
+}
+
+.musicVolume button {
+    margin: 0 0.5rem;
+}
+.musicVolume {
+    width: clamp(150px, 90%, 250px);
+    margin-bottom: -13px !important;
+}
+
+/* utils */
+.albumsMusicPlayerMain,
+.musicController,
+.musicVolume,
+.albumsMusicPlayerProfile,
+.slider {
+    display: flex;
+    align-items: center;
+}
