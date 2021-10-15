@@ -1,6 +1,7 @@
 :root {
     --base-color: #f9fafe;
     --bg-transparent: linear-gradient(180deg, #4a2d4d, #171a1a, #171a1a);
+    --bg-drawer: linear-gradient(180deg, #171a1a, #171a1a, #4a2d4d);
     --primary-color: #ffff;
     --secondary-color: #dddd;
     --button-color: #5e77fb;

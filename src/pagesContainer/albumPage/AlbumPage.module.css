@@ -8,6 +8,7 @@
 .albums h1 {
     color: var(--primary-color);
     text-align: center;
+    margin-top: 2rem;
 }
 
 .albumsMain {
@@ -73,4 +74,16 @@
 }
 .musicController {
     display: flex;
+}
+
+@media (max-width: 1150px) {
+    .albumsMain {
+        margin-top: 2rem;
+    }
+    .albumsMain > div:nth-child(1) {
+        display: none !important;
+    }
+    .albumsMainPlaylist {
+        padding: 0;
+    }
 }

@@ -99,7 +99,8 @@
     margin: 0 0.5rem;
 }
 .musicVolume {
-    width: clamp(150px, 90%, 250px);
+    width: clamp(200px, 100%, 250px);
+    min-width: 200px;
     margin-bottom: -13px !important;
 }
 
@@ -111,4 +112,10 @@
 .slider {
     display: flex;
     align-items: center;
+}
+
+@media (max-width: 991px) {
+    .albumsMusicPlayerProfile {
+        display: none !important;
+    }
 }

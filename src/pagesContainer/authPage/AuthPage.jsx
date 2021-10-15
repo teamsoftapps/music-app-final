@@ -1,15 +1,30 @@
 import { Button } from "@material-ui/core";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./AuthPage.module.css";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useSelector, shallowEqual } from "react-redux";
+
+const postSelector = (state) => state.music;
 
 function AuthPage() {
+    const { user } = useSelector(postSelector, shallowEqual);
+    const route = useRouter();
+
     const [isSignIn, setIsSignIn] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     const emailRef = useRef();
     const passwordRef = useRef();
+
+    console.log({ user });
+    useEffect(() => {
+        if (user) {
+            // window.location.href = "/";
+            route.replace("/");
+        }
+    }, [user]);
 
     const handleSubmit = async (e) => {
         setLoading(true);
@@ -18,7 +33,9 @@ function AuthPage() {
         const email = passwordRef.current.value;
         const payload = { email, password };
 
-        const url = !isSignIn ? "https://music-appps.herokuapp.com/api/signup" : "https://music-appps.herokuapp.com/api/signin";
+        const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
+
+        console.log({ url });
 
         try {
             const { data } = await axios.post(url, payload);

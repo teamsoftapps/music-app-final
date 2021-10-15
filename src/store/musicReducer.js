@@ -2,93 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
-    songs: [
-        {
-            title: "On Eagle's Wings",
-            url: "On Eagle's Wings",
-            isPlaying: false,
-        },
-        {
-            title: "Island Of Peace",
-            url: "Island Of Peace",
-            isPlaying: false,
-        },
-        {
-            title: "Celtic Sunrise",
-            url: "Celtic Sunrise",
-            isPlaying: false,
-        },
-        {
-            title: "Rainbow Of Hope",
-            url: "Rainbow Of Hope",
-            isPlaying: false,
-        },
-        {
-            title: "You're The One",
-            url: "You're The One",
-            isPlaying: false,
-        },
-        {
-            title: "Happy Hearts",
-            url: "Happy Hearts",
-            isPlaying: false,
-        },
-        {
-            title: "Musica Minore",
-            url: "Musica Minore",
-            isPlaying: false,
-        },
-        {
-            title: "The Piano Dreamer",
-            url: "The Piano Dreamer",
-            isPlaying: false,
-        },
-        {
-            title: "Beauty & The Beast",
-            url: "Beauty & The Beast",
-            isPlaying: false,
-        },
-        {
-            title: "Daydreamer",
-            url: "Daydreamer",
-            isPlaying: false,
-        },
-        {
-            title: "Sailing Sunny Seas",
-            url: "Sailing Sunny Seas",
-            isPlaying: false,
-        },
-        {
-            title: "Rendezvous",
-            url: "Rendezvous",
-            isPlaying: false,
-        },
-        {
-            title: "Silent Tears",
-            url: "Silent Tears",
-            isPlaying: false,
-        },
-        {
-            title: "Meditation",
-            url: "Meditation",
-            isPlaying: false,
-        },
-        {
-            title: "Love Theme",
-            url: "Love Theme",
-            isPlaying: false,
-        },
-        {
-            title: "The Final Encore",
-            url: "The Final Encore",
-            isPlaying: false,
-        },
-    ],
-    song: {
-        title: "Beauty & The Beast",
-        url: "Beauty & The Beast",
-        isPlaying: false,
-    },
+    songs: [],
+    song: {},
 };
 
 export const counterSlice = createSlice({
@@ -115,12 +30,12 @@ export const counterSlice = createSlice({
             state.song = payload;
         },
         setPreviousSong: (state, { payload }) => {
-            const currentIndex = state.songs.findIndex((song) => song.title === payload.title);
+            const currentIndex = state.songs.findIndex((song) => song._id === payload._id);
             if (currentIndex <= 0) return;
             state.song = state.songs[currentIndex - 1];
         },
         setNextSong: (state, { payload }) => {
-            const currentIndex = state.songs.findIndex((song) => song.title === payload.title);
+            const currentIndex = state.songs.findIndex((song) => song._id === payload._id);
             if (currentIndex < 0 || currentIndex === state.songs.length - 1) return;
             state.song = state.songs[currentIndex + 1];
         },

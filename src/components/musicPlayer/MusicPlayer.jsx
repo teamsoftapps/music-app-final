@@ -2,14 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { IconButton, Slider } from "@material-ui/core";
 import {
-    FastForwardRounded,
-    FastRewindRounded,
-    FavoriteOutlined,
     Info,
     PauseCircleFilled,
     PlayCircleFilled,
-    QueueMusic,
-    Repeat,
     SkipNextSharp,
     SkipPreviousSharp,
     VolumeDown,
@@ -36,7 +31,7 @@ function MusicPlayer() {
 
     useEffect(() => {
         defaultHandler();
-        return defaultHandler();
+        return () => defaultHandler();
     }, [song]);
 
     // set Default once song is done playing.
@@ -47,9 +42,9 @@ function MusicPlayer() {
     }, [audioPlayer.current?.duration, currentTime]);
 
     function defaultHandler() {
-        setIsPlaying(false);
-        setCurrentTime(0);
         cancelAnimationFrame(animationRef.current);
+        setCurrentTime(0);
+        setIsPlaying(false);
     }
 
     // Calculate the Streaming Time
@@ -77,17 +72,15 @@ function MusicPlayer() {
 
     // Connect progress bar(Slider) with the currrent time.
     function whilePlaying() {
-        changePlayerCurrentTime(audioPlayer.current?.currentTime);
+        setCurrentTime(audioPlayer.current?.currentTime);
         animationRef.current = requestAnimationFrame(whilePlaying);
     }
 
-    function changePlayerCurrentTime(value) {
-        setCurrentTime(value);
-    }
-
     function changeMusicTime(e, value) {
-        audioPlayer.current.currentTime = value;
-        changePlayerCurrentTime(value);
+        if (value) {
+            audioPlayer.current.currentTime = value;
+            setCurrentTime(value);
+        }
     }
 
     function changeVolume(e, value) {
@@ -109,6 +102,10 @@ function MusicPlayer() {
         console.log("object", volumePreState.current);
     }
 
+    function songDuration(duration) {
+        return duration && typeof duration === "number" && duration;
+    }
+
     return (
         <div style={showDetails ? { height: 300 } : { height: 125 }} className={`${classes.albumsMusicContainer} `}>
             {showDetails && (
@@ -121,10 +118,10 @@ function MusicPlayer() {
             <div className={classes.albumsMusicPlayer}>
                 <div className={classes.albumsMusicPlayerProfile}>
                     <div className={classes.musicTrackImage}>
-                        <Image src={"/images/singer.jfif"} alt="" width="75" height="75" layout="responsive" />
+                        <Image src={`${process.env.media_url}/${song?.Album_Image}`} alt="" width="75" height="75" layout="responsive" />
                     </div>
                     <div className={classes.albumsMusicPlayerTitle}>
-                        <h3>Ian Mulder</h3>
+                        <h3>{song?.Album_Name}</h3>
                         <h4>{song?.Song_Name}</h4>
                     </div>
                 </div>
@@ -156,12 +153,7 @@ function MusicPlayer() {
                             <SkipNextSharp fontSize="large" />
                         </IconButton>
                     </div>
-                    <audio
-                        ref={audioPlayer}
-                        preload="auto"
-                        src={`https://music-appps.herokuapp.com/songs/${song?.Song_File}`}
-                        type="audio/mp3"
-                    >
+                    <audio ref={audioPlayer} preload="auto" src={`${process.env.media_url}/${song?.Song_File}`} type="audio/mp3">
                         {/* <source  src={`songs/${song}.mp3`} type="audio/mp3" /> */}
                         Your browser does not support the audio element.
                     </audio>
@@ -169,19 +161,21 @@ function MusicPlayer() {
                         <p>{!currentTime ? "00:00" : calculateTime(currentTime)}</p>
                         <Slider
                             style={{ flex: 1, width: "100%" }}
+                            // value={currentTime}
                             value={typeof currentTime === "number" ? currentTime : 0}
                             onChange={changeMusicTime}
                             aria-labelledby="input-slider"
-                            max={audioPlayer.current?.duraiton}
+                            max={songDuration(audioPlayer.current?.duration)}
                         />
-                        <p>{!calculateTime(audioPlayer.current?.duration) ? "00:00" : calculateTime(audioPlayer.current?.duration)}</p>
+                        <p>
+                            {song && song?.Song_Length}
+                            {/* {!calculateTime(audioPlayer.current?.duration) ? "00:00" : calculateTime(audioPlayer.current?.duration)} */}
+                        </p>
                     </div>
                 </div>
                 <div className={classes.musicVolume}>
                     <IconButton onClick={handleVolume}>{!volume ? <VolumeOff /> : volume > 0.5 ? <VolumeUp /> : <VolumeDown />}</IconButton>
                     <Slider aria-label="Volume" value={volume} onChange={changeVolume} step={0.01} max={1} />
-
-                    {/* <VolumeUp /> */}
                     <IconButton onClick={() => setshowDetails(!showDetails)}>
                         <Info />
                     </IconButton>

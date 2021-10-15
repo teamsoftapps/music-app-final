@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Favorite } from "@material-ui/icons";
+import { Favorite, MusicNote } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -27,14 +27,13 @@ function MusicTracker({ albumSong }) {
                 {/* <IconButton onClick={toggleSong}>
                     {song.isPlaying && albumSong.title === song.title ? <PauseRounded /> : <PlayArrow />}
                 </IconButton> */}
-                <div className={classes.musicTrackImage}>
-                    <Image src={"/images/singer.jfif"} alt="" width="75" height="75" layout="responsive" />
-                </div>
-                <h3>Ian Mulder</h3>
+                <IconButton className={classes.songTune}>
+                    <MusicNote />
+                </IconButton>
                 <h4>{albumSong?.Song_Name}</h4>
             </div>
             <div className={classes.musicTrackRight}>
-                <h3>8:04</h3>
+                <h3>{albumSong?.Song_Length}</h3>
                 <IconButton>
                     <Favorite />
                 </IconButton>

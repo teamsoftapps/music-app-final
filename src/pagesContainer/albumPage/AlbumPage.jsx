@@ -3,8 +3,8 @@ import classes from "./AlbumPage.module.css";
 import Card from "../../components/card/Card";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
-import { useSelector, shallowEqual } from "react-redux";
 import { useRouter } from "next/router";
+import { useSelector, shallowEqual } from "react-redux";
 
 const postSelector = (state) => state.music;
 
@@ -16,13 +16,13 @@ function AlbumPage() {
         if (!user) {
             route.replace("/auth");
         }
-    }, []);
+    }, [user]);
 
     return (
         <div className={classes.albums}>
             <h1>{song?.Album_Name}</h1>
             <div className={classes.albumsMain}>
-                <Card title={song?.Album_Name} url={`https://music-appps.herokuapp.com/${song?.Album_Image}`} />
+                <Card title={song?.Album_Name} url={`${process.env.media_url}/${song?.Album_Image}`} />
                 <div className={classes.albumsMainPlaylist}>
                     {songs?.map((albumSong, i) => (
                         <MusicTracker key={i} albumSong={albumSong} />
