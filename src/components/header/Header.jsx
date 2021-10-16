@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import classes from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { Button, IconButton, Drawer, List, ListItem } from "@material-ui/core";
+import { IconButton, Drawer, List, ListItem, Button } from "@material-ui/core";
 import { Menu, Search } from "@material-ui/icons";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { setLanguageMode } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
 function Header() {
-    const { user } = useSelector(postSelector, shallowEqual);
+    const { user, isDutch } = useSelector(postSelector, shallowEqual);
     const [open, setOpen] = useState(false);
     const [sideBar, setShowSidebar] = useState(false);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (window.innerWidth < 992) {
@@ -68,7 +71,13 @@ function Header() {
                         </IconButton>
                         <Link href="/">
                             <a>
-                                <Image src="/images/logo.svg" alt="" width={150} height={40} layout="fixed" />
+                                <Image
+                                    src={`/images/${isDutch ? "logo_dutch" : "logo"}.svg`}
+                                    alt=""
+                                    width={200}
+                                    height={50}
+                                    layout="fixed"
+                                />
                             </a>
                         </Link>
                     </div>
@@ -82,12 +91,31 @@ function Header() {
                 </div>
                 {!sideBar && (
                     <div className={classes.headerActions}>
-                        <IconButton>
+                        {/* <IconButton>
                             <Image src="/images/gear-white.png" alt="" width={25} height={25} />
-                        </IconButton>
+                        </IconButton> */}
+                        <Button
+                            onClick={() => dispatch(setLanguageMode())}
+                            style={{
+                                backgroundColor: "var(--button-color)",
+                                margin: "0 1rem",
+                                fontSize: "1rem",
+                            }}
+                            startIcon={
+                                <Image
+                                    src={`/images/${isDutch ? "eng.png" : "nl.jpg"}`}
+                                    alt=""
+                                    width={25}
+                                    height={18}
+                                    onClick={handleLogout}
+                                />
+                            }
+                        >
+                            {isDutch ? "English" : "Dutch"}
+                        </Button>
                         {user && (
                             <IconButton>
-                                <Image src="/images/logout-white.png" alt="" width={25} height={25} onClick={handleLogout} />
+                                <Image src="/images/logout-white.png" alt="" width={30} height={30} onClick={handleLogout} />
                             </IconButton>
                         )}
                     </div>
@@ -96,7 +124,17 @@ function Header() {
             {!sideBar && (
                 <div className={classes.headerMain}>
                     <div className={classes.headerMainImage}>
-                        <Image src="/images/logo.svg" alt="" width={750} height={250} layout="intrinsic" />
+                        <Link href="/">
+                            <a>
+                                <Image
+                                    src={`/images/${isDutch ? "logo_dutch" : "logo"}.svg`}
+                                    alt=""
+                                    width={550}
+                                    height={150}
+                                    layout="intrinsic"
+                                />
+                            </a>
+                        </Link>
                     </div>
                     <nav className={classes.headerNavigation}>
                         <ul>
@@ -120,31 +158,35 @@ export default Header;
 
 const nav = [
     {
-        title: "HOME",
+        title: "STREAMING",
         route: "/",
     },
-    {
-        title: "CD STORE",
-        route: "/",
-    },
-    {
-        title: "SHEET MUSIC",
-        route: "/",
-    },
-    {
-        title: "BIOGRAPHY",
-        route: "/",
-    },
-    {
-        title: "NEW & EVENTS",
-        route: "/",
-    },
-    {
-        title: "GUESTBOOK",
-        route: "/",
-    },
-    {
-        title: "LOGIN",
-        route: "/auth",
-    },
+    // {
+    //     title: "HOME",
+    //     route: "/",
+    // },
+    // {
+    //     title: "CD STORE",
+    //     route: "/",
+    // },
+    // {
+    //     title: "SHEET MUSIC",
+    //     route: "/",
+    // },
+    // {
+    //     title: "BIOGRAPHY",
+    //     route: "/",
+    // },
+    // {
+    //     title: "NEW & EVENTS",
+    //     route: "/",
+    // },
+    // {
+    //     title: "GUESTBOOK",
+    //     route: "/",
+    // },
+    // {
+    //     title: "LOGIN",
+    //     route: "/auth",
+    // },
 ];

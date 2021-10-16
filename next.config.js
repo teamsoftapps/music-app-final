@@ -4,20 +4,22 @@ module.exports = (phase) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         return {
             reactStrictMode: true,
-            images: { domains: ["localhost:5000", "localhost"] },
+            images: { domains: ["localhost:5000", "localhost", "18.119.12.204"] },
             env: {
-                base_url: "http://localhost:5000/api",
-                media_url: "http://localhost:5000",
+                base_url: "http://18.119.12.204/api",
+                media_url: "http://18.119.12.204",
             },
         };
     }
 
     return {
         reactStrictMode: true,
-        images: { domains: ["music-appps.herokuapp.com"] },
+        images: { domains: ["music-appps.herokuapp.com", "18.119.12.204"] },
         env: {
-            base_url: "https://music-appps.herokuapp.com/api",
-            media_url: "https://music-appps.herokuapp.com",
+            base_url: "http://18.119.12.204/api",
+            media_url: "http://18.119.12.204",
+            // base_url: "https://music-appps.herokuapp.com/api",
+            // media_url: "https://music-appps.herokuapp.com",
         },
     };
 };

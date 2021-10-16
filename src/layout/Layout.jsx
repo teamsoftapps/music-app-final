@@ -19,8 +19,8 @@ const Layout = ({ children }) => {
     return (
         <div>
             <Head>
-                <title>Music App</title>
-                <meta name="description" content="Music App." />
+                <title>Mulder Music Streaming</title>
+                <meta name="description" content="Mulder Music Streaming." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className={classes.layout}>

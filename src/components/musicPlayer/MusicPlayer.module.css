@@ -2,11 +2,14 @@
 
 .albumsMusicContainer {
     padding: 0 2rem;
-    background-color: #171a1a;
+    /* background-color: #171a1a; */
+    /* background-color: #171107; */
+    background-color: #0c0904;
     width: 100%;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
-    box-shadow: 2px 6px 20px 8px rgba(34, 42, 63, 1);
+    /* box-shadow: 2px 6px 20px 8px rgba(34, 42, 63, 1); */
+    box-shadow: 2px 6px 20px 8px #382b11;
     transition: height 0.3s ease;
     height: 125px;
     overflow: hidden;
@@ -18,6 +21,7 @@
     transition: height 0.3s ease;
 }
 .albumsMusicDetails {
+    /* background-color: #171107; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +39,7 @@
 .albumsMusicPlayer {
     padding: 1rem 0;
     z-index: 1;
-    background-color: #171a1a !important;
+    /* background-color: #171a1a !important; */
     margin-top: auto;
     display: flex;
     align-items: center;
@@ -45,7 +49,7 @@
     /* flex: 1; */
     margin: 0 auto;
     flex-direction: column;
-    width: clamp(300px, 90%, 850px);
+    width: clamp(250px, 90%, 850px);
 }
 
 .slider {
@@ -117,5 +121,18 @@
 @media (max-width: 991px) {
     .albumsMusicPlayerProfile {
         display: none !important;
+    }
+}
+
+@media (max-width: 550px) {
+    .musicVolume {
+        display: none !important;
+    }
+    .albumsMusicContainer {
+        padding: 0;
+    }
+
+    .albumsMusicPlayerMain {
+        min-width: 100%;
     }
 }

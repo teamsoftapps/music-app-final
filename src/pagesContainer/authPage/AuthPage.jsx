@@ -3,39 +3,35 @@ import React, { useEffect, useRef, useState } from "react";
 import classes from "./AuthPage.module.css";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useSelector, shallowEqual } from "react-redux";
-
-const postSelector = (state) => state.music;
 
 function AuthPage() {
-    const { user } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
 
-    const [isSignIn, setIsSignIn] = useState(false);
+    const [isSignIn, setIsSignIn] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [accessCode, setAccessCode] = useState("");
 
     const emailRef = useRef();
     const passwordRef = useRef();
 
-    console.log({ user });
     useEffect(() => {
-        if (user) {
-            // window.location.href = "/";
+        const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+        if (user?.token.length > 30) {
             route.replace("/");
         }
-    }, [user]);
+    }, []);
 
     const handleSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
         const password = passwordRef.current.value;
         const email = passwordRef.current.value;
-        const payload = { email, password };
+        const payload = isSignIn ? { email, password } : { email, password };
 
         const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
 
-        console.log({ url });
+        console.log({ url, payload });
 
         try {
             const { data } = await axios.post(url, payload);
@@ -45,6 +41,9 @@ function AuthPage() {
             if (isSignIn) {
                 localStorage.setItem("music-app-credentials", JSON.stringify(data));
                 window.location.href = "/";
+            } else {
+                setAccessCode(data?._id);
+                setIsSignIn(true);
             }
         } catch (err) {
             setLoading(false);
@@ -61,19 +60,6 @@ function AuthPage() {
     return (
         <form onSubmit={handleSubmit} className={classes.auth}>
             <h1> {loginText}</h1>
-            {/* {!isSignIn && (
-                <>
-                    <div className={classes.input}>
-                        <label htmlFor="">First Name</label>
-                        <input type="text" required placeholder="Your First Name" />
-                    </div>
-                    <div className={classes.input}>
-                        <label htmlFor="">Last Name </label>
-                        <input type="text" required placeholder="Your Last Name" />
-                    </div>
-                </>
-            )} */}
-
             {loading && <h3>Loading..</h3>}
             {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
@@ -85,19 +71,35 @@ function AuthPage() {
                 <label htmlFor="">Password</label>
                 <input ref={passwordRef} type="password" required minLength={6} maxLength={36} placeholder="Your Password" />
             </div>
+            {isSignIn && (
+                <div className={classes.input}>
+                    <label htmlFor="">Access Code</label>
+                    <input
+                        value={accessCode}
+                        onChange={(e) => setAccessCode(e.target.value)}
+                        type="text"
+                        // required
+                        // minLength={24}
+                        // maxLength={24}
+                        placeholder="Your Password"
+                    />
+                </div>
+            )}
+
             <Button type="submit" variant="contained">
                 {loginText}
             </Button>
-
+            <br />
             <p>
-                Have an accedd code?
+                {/* {isSignIn && "Have an access code?"} */}
                 <span onClick={() => setIsSignIn((prevState) => !prevState)}>
                     {!isSignIn ? "Already have an account" : "Create Your Account"}
                 </span>
             </p>
             {isSignIn && (
                 <>
-                    <span>Forgot your password</span>
+                    <br />
+                    {/* <span>Forgot your password</span> */}
                     <p>
                         By logging in, you agree to our following <span>Privacy Policy</span>
                         and,

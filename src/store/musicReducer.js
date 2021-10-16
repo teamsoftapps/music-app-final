@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    isDutch: false,
     user: null,
     songs: [],
     song: {},
@@ -10,6 +11,11 @@ export const counterSlice = createSlice({
     name: "albums",
     initialState,
     reducers: {
+        // language Mode
+        setLanguageMode: (state) => {
+            state.isDutch = !state.isDutch;
+        },
+
         // authentication
         setUser: (state, { payload }) => {
             state.user = payload;
@@ -43,6 +49,6 @@ export const counterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setSongs, setSong, setNextSong, setPreviousSong, setIsPlaying, setUser } = counterSlice.actions;
+export const { setSongs, setSong, setNextSong, setPreviousSong, setIsPlaying, setUser, setLanguageMode } = counterSlice.actions;
 
 export default counterSlice.reducer;

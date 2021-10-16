@@ -1,6 +1,6 @@
 .homePage .cards {
     display: flex;
-    margin: 5rem calc(1vw);
+    margin: calc(1rem + 2vw) calc(1vw);
     flex-wrap: wrap;
     justify-content: space-around;
 }

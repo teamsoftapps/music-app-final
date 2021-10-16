@@ -9,20 +9,24 @@ import { useSelector, shallowEqual } from "react-redux";
 const postSelector = (state) => state.music;
 
 function AlbumPage() {
-    const { songs, song, user } = useSelector(postSelector, shallowEqual);
+    const { songs, song, isDutch } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
 
     useEffect(() => {
-        if (!user) {
+        const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+        if (!user?.token.length) {
             route.replace("/auth");
         }
-    }, [user]);
+    }, []);
 
     return (
         <div className={classes.albums}>
             <h1>{song?.Album_Name}</h1>
             <div className={classes.albumsMain}>
-                <Card title={song?.Album_Name} url={`${process.env.media_url}/${song?.Album_Image}`} />
+                <Card
+                    title={song?.Album_Name}
+                    url={`${process.env.media_url}/${!isDutch ? song?.Album_Image : song?.Album_Image.replace("eng", "nl")}`}
+                />
                 <div className={classes.albumsMainPlaylist}>
                     {songs?.map((albumSong, i) => (
                         <MusicTracker key={i} albumSong={albumSong} />

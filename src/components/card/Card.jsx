@@ -31,8 +31,8 @@ const Card = ({ album, url }) => {
 
     return (
         <div className={classes.card} onClick={handleClick}>
-            <div className={classes.cardImage} style={{ width: 240, height: 280 }}>
-                <Image src={url} alt="" width={240} height={280} />
+            <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
+                <Image src={url} alt="" width={280} height={280} />
             </div>
             <h3>{album?.Album_Name}</h3>
         </div>

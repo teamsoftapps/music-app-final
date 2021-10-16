@@ -1,12 +1,15 @@
 .auth {
     padding: calc(2.5vw + 20px);
     width: clamp(300px, 75%, 800px);
-    margin: 5vw auto;
-    background: #171a1a;
-    box-shadow: 2px 6px 20px 8px rgba(34, 42, 63, 1);
+    /* background: #171a1a; */
+    /* background: #111; */
+    background: #0f0b04;
+    box-shadow: 2px 6px 20px 8px #382b11;
     text-align: center;
     color: var(--primary-color);
     border-radius: 10px;
+    margin: 0 auto;
+    margin-bottom: 5vw;
 }
 
 .auth h1 {
@@ -33,13 +36,14 @@
     border: none;
     outline: 2px solid transparent;
     font-size: 1.1rem;
-    background: rgba(29, 35, 35, 1);
+    /* background: rgba(29, 35, 35, 1); */
+    background: rgba(255, 255, 255, 0.15);
     color: var(--primary-color);
     transition: 0.3s ease;
 }
 
 .input input:focus {
-    outline: 2px solid #4a2d4d;
+    outline: 2px solid #382b11;
 }
 
 .auth button,
@@ -56,7 +60,9 @@
 .auth p span {
     margin: 0 0.5rem;
 }
-
+.auth p {
+    margin: 0 0.5rem;
+}
 .auth span {
     cursor: pointer;
     color: var(--secondary-color);
@@ -65,4 +71,11 @@
 .auth > span {
     display: block;
     margin: 1rem;
+}
+
+@media (max-width: 991px) {
+    .auth {
+        width: clamp(300px, 90%, 800px);
+        margin: 5vw auto;
+    }
 }
