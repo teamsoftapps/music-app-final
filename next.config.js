@@ -19,8 +19,10 @@ module.exports = (phase) => {
         reactStrictMode: true,
         images: { domains: ["music-appps.herokuapp.com", "3.144.44.95"] },
         env: {
-            base_url: "https://music-appps.herokuapp.com/api",
-            media_url: "https://music-appps.herokuapp.com",
+            base_url: "http://3.144.44.95/api",
+            media_url: "http://3.144.44.95",
+            // base_url: "https://music-appps.herokuapp.com/api",
+            // media_url: "https://music-appps.herokuapp.com",
             httpAgentOptions: {
                 keepAlive: true,
             },

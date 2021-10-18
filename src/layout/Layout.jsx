@@ -21,6 +21,7 @@ const Layout = ({ children }) => {
             <Head>
                 <title>Mulder Music Streaming</title>
                 <meta name="description" content="Mulder Music Streaming." />
+                {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className={classes.layout}>
