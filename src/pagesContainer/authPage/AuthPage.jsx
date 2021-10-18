@@ -4,10 +4,9 @@ import classes from "./AuthPage.module.css";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-function AuthPage() {
+function AuthPage({ isSignIn }) {
     const route = useRouter();
 
-    const [isSignIn, setIsSignIn] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [accessCode, setAccessCode] = useState("");
@@ -29,7 +28,7 @@ function AuthPage() {
         const email = passwordRef.current.value;
         const payload = isSignIn ? { email, password } : { email, password };
 
-        const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
+        const url = process.env.base_url + (isSignIn ? "/signup" : "/signin");
 
         console.log({ url, payload });
 
@@ -40,10 +39,10 @@ function AuthPage() {
 
             if (isSignIn) {
                 localStorage.setItem("music-app-credentials", JSON.stringify(data));
-                window.location.href = "/";
+                route.push("/");
             } else {
                 setAccessCode(data?._id);
-                setIsSignIn(true);
+                // setIsSignIn(true);
             }
         } catch (err) {
             setLoading(false);
@@ -56,7 +55,7 @@ function AuthPage() {
         }
     };
 
-    const loginText = isSignIn ? "Login" : "Sign Up";
+    const loginText = !isSignIn ? "Login" : "Sign Up";
     return (
         <form onSubmit={handleSubmit} className={classes.auth}>
             <h1> {loginText}</h1>
@@ -85,23 +84,23 @@ function AuthPage() {
                     />
                 </div>
             )}
-
             <Button type="submit" variant="contained">
                 {loginText}
             </Button>
             <br />
             <p>
-                {/* {isSignIn && "Have an access code?"} */}
-                <span onClick={() => setIsSignIn((prevState) => !prevState)}>
-                    {!isSignIn ? "Already have an account" : "Create Your Account"}
-                </span>
+                {isSignIn ? (
+                    <span onClick={() => route.push("/login")}>Already have an account</span>
+                ) : (
+                    <span onClick={() => route.push("/signup")}> Create Your Account</span>
+                )}
             </p>
             {isSignIn && (
                 <>
                     <br />
                     {/* <span>Forgot your password</span> */}
                     <p>
-                        By logging in, you agree to our following <span>Privacy Policy</span>
+                        By Signing up, you are agree to follow our <span>Privacy Policy</span>
                         and,
                         <span>Terms of service</span>
                     </p>

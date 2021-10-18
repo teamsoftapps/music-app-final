@@ -118,6 +118,15 @@
     background: white !important;
 }
 
+.MuiButton-startIcon {
+    margin-right: 0px !important;
+}
+
+.btnFlag {
+    padding: 10px 0 !important;
+    padding-left: 10px !important;
+}
+
 @media (max-width: 991px) {
     .headerActive {
         position: sticky;

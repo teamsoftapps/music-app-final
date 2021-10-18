@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../../components/card/Card";
 // import Banner from "./banner/Banner";
 import classes from "./HomePage.module.css";
 import { useSelector, shallowEqual } from "react-redux";
+import { useRouter } from "next/router";
 
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
     const { isDutch } = useSelector(postSelector, shallowEqual);
+    const route = useRouter();
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+        if (!user) route.replace("/signup");
+    }, []);
 
     return (
         <div className={classes.homePage}>

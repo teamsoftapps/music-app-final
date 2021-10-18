@@ -83,39 +83,40 @@ function Header() {
                     </div>
                 )}
 
-                <div className={classes.search}>
+                {/* <div className={classes.search}>
                     <IconButton>
                         <Search />
                     </IconButton>
                     <input type="text" placeholder="Search for the songs, albums etc.." />
-                </div>
+                </div> */}
                 {!sideBar && (
                     <div className={classes.headerActions}>
                         {/* <IconButton>
                             <Image src="/images/gear-white.png" alt="" width={25} height={25} />
                         </IconButton> */}
                         <Button
+                            className={classes.btnFlag}
                             onClick={() => dispatch(setLanguageMode())}
                             style={{
                                 backgroundColor: "var(--button-color)",
-                                margin: "0 1rem",
+                                margin: "0px 0px 0px 0px !important",
                                 fontSize: "1rem",
                             }}
                             startIcon={
                                 <Image
                                     src={`/images/${isDutch ? "eng.png" : "nl.jpg"}`}
                                     alt=""
-                                    width={25}
-                                    height={18}
+                                    width={40}
+                                    height={30}
                                     onClick={handleLogout}
                                 />
                             }
                         >
-                            {isDutch ? "English" : "Dutch"}
+                            {/* {isDutch ? "English" : "Dutch"} */}
                         </Button>
                         {user && (
                             <IconButton>
-                                <Image src="/images/logout-white.png" alt="" width={30} height={30} onClick={handleLogout} />
+                                <Image src="/images/logout-white.png" alt="" width={40} height={25} onClick={handleLogout} />
                             </IconButton>
                         )}
                     </div>
@@ -158,35 +159,31 @@ export default Header;
 
 const nav = [
     {
-        title: "STREAMING",
+        title: "HOME",
         route: "/",
     },
-    // {
-    //     title: "HOME",
-    //     route: "/",
-    // },
-    // {
-    //     title: "CD STORE",
-    //     route: "/",
-    // },
-    // {
-    //     title: "SHEET MUSIC",
-    //     route: "/",
-    // },
-    // {
-    //     title: "BIOGRAPHY",
-    //     route: "/",
-    // },
-    // {
-    //     title: "NEW & EVENTS",
-    //     route: "/",
-    // },
-    // {
-    //     title: "GUESTBOOK",
-    //     route: "/",
-    // },
-    // {
-    //     title: "LOGIN",
-    //     route: "/auth",
-    // },
+    {
+        title: "CD STORE",
+        route: "/",
+    },
+    {
+        title: "SHEET MUSIC",
+        route: "/",
+    },
+    {
+        title: "BIOGRAPHY",
+        route: "/",
+    },
+    {
+        title: "NEW & EVENTS",
+        route: "/",
+    },
+    {
+        title: "GUESTBOOK",
+        route: "/",
+    },
+    {
+        title: "LOGIN",
+        route: "/auth",
+    },
 ];
