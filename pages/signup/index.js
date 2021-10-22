@@ -1,5 +1,5 @@
 import AuthPage from "../../src/pagesContainer/authPage/AuthPage";
 
-const index = () => <AuthPage isSignIn />;
+const index = () => <AuthPage />;
 
 export default index;

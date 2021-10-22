@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Card from "../../components/card/Card";
-// import Banner from "./banner/Banner";
 import classes from "./HomePage.module.css";
 import { useSelector, shallowEqual } from "react-redux";
-import { useRouter } from "next/router";
 
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
-    const { isDutch } = useSelector(postSelector, shallowEqual);
-    const route = useRouter();
-
-    useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("music-app-credentials"));
-        if (!user) route.replace("/signup");
-    }, []);
+    const { language, user } = useSelector(postSelector, shallowEqual);
 
     return (
         <div className={classes.homePage}>
@@ -23,7 +15,9 @@ const HomePage = ({ albums }) => {
                     <Card
                         key={index}
                         album={album}
-                        url={`${process.env.media_url}/${!isDutch ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")}`}
+                        url={`${process.env.media_url}/${
+                            language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
+                        }`}
                     />
                 ))}
             </div>
@@ -32,3 +26,4 @@ const HomePage = ({ albums }) => {
 };
 
 export default HomePage;
+// (abbreviation LD = Love Divine): LD 7, LD 6, The Omnipotent, LD 5, Ocean of Dreams 2, LD 4, LD 3, LD 2, Christmas, LD 1, The Piano Dreamer, Ian Mulder's favourite Hymns, Sounds of Silence, Ian Mulder in Concert, Coming to America, Ocean of Dreams, Grandezza, Ecossaise 2, Ecossaise 1.

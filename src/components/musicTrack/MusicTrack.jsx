@@ -4,17 +4,18 @@ import { Favorite, MusicNote } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { setSong } from "../../store/musicReducer";
+import { setIsPlaying, setSong } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
 function MusicTracker({ albumSong }) {
-    const { song } = useSelector(postSelector, shallowEqual);
+    const { song, isPlaying } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
 
     function songHandler() {
         dispatch(setSong(albumSong));
+        dispatch(setIsPlaying(false));
     }
 
     // function toggleSong() {
@@ -30,7 +31,13 @@ function MusicTracker({ albumSong }) {
                 <IconButton className={classes.songTune}>
                     <MusicNote />
                 </IconButton>
-                <h4>{albumSong?.Song_Name}</h4>
+                {albumSong?._id === song?._id && isPlaying && song?.Song_Lyrics ? (
+                    <marquee behavior="scroll" direction="left" scrollamount="10">
+                        {albumSong?.Song_Lyrics}
+                    </marquee>
+                ) : (
+                    <h4>{albumSong?.Song_Name}</h4>
+                )}
             </div>
             <div className={classes.musicTrackRight}>
                 <h3>{albumSong?.Song_Length}</h3>

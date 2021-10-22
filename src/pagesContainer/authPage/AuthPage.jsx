@@ -3,46 +3,45 @@ import React, { useEffect, useRef, useState } from "react";
 import classes from "./AuthPage.module.css";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { setUser } from "../../store/musicReducer";
+import { useDispatch } from "react-redux";
 
 function AuthPage({ isSignIn }) {
-    const route = useRouter();
+    const router = useRouter();
+    const dispatch = useDispatch();
 
+    const [email, setEmail] = useState(router.query.email ? router.query.email : "");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [accessCode, setAccessCode] = useState("");
-
-    const emailRef = useRef();
-    const passwordRef = useRef();
+    const [accessCode, setAccessCode] = useState(router.query.access_code ? router.query.access_code : "");
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         if (user?.token.length > 30) {
-            route.replace("/");
+            router.replace("/");
         }
+        setEmail(router.query?.email);
+        setAccessCode(router.query?.access_code);
     }, []);
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         setLoading(true);
         e.preventDefault();
-        const password = passwordRef.current.value;
-        const email = passwordRef.current.value;
-        const payload = isSignIn ? { email, password } : { email, password };
+        const payload = isSignIn ? { email, password } : { email, password, code: accessCode };
 
-        const url = process.env.base_url + (isSignIn ? "/signup" : "/signin");
-
-        console.log({ url, payload });
+        const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
 
         try {
             const { data } = await axios.post(url, payload);
-            console.log({ data });
             setLoading(false);
 
-            if (isSignIn) {
-                localStorage.setItem("music-app-credentials", JSON.stringify(data));
-                route.push("/");
+            if (!isSignIn) {
+                router.push("/login");
             } else {
-                setAccessCode(data?._id);
-                // setIsSignIn(true);
+                localStorage.setItem("music-app-credentials", JSON.stringify(data));
+                dispatch(setUser(data));
+                router.push("/");
             }
         } catch (err) {
             setLoading(false);
@@ -53,9 +52,10 @@ function AuthPage({ isSignIn }) {
                 setError("");
             }, 3000);
         }
-    };
+    }
 
-    const loginText = !isSignIn ? "Login" : "Sign Up";
+    const loginText = isSignIn ? "Login" : "Sign Up";
+
     return (
         <form onSubmit={handleSubmit} className={classes.auth}>
             <h1> {loginText}</h1>
@@ -64,22 +64,30 @@ function AuthPage({ isSignIn }) {
 
             <div className={classes.input}>
                 <label htmlFor="">Email</label>
-                <input ref={emailRef} type="email" required placeholder="Your Email address" />
+                <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" required placeholder="Your Email address" />
             </div>
             <div className={classes.input}>
                 <label htmlFor="">Password</label>
-                <input ref={passwordRef} type="password" required minLength={6} maxLength={36} placeholder="Your Password" />
+                <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    required
+                    minLength={6}
+                    maxLength={36}
+                    placeholder="Your Password"
+                />
             </div>
-            {isSignIn && (
+            {!isSignIn && (
                 <div className={classes.input}>
                     <label htmlFor="">Access Code</label>
                     <input
                         value={accessCode}
                         onChange={(e) => setAccessCode(e.target.value)}
                         type="text"
-                        // required
-                        // minLength={24}
-                        // maxLength={24}
+                        required
+                        minLength={10}
+                        maxLength={10}
                         placeholder="Your Password"
                     />
                 </div>
@@ -89,13 +97,13 @@ function AuthPage({ isSignIn }) {
             </Button>
             <br />
             <p>
-                {isSignIn ? (
-                    <span onClick={() => route.push("/login")}>Already have an account</span>
+                {!isSignIn ? (
+                    <span onClick={() => router.push("/login")}>Already have an account</span>
                 ) : (
-                    <span onClick={() => route.push("/signup")}> Create Your Account</span>
+                    <span onClick={() => router.push("/signup?email=jhon3@gmail.com&access_code=1a09F8760a")}> Create Your Account</span>
                 )}
             </p>
-            {isSignIn && (
+            {!isSignIn && (
                 <>
                     <br />
                     {/* <span>Forgot your password</span> */}

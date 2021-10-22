@@ -4,19 +4,21 @@ import Card from "../../components/card/Card";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
 import { useRouter } from "next/router";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { setSong } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
 function AlbumPage() {
-    const { songs, song, isDutch } = useSelector(postSelector, shallowEqual);
+    const { song, language, songs } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
-        if (!user?.token.length) {
-            route.replace("/auth");
-        }
+        if (!user?.token.length) return route.replace("/login");
+        if (!songs?.length) return route.replace("/");
+        dispatch(setSong(songs[0]));
     }, []);
 
     return (
@@ -25,7 +27,10 @@ function AlbumPage() {
             <div className={classes.albumsMain}>
                 <Card
                     title={song?.Album_Name}
-                    url={`${process.env.media_url}/${!isDutch ? song?.Album_Image : song?.Album_Image.replace("eng", "nl")}`}
+                    url={`${process.env.media_url}/${
+                        language.title === "eng" ? song?.Album_Image : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
+                    }`}
+                    disableFetch
                 />
                 <div className={classes.albumsMainPlaylist}>
                     {songs?.map((albumSong, i) => (

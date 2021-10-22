@@ -20,6 +20,10 @@
     display: flex;
     align-items: center;
 }
+.musicTrackLeft {
+    flex: 1;
+}
+
 .musicTrack {
     justify-content: space-between;
 }
@@ -50,7 +54,8 @@
     color: var(--secondary-color);
 }
 
-.musicTrackLeft h4 {
+.musicTrackLeft h4,
+.musicTrackLeft marquee {
     color: var(--primary-color);
     margin: 0 2rem;
     font-weight: 500;

@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isDutch: false,
+    language: {
+        title: "English",
+        src: "usa.jpg",
+    },
     user: null,
     songs: [],
     song: {},
+    isPlaying: false,
 };
 
 export const counterSlice = createSlice({
@@ -12,8 +16,8 @@ export const counterSlice = createSlice({
     initialState,
     reducers: {
         // language Mode
-        setLanguageMode: (state) => {
-            state.isDutch = !state.isDutch;
+        setLanguageMode: (state, { payload }) => {
+            state.language = payload;
         },
 
         // authentication
@@ -23,8 +27,6 @@ export const counterSlice = createSlice({
 
         // Songs configuration
         setSongs: (state, { payload }) => {
-            console.log({ payload });
-
             state.songs = payload;
         },
 
@@ -33,7 +35,7 @@ export const counterSlice = createSlice({
             state.song = payload;
         },
         setIsPlaying: (state, { payload }) => {
-            state.song = payload;
+            state.isPlaying = payload;
         },
         setPreviousSong: (state, { payload }) => {
             const currentIndex = state.songs.findIndex((song) => song._id === payload._id);

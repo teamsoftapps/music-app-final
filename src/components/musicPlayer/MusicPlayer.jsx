@@ -13,14 +13,15 @@ import {
 } from "@material-ui/icons";
 import classes from "./MusicPlayer.module.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setNextSong, setPreviousSong } from "../../store/musicReducer";
+import { setNextSong, setPreviousSong, setIsPlaying } from "../../store/musicReducer";
+
+const postSelector = (state) => state.music;
 
 function MusicPlayer() {
-    const { song } = useSelector((state) => state?.music, shallowEqual);
+    const { song, isPlaying } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
 
-    const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
     const [showDetails, setshowDetails] = useState(false);
@@ -44,11 +45,11 @@ function MusicPlayer() {
     function defaultHandler() {
         cancelAnimationFrame(animationRef.current);
         setCurrentTime(0);
-        setIsPlaying(false);
+        dispatch(setIsPlaying(false));
     }
 
     // Calculate the Streaming Time
-    const calculateTime = (secs) => {
+    function calculateTime(secs) {
         if (secs) {
             const minutes = Math.floor(secs / 60);
             const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
@@ -56,11 +57,11 @@ function MusicPlayer() {
             const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
             return `${returnedMinutes}:${returnedSeconds}`;
         }
-    };
+    }
 
     function togglePlayPause() {
         const prevValue = isPlaying;
-        setIsPlaying(!prevValue);
+        dispatch(setIsPlaying(!prevValue));
         if (!prevValue) {
             audioPlayer.current.play();
             animationRef.current = requestAnimationFrame(whilePlaying);
@@ -105,14 +106,14 @@ function MusicPlayer() {
     function songDuration(duration) {
         return duration && typeof duration === "number" && duration;
     }
-
     return (
         <div style={showDetails ? { height: 300 } : { height: 125 }} className={`${classes.albumsMusicContainer} `}>
             {showDetails && (
                 <div className={classes.albumsMusicDetails}>
-                    <h3>Producer: Joe Smith</h3>
+                    {/* <h3>Producer: Joe Smith</h3>
                     <h3>Recorded at XYZ studio in Berlin</h3>
-                    <h3>etc.</h3>
+                    <h3>etc.</h3> */}
+                    {/* {song?.sognDe} */}
                 </div>
             )}
             <div className={classes.albumsMusicPlayer}>

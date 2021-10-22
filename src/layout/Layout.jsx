@@ -5,8 +5,6 @@ import Footer from "../components/footer/Foote";
 import classes from "./Layout.module.css";
 import { setUser } from "../store/musicReducer";
 import { useDispatch } from "react-redux";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 
 const Layout = ({ children }) => {
     const dispatch = useDispatch();
@@ -17,7 +15,7 @@ const Layout = ({ children }) => {
     }, []);
 
     return (
-        <div>
+        <>
             <Head>
                 <title>Mulder Music Streaming</title>
                 <meta name="description" content="Mulder Music Streaming." />
@@ -29,7 +27,7 @@ const Layout = ({ children }) => {
                 <main className={classes.layoutMain}>{children}</main>
                 <Footer />
             </div>
-        </div>
+        </>
     );
 };
 
