@@ -100,7 +100,7 @@ function AuthPage({ isSignIn }) {
                 {!isSignIn ? (
                     <span onClick={() => router.push("/login")}>Already have an account</span>
                 ) : (
-                    <span onClick={() => router.push("/signup?email=jhon3@gmail.com&access_code=1a09F8760a")}> Create Your Account</span>
+                    <span onClick={() => router.push("/signup")}> Create Your Account</span>
                 )}
             </p>
             {!isSignIn && (
