@@ -11,6 +11,7 @@ const HomePage = ({ albums }) => {
 
     return (
         <div className={classes.homePage}>
+            <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             <div className={classes.cards}>
                 {albums?.map((album, index) => (
                     <Card

@@ -146,10 +146,10 @@ function Header() {
 export default Header;
 
 const nav = [
-    {
-        title: "STREAMING",
-        route: "/",
-    },
+    // {
+    //     title: "STREAMING",
+    //     route: "/",
+    // },
     // {
     //     title: "HOME",
     //     route: "/",
