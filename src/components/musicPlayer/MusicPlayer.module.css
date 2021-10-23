@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     transition: height 0.3s ease;
 }
@@ -29,11 +29,6 @@
     position: absolute;
     color: #fff;
     width: calc(100% - 3rem);
-}
-.albumsMusicDetails h3 {
-    font-weight: 500;
-    margin: 0.5rem 0;
-    border-bottom: 1px solid;
 }
 
 .albumsMusicPlayer {
@@ -71,7 +66,7 @@
 .albumsMusicPlayerTitle {
     margin: 0 1rem;
     color: var(--primary-color);
-    width: 150px;
+    width: 250px;
 }
 
 .albumsMusicPlayerTitle * {
@@ -108,6 +103,14 @@
     margin-bottom: -13px !important;
 }
 
+.albumsMusicPlayerTitle h3 {
+    font-size: 20px;
+}
+
+.albumsMusicPlayerTitle h4 {
+    font-size: 14px;
+}
+
 /* utils */
 .albumsMusicPlayerMain,
 .musicController,
@@ -131,8 +134,15 @@
     .albumsMusicContainer {
         padding: 0;
     }
+    .albumsMusicPlayer {
+        padding: 1rem 0;
+    }
 
     .albumsMusicPlayerMain {
         min-width: 100%;
+    }
+
+    .albumsMusicContainer {
+        position: fixed;
     }
 }

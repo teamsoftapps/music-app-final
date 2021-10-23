@@ -106,6 +106,7 @@ function MusicPlayer() {
     function songDuration(duration) {
         return duration && typeof duration === "number" && duration;
     }
+
     return (
         <div style={showDetails ? { height: 300 } : { height: 125 }} className={`${classes.albumsMusicContainer} `}>
             {showDetails && (
@@ -122,8 +123,8 @@ function MusicPlayer() {
                         <Image src={`${process.env.media_url}/${song?.Album_Image}`} alt="" width="75" height="75" layout="responsive" />
                     </div>
                     <div className={classes.albumsMusicPlayerTitle}>
-                        <h3>{song?.Album_Name}</h3>
-                        <h4>{song?.Song_Name}</h4>
+                        <h4>{song?.Album_Name}</h4>
+                        <h3>{song?.Song_Name}</h3>
                     </div>
                 </div>
                 <div className={classes.albumsMusicPlayerMain}>

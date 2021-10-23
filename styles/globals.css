@@ -3,7 +3,7 @@
     /* --bg-transparent: linear-gradient(180deg, #4a2d4d, #171a1a, #171a1a); */
     /* --bg-drawer: linear-gradient(180deg, #171a1a, #171a1a, #4a2d4d); */
     --bg-dark: #281e09;
-    --bg-transparent: linear-gradient(#382b11, #000);
+    --bg-transparent: linear-gradient(#382b11, #382b11, #000);
     --bg-drawer: linear-gradient(180deg, #000, #382b11);
     --primary-color: #ffff;
     --secondary-color: #dddd;

@@ -73,3 +73,24 @@
 .musicTrackLeft button * {
     color: var(--primary-color);
 }
+@media (max-width: 550px) {
+    .musicTrackLeft h4,
+    .musicTrackLeft marquee {
+        margin: 0;
+        font-weight: 400;
+        font-size: 18px;
+    }
+
+    .musicTrackRight h3 {
+        font-size: 1rem;
+        margin: 0 1rem;
+        color: var(--primary-color);
+        font-weight: 400;
+    }
+    .musicTrackLeft button {
+        margin-right: 0;
+    }
+    .musicTrack {
+        padding: 0;
+    }
+}

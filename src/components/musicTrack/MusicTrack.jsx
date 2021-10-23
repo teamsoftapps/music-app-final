@@ -1,6 +1,5 @@
 import React from "react";
-import Image from "next/image";
-import { Favorite, MusicNote } from "@material-ui/icons";
+import { MusicNote } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -31,8 +30,8 @@ function MusicTracker({ albumSong }) {
                 <IconButton className={classes.songTune}>
                     <MusicNote />
                 </IconButton>
-                {albumSong?._id === song?._id && isPlaying && song?.Song_Lyrics ? (
-                    <marquee behavior="scroll" direction="left" scrollamount="10">
+                {albumSong?._id === song?._id && song?.Song_Lyrics ? (
+                    <marquee behavior="scroll" direction="left" scrollamount="8">
                         {albumSong?.Song_Lyrics}
                     </marquee>
                 ) : (
@@ -41,9 +40,6 @@ function MusicTracker({ albumSong }) {
             </div>
             <div className={classes.musicTrackRight}>
                 <h3>{albumSong?.Song_Length}</h3>
-                <IconButton>
-                    <Favorite />
-                </IconButton>
             </div>
         </div>
     );

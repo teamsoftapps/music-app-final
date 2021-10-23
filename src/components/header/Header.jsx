@@ -2,22 +2,15 @@ import React, { useEffect, useState } from "react";
 import classes from "./Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { IconButton, Drawer, List, ListItem } from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { setLanguageMode } from "../../store/musicReducer";
-import { useRouter } from "next/router";
+import { Drawer, List, ListItem } from "@material-ui/core";
+import { useSelector, shallowEqual } from "react-redux";
 
 const postSelector = (state) => state.music;
 
 function Header() {
-    const router = useRouter();
-
     const { user, language } = useSelector(postSelector, shallowEqual);
     const [open, setOpen] = useState(false);
     const [sideBar, setShowSidebar] = useState(false);
-
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (window.innerWidth < 992) {
@@ -37,19 +30,8 @@ function Header() {
         };
     }, []);
 
-    function handleLogout() {
-        localStorage.removeItem("music-app-credentials");
-        window.location.href = "/";
-    }
     function handleToggle() {
         setOpen((preSrate) => !preSrate);
-    }
-
-    function handleLanguage(lan) {
-        const { route } = router;
-        // router.push(`${route}?lang=${lan.title}`);
-        dispatch(setLanguageMode(lan));
-        console.log({ lan, language });
     }
 
     const drawer = (
@@ -104,7 +86,7 @@ function Header() {
                     </IconButton>
                     <input type="text" placeholder="Search for the songs, albums etc.." />
                 </div> */}
-                <nav className={classes.menu}>
+                {/* <nav className={classes.menu}>
                     <ol>
                         <li className={classes.menuItem}>
                             <div className={classes.DropDown_Main}>
@@ -126,7 +108,7 @@ function Header() {
                             </IconButton>
                         )}
                     </div>
-                </nav>
+                </nav> */}
             </div>
             {!sideBar && (
                 <div className={classes.headerMain}>

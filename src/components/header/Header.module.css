@@ -1,6 +1,7 @@
 .header {
     width: clamp(280px, 100%, 1600px);
-    padding: calc(25px + 2vw);
+    padding: calc(15px + 1.5vw);
+    padding-bottom: 0;
     transition: all 0.3s ease;
 }
 .headerTop {
@@ -66,7 +67,7 @@
     min-width: max-content;
 }
 .headerMainImage {
-    margin: 2rem 0;
+    margin: 0.5rem 0;
 }
 .headerActions button:nth-child(3) {
     color: white;
