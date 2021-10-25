@@ -98,9 +98,9 @@
     margin: 0 0.5rem;
 }
 .musicVolume {
-    width: clamp(200px, 100%, 250px);
-    min-width: 200px;
-    margin-bottom: -13px !important;
+    width: clamp(100px, 100%, 250px);
+    min-width: 100px;
+    margin-bottom: -15px !important;
 }
 
 .albumsMusicPlayerTitle h3 {
@@ -124,6 +124,12 @@
 @media (max-width: 991px) {
     .albumsMusicPlayerProfile {
         display: none !important;
+    }
+    .albumsMusicPlayer {
+        align-items: flex-end;
+    }
+    .musicVolume {
+        margin-bottom: -2px !important;
     }
 }
 

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { setUser } from "../../store/musicReducer";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 const postSelector = (state) => state.music;
 function AuthPage({ isSignIn }) {
@@ -58,6 +59,10 @@ function AuthPage({ isSignIn }) {
 
     return (
         <form onSubmit={handleSubmit} className={classes.auth}>
+            <Head>
+                <title>{language.title === "nl" ? loginTextNl : loginTextEng}</title>
+            </Head>
+
             <h1> {language.title === "nl" ? loginTextNl : loginTextEng}</h1>
             {loading && <h3>Loading..</h3>}
             {error && <h3 style={{ color: "red" }}>{error}</h3>}

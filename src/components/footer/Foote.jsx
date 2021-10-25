@@ -3,7 +3,7 @@ import classes from "./Footer.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Button, IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { setLanguageMode } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
@@ -28,12 +28,11 @@ function Footer() {
             <div className={classes.footerTop}>
                 <Image src="/images/logo.svg" alt="" width={200} height={50} />
                 <p>Copyright © 1992 - 2021 Miller Music</p>
-
                 <nav className={classes.menu}>
                     <ol>
                         <li className={classes.menuItem}>
                             <div className={classes.DropDown_Main}>
-                                <Image alt="" src={`/images/${language.src}`} width={50} height={33} />
+                                <Image alt="" src={`/images/${language.src.replace("-2", "")}`} width={50} height={33} />
                             </div>
                             <ol className={classes.subMenu}>
                                 {languages.map((lan, index) => (
@@ -61,10 +60,10 @@ export default Footer;
 const languages = [
     {
         title: "nl",
-        src: "nl.jpg",
+        src: "nl-2.jpg",
     },
     {
         title: "eng",
-        src: "usa.jpg",
+        src: "usa-2.jpg",
     },
 ];

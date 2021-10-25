@@ -24,7 +24,7 @@ function MusicPlayer() {
 
     const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
-    const [showDetails, setshowDetails] = useState(false);
+    // const [showDetails, setshowDetails] = useState(false);
 
     const audioPlayer = useRef();
     const animationRef = useRef();
@@ -108,15 +108,11 @@ function MusicPlayer() {
     }
 
     return (
-        <div style={showDetails ? { height: 300 } : { height: 125 }} className={`${classes.albumsMusicContainer} `}>
-            {showDetails && (
+        <div style={false ? { height: 300 } : { height: 125 }} className={`${classes.albumsMusicContainer} `}>
+            {/* {showDetails && (
                 <div className={classes.albumsMusicDetails}>
-                    {/* <h3>Producer: Joe Smith</h3>
-                    <h3>Recorded at XYZ studio in Berlin</h3>
-                    <h3>etc.</h3> */}
-                    {/* {song?.sognDe} */}
                 </div>
-            )}
+            )} */}
             <div className={classes.albumsMusicPlayer}>
                 <div className={classes.albumsMusicPlayerProfile}>
                     <div className={classes.musicTrackImage}>
@@ -178,9 +174,9 @@ function MusicPlayer() {
                 <div className={classes.musicVolume}>
                     <IconButton onClick={handleVolume}>{!volume ? <VolumeOff /> : volume > 0.5 ? <VolumeUp /> : <VolumeDown />}</IconButton>
                     <Slider aria-label="Volume" value={volume} onChange={changeVolume} step={0.01} max={1} />
-                    <IconButton onClick={() => setshowDetails(!showDetails)}>
+                    {/* <IconButton onClick={() => setshowDetails(!showDetails)}>
                         <Info />
-                    </IconButton>
+                    </IconButton> */}
                 </div>
             </div>
         </div>

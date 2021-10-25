@@ -2,16 +2,16 @@ import React from "react";
 import classes from "./Card.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { setSongs, setSong } from "../../store/musicReducer";
+import { useSelector, shallowEqual } from "react-redux";
+// import axios from "axios";
+// import { setSongs, setSong } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 const Card = ({ album, url, disableFetch }) => {
     const { user } = useSelector(postSelector, shallowEqual);
 
     const route = useRouter();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const handleClick = async () => {
         if (!user) {
@@ -19,15 +19,16 @@ const Card = ({ album, url, disableFetch }) => {
             return;
         }
         if (disableFetch) return;
+        route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
 
-        try {
-            const { data } = await axios.get(`${process.env.base_url}/songs/${album?.Album_Name}`);
-            dispatch(setSongs(data));
-            dispatch(setSong(data[0]));
-            route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
-        } catch (err) {
-            console.log({ err });
-        }
+        // try {
+        // const { data } = await axios.get(`${process.env.base_url}/songs/${album?.Album_Name}`);
+        // dispatch(setSongs(data));
+        // dispatch(setSong(data[0]));
+        // route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
+        // } catch (err) {
+        //     console.log({ err });
+        // }
     };
 
     return (

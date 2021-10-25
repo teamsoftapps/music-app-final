@@ -9,6 +9,7 @@
 .headerTop {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
 }
@@ -104,7 +105,7 @@
     display: flex;
     align-items: center;
     margin-right: 1rem;
-    margin-bottom: -1rem;
+    margin-bottom: 0.5rem;
 }
 
 .headerLogo button {
@@ -201,12 +202,12 @@
 }
 
 @media (max-width: 550px) {
-    .headerTop {
+    /* .headerTop {
         flex-direction: column !important;
-    }
-    .headerLogo {
+    } */
+    /* .headerLogo {
         margin-bottom: 0.5rem;
-    }
+    } */
 
     .search {
         transition: all 0.3s ease;

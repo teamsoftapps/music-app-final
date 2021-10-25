@@ -5,12 +5,13 @@ import MusicTracker from "../../components/musicTrack/MusicTrack";
 import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
 import { useRouter } from "next/router";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { setSong } from "../../store/musicReducer";
+import { setSong, setSongs } from "../../store/musicReducer";
+import Head from "next/head";
 
 const postSelector = (state) => state.music;
 
-function AlbumPage() {
-    const { song, language, songs } = useSelector(postSelector, shallowEqual);
+function AlbumPage({ songs }) {
+    const { song, language } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
     const dispatch = useDispatch();
 
@@ -18,11 +19,21 @@ function AlbumPage() {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         if (!user?.token.length) return route.replace("/login");
         if (!songs?.length) return route.replace("/");
+        dispatch(setSongs(songs));
         dispatch(setSong(songs[0]));
     }, []);
 
+    if (!songs || !songs.length) return <h1>Loading...</h1>;
+
     return (
         <div className={classes.albums}>
+            <Head>
+                <title>
+                    {song?.Album_Name} | {song?.Song_Name}
+                </title>
+                <meta name="description" content={song?.Song_Name} />
+            </Head>
+            <br />
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
 
             <h1>{song?.Album_Name}</h1>

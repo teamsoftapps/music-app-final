@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     language: {
-        title: "English",
-        src: "usa.jpg",
+        title: "eng",
+        src: "usa-2.jpg",
     },
     user: null,
     songs: [],

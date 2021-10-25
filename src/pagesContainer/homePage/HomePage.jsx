@@ -11,17 +11,16 @@ const HomePage = ({ albums }) => {
 
     return (
         <div className={classes.homePage}>
+            <br />
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             <div className={classes.cards}>
-                {albums?.map((album, index) => (
-                    <Card
-                        key={index}
-                        album={album}
-                        url={`${process.env.media_url}/${
-                            language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
-                        }`}
-                    />
-                ))}
+                {albums?.map((album, index) => {
+                    const url = `${process.env.media_url}/${
+                        language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
+                    }`;
+
+                    return <Card key={index} album={album} url={url} />;
+                })}
             </div>
             <Footer />
         </div>
