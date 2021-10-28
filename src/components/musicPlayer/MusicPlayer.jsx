@@ -1,22 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { IconButton, Slider } from "@material-ui/core";
-import {
-    Info,
-    PauseCircleFilled,
-    PlayCircleFilled,
-    SkipNextSharp,
-    SkipPreviousSharp,
-    VolumeDown,
-    VolumeUp,
-    VolumeOff,
-} from "@material-ui/icons";
+import { PauseCircleFilled, PlayCircleFilled, SkipNextSharp, SkipPreviousSharp, VolumeDown, VolumeUp, VolumeOff } from "@material-ui/icons";
 import classes from "./MusicPlayer.module.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setNextSong, setPreviousSong, setIsPlaying } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
+// let initialRef = 0;
 function MusicPlayer() {
     const { song, isPlaying } = useSelector(postSelector, shallowEqual);
 
@@ -29,23 +21,40 @@ function MusicPlayer() {
     const audioPlayer = useRef();
     const animationRef = useRef();
     const volumePreState = useRef();
+    const initialRef = useRef(0);
 
     useEffect(() => {
-        defaultHandler();
-        return () => defaultHandler();
+        if (initialRef.current > 1) {
+            defaultHandler(true);
+        }
+
+        console.log(initialRef);
+
+        return () => {
+            defaultHandler(false);
+            initialRef.current++;
+        };
     }, [song]);
 
     // set Default once song is done playing.
     useEffect(() => {
         if (Math.floor(audioPlayer.current?.duration) === Math.floor(currentTime)) {
-            defaultHandler();
+            dispatch(setNextSong(song));
+            defaultHandler(true);
         }
     }, [audioPlayer.current?.duration, currentTime]);
 
-    function defaultHandler() {
-        cancelAnimationFrame(animationRef.current);
+    function defaultHandler(play) {
         setCurrentTime(0);
-        dispatch(setIsPlaying(false));
+        dispatch(setIsPlaying(play));
+        if (play) {
+            setTimeout(() => {
+                audioPlayer.current.play();
+                animationRef.current = requestAnimationFrame(whilePlaying);
+            }, 100);
+        } else {
+            cancelAnimationFrame(animationRef.current);
+        }
     }
 
     // Calculate the Streaming Time

@@ -2,13 +2,23 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/header/Header";
 import classes from "./Layout.module.css";
-import { setUser } from "../store/musicReducer";
-import { useDispatch } from "react-redux";
+import { setLanguageMode, setUser } from "../store/musicReducer";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
-const Layout = ({ children }) => {
+const postSelector = (state) => state.music;
+function Layout({ children }) {
+    const { language } = useSelector(postSelector, shallowEqual);
+
     const dispatch = useDispatch();
+    const router = useRouter();
 
     useEffect(() => {
+        if (router.query.lang) {
+            dispatch(setLanguageMode({ ...router.query, src: `${router.query?.lang}-2.jpg` }));
+        }
+        console.log(router.query, language);
+
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         dispatch(setUser(user));
     }, []);
@@ -42,12 +52,13 @@ const Layout = ({ children }) => {
                 <meta name="description" content="Mulder Music Streaming." />
                 {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
             </Head>
+
             <div className={classes.layout}>
                 <Header />
                 <main className={classes.layoutMain}>{children}</main>
             </div>
         </>
     );
-};
+}
 
 export default Layout;

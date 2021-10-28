@@ -13,7 +13,7 @@ const Card = ({ album, url, disableFetch }) => {
     const route = useRouter();
     // const dispatch = useDispatch();
 
-    const handleClick = async () => {
+    function handleClick() {
         if (!user) {
             route.replace("/login");
             return;
@@ -29,7 +29,7 @@ const Card = ({ album, url, disableFetch }) => {
         // } catch (err) {
         //     console.log({ err });
         // }
-    };
+    }
 
     return (
         <div className={classes.card} onClick={handleClick} style={disableFetch && { cursor: "auto" }}>

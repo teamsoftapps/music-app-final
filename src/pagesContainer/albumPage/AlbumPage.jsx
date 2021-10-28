@@ -35,7 +35,6 @@ function AlbumPage({ songs }) {
             </Head>
             <br />
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
-
             <h1>{song?.Album_Name}</h1>
             <div className={classes.albumsMain}>
                 <Card

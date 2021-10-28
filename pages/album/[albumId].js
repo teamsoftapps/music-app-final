@@ -9,6 +9,8 @@ export async function getStaticProps(context) {
     const { albumId } = context.params;
     const { data } = await axios.get(`${process.env.base_url}/songs/${albumId.replace(/-/g, " ")}`);
 
+    console.log({ albumId });
+
     if (!data?.length) {
         // return { notFound: true };
         return { hasError: true };
