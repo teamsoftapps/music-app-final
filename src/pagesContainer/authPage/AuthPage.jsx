@@ -60,7 +60,7 @@ function AuthPage({ isSignIn }) {
     return (
         <form onSubmit={handleSubmit} className={classes.auth}>
             <Head>
-                <title>{language.title === "nl" ? loginTextNl : loginTextEng}</title>
+                <title>Mulder Music Streaming | {language.title === "nl" ? loginTextNl : loginTextEng} </title>
             </Head>
 
             <h1> {language.title === "nl" ? loginTextNl : loginTextEng}</h1>
