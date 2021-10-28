@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import classes from "./AuthPage.module.css";
 import axios from "axios";
@@ -19,6 +19,7 @@ function AuthPage({ isSignIn }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [accessCode, setAccessCode] = useState(router.query.access_code ? router.query.access_code : "");
+    const [checkBox, setCheckBox] = useState(false);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
@@ -56,6 +57,10 @@ function AuthPage({ isSignIn }) {
 
     const loginTextEng = isSignIn ? "Login" : "Sign Up";
     const loginTextNl = isSignIn ? "Inloggen" : "Maak uw account aan";
+    const codePromiseText =
+        language.title === "nl"
+            ? "Ik ben de exclusieve gebruiker van deze account en beloof de muziek niet te delen met derden."
+            : "I promise this account will only be used by me, and not to share any of the content with others.";
 
     return (
         <form onSubmit={handleSubmit} className={classes.auth}>
@@ -90,20 +95,28 @@ function AuthPage({ isSignIn }) {
                 />
             </div>
             {!isSignIn && (
-                <div className={classes.input}>
-                    <label htmlFor="">{language.title === "nl" ? "Toegangscode" : "Access Code"}</label>
-                    <input
-                        value={accessCode}
-                        onChange={(e) => setAccessCode(e.target.value)}
-                        type="text"
-                        required
-                        minLength={10}
-                        maxLength={10}
-                        placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
+                <>
+                    <div className={classes.input}>
+                        <label htmlFor="">{language.title === "nl" ? "Toegangscode" : "Access Code"}</label>
+                        <input
+                            value={accessCode}
+                            onChange={(e) => setAccessCode(e.target.value)}
+                            type="text"
+                            required
+                            minLength={10}
+                            maxLength={10}
+                            placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
+                        />
+                    </div>
+                    <br />
+                    <FormControlLabel
+                        style={{ display: "block" }}
+                        control={<Checkbox value={checkBox} onClick={() => setCheckBox(!checkBox)} />}
+                        label={codePromiseText}
                     />
-                </div>
+                </>
             )}
-            <Button type="submit" variant="contained">
+            <Button disabled={!isSignIn && !checkBox} type="submit" variant="contained">
                 {loginTextEng}
             </Button>
             <br />
@@ -136,6 +149,11 @@ function AuthPage({ isSignIn }) {
 }
 
 export default AuthPage;
+
+// Sign up form: add the following checkbox (below Access Code field) that is required in order to register:
+// I promise this account will only be used by me, and not to share any of the content with others.
+// Dutch translation: Ik ben de exclusieve gebruiker van deze account en beloof de muziek niet te delen met derden.
+// 4) Sign up form: Please link the Terms & Conditions (both English & Dutch
 
 // I thought to already provide the Dutch translation for the text labels in the Sign up and Login screens. I hope the following format is OK (first the English, then the Dutch equivalent)
 // "Sign Up", "Maak uw account aan"
