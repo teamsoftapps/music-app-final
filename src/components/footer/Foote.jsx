@@ -23,7 +23,6 @@ function Footer() {
         const { route } = router;
         router.push(`${route}?lang=${lan.title}`);
         dispatch(setLanguageMode(lan));
-        console.log({ lan, language });
     }
 
     return (

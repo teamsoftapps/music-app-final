@@ -28,8 +28,6 @@ function MusicPlayer() {
             defaultHandler(true);
         }
 
-        console.log(initialRef);
-
         return () => {
             defaultHandler(false);
             initialRef.current++;
@@ -95,7 +93,6 @@ function MusicPlayer() {
 
     function changeVolume(e, value) {
         audioPlayer.current.volume = value;
-        console.log(audioPlayer.current.volume, value);
         setVolume(value);
     }
 
@@ -108,8 +105,6 @@ function MusicPlayer() {
             setVolume(volumePreState.current);
             audioPlayer.current.volume = volumePreState.current;
         }
-
-        console.log("object", volumePreState.current);
     }
 
     function songDuration(duration) {
