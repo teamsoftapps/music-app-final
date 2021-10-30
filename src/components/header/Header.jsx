@@ -39,6 +39,7 @@ function Header() {
             <List component="nav" aria-labelledby="nested-list-subheader" className={classes.drawerList}>
                 <div style={{ cursor: "pointer" }} className={classes.headerMainImage} onClick={handleToggle}>
                     <Image
+                        priority
                         src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"}.svg`}
                         alt=""
                         width={250}

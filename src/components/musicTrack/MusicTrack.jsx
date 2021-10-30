@@ -20,7 +20,7 @@ function MusicTracker({ albumSong }) {
 
     function songHandler() {
         dispatch(setSong(albumSong));
-        dispatch(setIsPlaying(false));
+        // dispatch(setIsPlaying(false));
     }
 
     return (

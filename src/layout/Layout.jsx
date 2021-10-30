@@ -17,7 +17,6 @@ function Layout({ children }) {
         if (router.query.lang) {
             dispatch(setLanguageMode({ ...router.query, src: `${router.query?.lang}-2.jpg` }));
         }
-        console.log(router.query, language);
 
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         dispatch(setUser(user));

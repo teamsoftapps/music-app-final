@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import classes from "./Card.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import { useSelector, shallowEqual } from "react-redux";
 // import { setSongs, setSong } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
-const Card = ({ album, url, disableFetch }) => {
+const Card = forwardRef(({ album, url, disableFetch }, ref) => {
     const { user } = useSelector(postSelector, shallowEqual);
 
     const route = useRouter();
@@ -32,13 +32,13 @@ const Card = ({ album, url, disableFetch }) => {
     }
 
     return (
-        <div className={classes.card} onClick={handleClick} style={disableFetch && { cursor: "auto" }}>
+        <div ref={ref} className={classes.card} onClick={handleClick} style={disableFetch && { cursor: "auto" }}>
             <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
                 <Image src={url} alt="" width={280} height={280} />
             </div>
             <h3>{album?.Album_Name}</h3>
         </div>
     );
-};
+});
 
 export default React.memo(Card);
