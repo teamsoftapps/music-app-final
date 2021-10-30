@@ -21,8 +21,8 @@ function AuthPage({ isSignIn }) {
     const [accessCode, setAccessCode] = useState(router.query.access_code ? router.query.access_code : "");
     const [checkBox, setCheckBox] = useState(false);
 
-    console.log({ email, accessCode });
-    console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
+    // console.log({ email, accessCode });
+    // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));

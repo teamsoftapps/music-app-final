@@ -33,6 +33,7 @@ export async function getStaticPaths() {
         "Love-Divine-3",
         "Love-Divine-2",
         "Love-Divine-1",
+        "The-Omnipotent",
     ];
     const pathWithParams = albumIds.map((id) => ({ params: { albumId: id } }));
     // if you provide all possible ids so "next" will pre-generate all pages in advance of these ids so the use { fallback:false } otherwise use { fallback:true }.
