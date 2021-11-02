@@ -13,7 +13,7 @@
     transition: height 0.3s ease;
     height: 125px;
     overflow: hidden;
-    display: flex;
+    display: block;
     flex-direction: column;
     justify-content: flex-end;
     position: fixed;
@@ -22,13 +22,46 @@
 }
 .albumsMusicDetails {
     /* background-color: #171107; */
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
     top: 20px;
     position: absolute;
     color: #fff;
-    width: calc(100% - 3rem);
+    width: calc(100% - 3rem); */
+    color: white;
+}
+
+.lyricsText {
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 10rem;
+    flex-flow: wrap;
+    padding: 0rem 1rem;
+}
+
+.lyricsHeading {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.lyricsText::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: black;
+}
+
+.lyricsText::-webkit-scrollbar {
+    width: 12px;
+    background-color: black;
+}
+
+.lyricsText::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #876727f7;
 }
 
 .albumsMusicPlayer {
@@ -74,7 +107,7 @@
 }
 
 .musicController *,
-.musicVolume * {
+.musicOptionWrapper * {
     color: var(--primary-color) !important;
 }
 
@@ -97,10 +130,22 @@
 .musicVolume button {
     margin: 0 0.5rem;
 }
-.musicVolume {
+.musicVolume,
+.musicOptionWrapper {
     width: clamp(100px, 100%, 250px);
     min-width: 100px;
     margin-bottom: -15px !important;
+    display: flex;
+}
+.musicOptionWrapper {
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0 0.5rem;
+}
+
+.musicLyrics {
+    max-width: 1.5rem;
 }
 
 .albumsMusicPlayerTitle h3 {
@@ -137,17 +182,20 @@
     .musicVolume {
         display: none !important;
     }
+    .musicLyrics {
+        position: absolute;
+        top: 7px;
+        right: 30px;
+    }
     .albumsMusicContainer {
         padding: 0;
     }
     .albumsMusicPlayer {
         padding: 1rem 0;
     }
-
     .albumsMusicPlayerMain {
         min-width: 100%;
     }
-
     .albumsMusicContainer {
         position: fixed;
     }

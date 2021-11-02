@@ -46,7 +46,7 @@
     justify-content: center;
     transition: 0.3s ease-in-out;
     margin: 0rem 5px !important;
-    opacity: 0.6;
+    filter: grayscale(1);
 }
 
 .languageWrapper {
@@ -62,7 +62,7 @@
 .menuItem:hover,
 .activeLanguage {
     /* box-shadow: 0 2px 5px rgba(255, 255, 255, 0.336); */
-    opacity: 1 !important;
+    filter: grayscale(0);
 }
 
 .menuItem span {

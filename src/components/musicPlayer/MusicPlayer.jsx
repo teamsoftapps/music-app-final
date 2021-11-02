@@ -5,6 +5,13 @@ import { PauseCircleFilled, PlayCircleFilled, SkipNextSharp, SkipPreviousSharp, 
 import classes from "./MusicPlayer.module.css";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setNextSong, setPreviousSong, setIsPlaying } from "../../store/musicReducer";
+import InfoIcon from "@mui/icons-material/Info";
+
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 const postSelector = (state) => state.music;
 
@@ -16,7 +23,7 @@ function MusicPlayer() {
 
     const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
-    // const [showDetails, setshowDetails] = useState(false);
+    const [showDetails, setshowDetails] = useState(false);
 
     const audioPlayer = useRef();
     const animationRef = useRef();
@@ -112,11 +119,7 @@ function MusicPlayer() {
     }
 
     return (
-        <div style={false ? { height: 300 } : { height: 125 }} className={`${classes.albumsMusicContainer} `}>
-            {/* {showDetails && (
-                <div className={classes.albumsMusicDetails}>
-                </div>
-            )} */}
+        <div style={showDetails ? { height: "50vh" } : { height: 130 }} className={`${classes.albumsMusicContainer} `}>
             <div className={classes.albumsMusicPlayer}>
                 <div className={classes.albumsMusicPlayerProfile}>
                     <div className={classes.musicTrackImage}>
@@ -175,14 +178,29 @@ function MusicPlayer() {
                         </p>
                     </div>
                 </div>
-                <div className={classes.musicVolume}>
-                    <IconButton onClick={handleVolume}>{!volume ? <VolumeOff /> : volume > 0.5 ? <VolumeUp /> : <VolumeDown />}</IconButton>
-                    <Slider aria-label="Volume" value={volume} onChange={changeVolume} step={0.01} max={1} />
-                    {/* <IconButton onClick={() => setshowDetails(!showDetails)}>
-                        <Info />
-                    </IconButton> */}
+                <div className={classes.musicOptionWrapper}>
+                    {song.Song_Lyrics && (
+                        <div className={classes.musicLyrics}>
+                            <IconButton onClick={() => setshowDetails(!showDetails)}>
+                                <InfoIcon />
+                            </IconButton>
+                        </div>
+                    )}
+                    <div className={classes.musicVolume}>
+                        <IconButton onClick={handleVolume}>
+                            {!volume ? <VolumeOff /> : volume > 0.5 ? <VolumeUp /> : <VolumeDown />}
+                        </IconButton>
+                        <Slider aria-label="Volume" value={volume} onChange={changeVolume} step={0.01} max={1} />
+                    </div>
                 </div>
             </div>
+            {showDetails && (
+                <div className={classes.albumsMusicDetails}>
+                    <h2 className={classes.lyricsHeading}>Lyrics</h2>
+                    <br />
+                    <p className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</p>
+                </div>
+            )}
         </div>
     );
 }
