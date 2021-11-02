@@ -31,19 +31,16 @@ function Footer() {
                 <Image priority src="/images/logo.svg" alt="" width={200} height={50} />
                 <p>Copyright © 1992 - 2021 Miller Music</p>
                 <nav className={classes.menu}>
-                    <ol>
-                        <li className={classes.menuItem}>
-                            <div className={classes.DropDown_Main}>
-                                <Image priority alt="" src={`/images/${language.src.replace("-2", "")}`} width={50} height={33} />
-                            </div>
-                            <ol className={classes.subMenu}>
-                                {languages.map((lan, index) => (
-                                    <li key={index} className={classes.menuItem} onClick={() => handleLanguage(lan)}>
-                                        <Image priority alt="" src={`/images/${lan.src}`} width={50} height={33} />
-                                    </li>
-                                ))}
-                            </ol>
-                        </li>
+                    <ol className={classes.languageWrapper}>
+                        {languages.map((lan, index) => (
+                            <li
+                                key={index}
+                                className={`${classes.menuItem} ${language.title === lan.title ? classes.activeLanguage : ""}`}
+                                onClick={() => handleLanguage(lan)}
+                            >
+                                <Image priority alt="" src={`/images/${lan.src}`} width={50} height={33} />
+                            </li>
+                        ))}
                     </ol>
                     {user && (
                         <Button className={classes.logoutBtn} onClick={handleLogout}>
