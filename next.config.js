@@ -20,6 +20,7 @@ module.exports = (phase) => {
     return {
         reactStrictMode: true,
         images: { domains: ["music-apppps.herokuapp.com", "musicfilesforheroku.s3.us-west-1.amazonaws.com"] },
+        // images: { domains: ["localhost", "musicfilesforheroku.s3.us-west-1.amazonaws.com"] },
         env: {
             base_url: "https://music-apppps.herokuapp.com/api",
             media_url: "https://musicfilesforheroku.s3.us-west-1.amazonaws.com/uploads",

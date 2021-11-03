@@ -16,14 +16,47 @@ import Box from "@mui/material/Box";
 const postSelector = (state) => state.music;
 
 // let initialRef = 0;
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        "aria-controls": `simple-tabpanel-${index}`,
+    };
+}
+
 function MusicPlayer() {
-    const { song, isPlaying } = useSelector(postSelector, shallowEqual);
+    const { song, isPlaying, album } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
 
     const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
     const [showDetails, setshowDetails] = useState(false);
+    const [isLyrics, setIsLyrics] = useState(0);
+
+    const handleIsLyrics = (event, newValue) => {
+        setIsLyrics(newValue);
+    };
 
     const audioPlayer = useRef();
     const animationRef = useRef();
@@ -196,13 +229,37 @@ function MusicPlayer() {
             </div>
             {showDetails && (
                 <div className={classes.albumsMusicDetails}>
-                    <h2 className={classes.lyricsHeading}>Lyrics</h2>
-                    <br />
-                    <p className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</p>
+                    <Box sx={{ width: "100%" }}>
+                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                            <Tabs
+                                value={isLyrics}
+                                onChange={handleIsLyrics}
+                                aria-label="basic tabs example"
+                                textColor="light"
+                                indicatorColor="light"
+                                centered
+                            >
+                                <Tab label="Song Lyrics" style={{ marginRight: "10px", padding: "10px" }} {...a11yProps(1)} />
+                                <Tab label="Album Details" style={{ padding: "10px" }} {...a11yProps(0)} />
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={isLyrics} index={0}>
+                            <p className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</p>
+                        </TabPanel>
+                        <TabPanel value={isLyrics} index={1}>
+                            <p className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</p>
+                        </TabPanel>
+                    </Box>
                 </div>
             )}
         </div>
     );
+}
+
+{
+    /* <h2 className={classes.lyricsHeading}>Lyrics</h2>
+<br />
+<p className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</p> */
 }
 
 export default React.memo(MusicPlayer);

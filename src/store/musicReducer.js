@@ -9,6 +9,7 @@ const initialState = {
     songs: [],
     song: {},
     isPlaying: false,
+    album: {},
 };
 
 export const counterSlice = createSlice({
@@ -47,10 +48,13 @@ export const counterSlice = createSlice({
             if (currentIndex < 0 || currentIndex === state.songs.length - 1) return;
             state.song = state.songs[currentIndex + 1];
         },
+        setAlbum: (state, { payload }) => {
+            state.album = payload;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { setSongs, setSong, setNextSong, setPreviousSong, setIsPlaying, setUser, setLanguageMode } = counterSlice.actions;
+export const { setSongs, setSong, setNextSong, setPreviousSong, setIsPlaying, setUser, setLanguageMode, setAlbum } = counterSlice.actions;
 
 export default counterSlice.reducer;

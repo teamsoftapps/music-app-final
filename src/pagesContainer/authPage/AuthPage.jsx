@@ -1,4 +1,5 @@
-import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Button, FormControlLabel } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
 import React, { useEffect, useState } from "react";
 import classes from "./AuthPage.module.css";
 import axios from "axios";
@@ -14,12 +15,13 @@ function AuthPage({ isSignIn }) {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState(router.query.email ? router.query.email : "");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [accessCode, setAccessCode] = useState(router.query.access_code ? router.query.access_code : "");
+    const [accessCode, setAccessCode] = useState("");
     const [checkBox, setCheckBox] = useState(false);
+    const [isForget, setIsForget] = useState(false);
 
     // console.log({ email, accessCode });
     // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
@@ -29,21 +31,30 @@ function AuthPage({ isSignIn }) {
         if (user?.token.length > 30) {
             router.replace("/");
         }
-        setEmail(router.query?.email);
-        setAccessCode(router.query?.access_code);
+        let pageName = router.asPath.slice(1, 7);
+        if (pageName === "signup") {
+            try {
+                let query = router.asPath.slice(8).split("&");
+                let email = query[0].split("=")[1];
+                let access_code = query[1].split("=")[1];
+                setEmail(email);
+                setAccessCode(access_code);
+            } catch (e) {
+                // Do nothing
+            }
+        }
     }, []);
 
     async function handleSubmit(e) {
         setLoading(true);
         e.preventDefault();
-        const payload = isSignIn ? { email, password } : { email, password, code: accessCode };
+        const payload = isSignIn && !isForget ? { email, password, code: accessCode } : { email, password, code: accessCode };
 
         const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
 
         try {
             const { data } = await axios.post(url, payload);
             setLoading(false);
-
             localStorage.setItem("music-app-credentials", JSON.stringify(data));
             dispatch(setUser(data));
             router.push("/");
@@ -71,56 +82,89 @@ function AuthPage({ isSignIn }) {
                 <title>Mulder Music Streaming | {language.title === "nl" ? loginTextNl : loginTextEng} </title>
             </Head>
 
-            <h1> {language.title === "nl" ? loginTextNl : loginTextEng}</h1>
+            <h1>{isForget ? "Reset" : language.title === "nl" ? loginTextNl : loginTextEng}</h1>
             {loading && <h3>Loading..</h3>}
             {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
             <div className={classes.input}>
                 <label htmlFor="">Email</label>
                 <input
-                    onChange={(e) => setEmail(e.target.value)}
                     value={email}
+                    onChange={
+                        isSignIn
+                            ? (e) => {
+                                  setEmail(e.target.value);
+                              }
+                            : () => {}
+                    }
+                    disabled={!isSignIn ? true : false}
                     type="email"
                     required
                     placeholder={language.title === "nl" ? "Uw emailadres" : "Your Email Address"}
                 />
             </div>
+            {/* Email */}
+            {/* Disable conditions on the basis of /signup and /signup?uduiwe */}
+
             <div className={classes.input}>
-                <label htmlFor="">{language.title === "nl" ? "Wachtwoord" : "Password"}</label>
+                <label htmlFor="">
+                    {isForget ? (language.title === "nl" ? "Nieuw" : "New") : ""} {language.title === "nl" ? "Wachtwoord" : "Password"}
+                </label>
                 <input
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                    }}
                     required
                     minLength={6}
                     maxLength={36}
-                    placeholder={language.title === "nl" ? "Wachtwoord" : "Your Password"}
+                    placeholder={
+                        isForget
+                            ? language.title === "nl"
+                                ? "Nieuw Wachtwoord"
+                                : "Your New Password"
+                            : language.title === "nl"
+                            ? "Wachtwoord"
+                            : "Your Password"
+                    }
                 />
             </div>
+            {!isSignIn || isForget ? (
+                <div className={classes.input}>
+                    <label htmlFor="">{language.title === "nl" ? "Toegangscode" : "Access Code"}</label>
+                    <input
+                        value={accessCode}
+                        disabled={!isSignIn ? true : false}
+                        onChange={
+                            isSignIn
+                                ? (e) => {
+                                      setAccessCode(e.target.value);
+                                  }
+                                : () => {}
+                        }
+                        type="text"
+                        required
+                        minLength={10}
+                        maxLength={10}
+                        placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
+                    />
+                </div>
+            ) : (
+                ""
+            )}
             {!isSignIn && (
                 <>
-                    <div className={classes.input}>
-                        <label htmlFor="">{language.title === "nl" ? "Toegangscode" : "Access Code"}</label>
-                        <input
-                            value={accessCode}
-                            onChange={(e) => setAccessCode(e.target.value)}
-                            type="text"
-                            required
-                            minLength={10}
-                            maxLength={10}
-                            placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
-                        />
-                    </div>
                     <br />
                     <FormControlLabel
                         style={{ display: "block" }}
-                        control={<Checkbox value={checkBox} onClick={() => setCheckBox(!checkBox)} />}
+                        control={<Checkbox color="default" value={checkBox} onClick={() => setCheckBox(!checkBox)} />}
                         label={codePromiseText}
                     />
                 </>
             )}
             <Button disabled={!isSignIn && !checkBox} type="submit" variant="contained">
-                {loginTextEng}
+                {isForget && language.title === "nl" ? "Resetten" : isForget && language.title === "eng" ? "Reset" : loginTextEng}
             </Button>
             <br />
             <p>
@@ -129,9 +173,33 @@ function AuthPage({ isSignIn }) {
                         {language.title === "nl" ? "Heeft u al een account? Inloggen." : "Already have an account"}
                     </span>
                 ) : (
-                    <span onClick={() => router.push("/signup")}>
-                        {language.title === "nl" ? "Account aanmaken" : "Create Your Account"}
-                    </span>
+                    <>
+                        <span className={classes.linkBoxWrapper}>
+                            {isForget ? (
+                                <span
+                                    onClick={() => {
+                                        setIsForget(!isForget);
+                                        setAccessCode("");
+                                        setPassword("");
+                                    }}
+                                >
+                                    {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
+                                </span>
+                            ) : (
+                                <span
+                                    onClick={() => {
+                                        setIsForget(!isForget);
+                                        setPassword("");
+                                    }}
+                                >
+                                    {language.title === "nl" ? "Wachtwoord vergeten?" : "Forgot Password?"}
+                                </span>
+                            )}
+                            {/* <span onClick={() => router.push("/signup")}>
+                                {language.title === "nl" ? "Account aanmaken" : "Create Your Account"}
+                            </span> */}
+                        </span>
+                    </>
                 )}
             </p>
             {!isSignIn && (

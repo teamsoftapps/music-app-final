@@ -5,12 +5,12 @@ import MusicTracker from "../../components/musicTrack/MusicTrack";
 import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
 import { useRouter } from "next/router";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { setSong, setSongs } from "../../store/musicReducer";
+import { setSong, setSongs, setAlbum } from "../../store/musicReducer";
 import Head from "next/head";
 
 const postSelector = (state) => state.music;
 
-function AlbumPage({ songs }) {
+function AlbumPage({ songs, album }) {
     const { song, language } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
     const dispatch = useDispatch();
@@ -20,6 +20,7 @@ function AlbumPage({ songs }) {
         if (!user?.token.length) return route.replace("/login");
         if (!songs?.length) return route.replace("/");
         dispatch(setSongs(songs));
+        dispatch(setAlbum(album));
         dispatch(setSong(songs[0]));
     }, []);
 

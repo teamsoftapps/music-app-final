@@ -73,7 +73,20 @@
     margin: 1rem;
 }
 
+.linkBoxWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-width: 991px) {
+    .linkBoxWrapper {
+        flex-direction: column;
+    }
+    .auth p span {
+        margin: 0.5rem;
+    }
     .auth {
         width: clamp(300px, 90%, 800px);
         margin: 5vw auto;

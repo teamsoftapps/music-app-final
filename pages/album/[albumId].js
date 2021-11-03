@@ -1,13 +1,20 @@
 import axios from "axios";
 import AlbumPage from "../../src/pagesContainer/albumPage/AlbumPage";
 
-const index = ({ songs }) => <AlbumPage songs={songs} />;
+const index = ({ songs, album }) => <AlbumPage songs={songs} album={album} />;
 
 export default index;
 
 export async function getStaticProps(context) {
     const { albumId } = context.params;
     const { data } = await axios.get(`${process.env.base_url}/songs/${albumId.replace(/-/g, " ")}`);
+    let albumDetails;
+
+    if (data.length > 1) {
+        albumDetails = data[1];
+    } else {
+        albumDetails = { Song_Desc: "" };
+    }
 
     console.log({ albumId });
 
@@ -18,7 +25,8 @@ export async function getStaticProps(context) {
 
     return {
         props: {
-            songs: data,
+            songs: data[0],
+            album: albumDetails,
         },
         revalidate: 1800,
     };
