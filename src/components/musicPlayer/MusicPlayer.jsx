@@ -235,8 +235,8 @@ function MusicPlayer() {
                                 value={isLyrics}
                                 onChange={handleIsLyrics}
                                 aria-label="basic tabs example"
-                                textColor="light"
-                                indicatorColor="light"
+                                textColor="inherit"
+                                indicatorColor="primary"
                                 centered
                             >
                                 <Tab label="Song Lyrics" style={{ marginRight: "10px", padding: "10px" }} {...a11yProps(1)} />
@@ -244,10 +244,10 @@ function MusicPlayer() {
                             </Tabs>
                         </Box>
                         <TabPanel value={isLyrics} index={0}>
-                            <p className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</p>
+                            <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span>
                         </TabPanel>
                         <TabPanel value={isLyrics} index={1}>
-                            <p className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</p>
+                            <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span>
                         </TabPanel>
                     </Box>
                 </div>
