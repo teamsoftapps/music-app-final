@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./Footer.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -24,6 +24,25 @@ function Footer() {
         router.push(`${route}?lang=${lan.title}`);
         dispatch(setLanguageMode(lan));
     }
+
+    useEffect(() => {
+        try {
+            let path = router.asPath.slice(2).split("=");
+            console.log(path);
+            let lan = path[1];
+            let attr = path[0].split("").reverse().join("").slice(0, 4).split("").reverse().join("");
+            console.log(attr, lan);
+            if (lan && attr === "lang") {
+                if (lan === languages[0].title) {
+                    handleLanguage(languages[0]);
+                } else if (lan === languages[1].title) {
+                    handleLanguage(languages[1]);
+                }
+            }
+        } catch (e) {
+            console.log(e, "- Footer");
+        }
+    }, []);
 
     return (
         <footer className={classes.footer}>

@@ -23,6 +23,8 @@ const HomePage = ({ albums }) => {
                     return <Card key={album?._id + language.title} album={album} url={url} />;
                 })}
             </FlipMove>
+            {/* https://githubmemory.com/repo/joshwcomeau/react-flip-move/issues/256 */}
+            {/* Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. */}
             <Footer />
         </div>
     );

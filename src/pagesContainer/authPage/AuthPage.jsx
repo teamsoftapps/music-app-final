@@ -97,7 +97,7 @@ function AuthPage({ isSignIn }) {
                               }
                             : () => {}
                     }
-                    disabled={!isSignIn ? true : false}
+                    // disabled={!isSignIn ? true : false}
                     type="email"
                     required
                     placeholder={language.title === "nl" ? "Uw emailadres" : "Your Email Address"}
@@ -135,7 +135,7 @@ function AuthPage({ isSignIn }) {
                     <label htmlFor="">{language.title === "nl" ? "Toegangscode" : "Access Code"}</label>
                     <input
                         value={accessCode}
-                        disabled={!isSignIn ? true : false}
+                        // disabled={!isSignIn ? true : false}
                         onChange={
                             isSignIn
                                 ? (e) => {

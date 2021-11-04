@@ -45,7 +45,7 @@ function a11yProps(index) {
 }
 
 function MusicPlayer() {
-    const { song, isPlaying, album } = useSelector(postSelector, shallowEqual);
+    const { song, isPlaying, album, language } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
 
@@ -229,7 +229,7 @@ function MusicPlayer() {
             </div>
             {showDetails && (
                 <div className={classes.albumsMusicDetails}>
-                    <Box sx={{ width: "100%" }}>
+                    {/* <Box sx={{ width: "100%" }}>
                         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                             <Tabs
                                 value={isLyrics}
@@ -249,7 +249,29 @@ function MusicPlayer() {
                         <TabPanel value={isLyrics} index={1}>
                             <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span>
                         </TabPanel>
-                    </Box>
+                    </Box> */}
+                    <div className={classes.tabsWrapper}>
+                        <div
+                            className={`${classes.tab} ${isLyrics === 0 ? classes.active : ""}`}
+                            onClick={() => {
+                                setIsLyrics(0);
+                            }}
+                        >
+                            {language.title === "nl" ? "LIEDTEKSTEN" : "LYRICS"}
+                        </div>
+                        <div
+                            className={`${classes.tab} ${isLyrics === 1 ? classes.active : ""}`}
+                            onClick={() => {
+                                setIsLyrics(1);
+                            }}
+                        >
+                            {language.title === "nl" ? "ALBUM DETAILS" : "ALBUM DETAILS"}
+                        </div>
+                    </div>
+                    <div className={classes.tabsContentWrapper}>
+                        {isLyrics === 0 ? <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span> : ""}
+                        {isLyrics === 1 ? <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span> : ""}
+                    </div>
                 </div>
             )}
         </div>
