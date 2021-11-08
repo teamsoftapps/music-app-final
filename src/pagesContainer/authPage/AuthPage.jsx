@@ -95,7 +95,9 @@ function AuthPage({ isSignIn }) {
                             ? (e) => {
                                   setEmail(e.target.value);
                               }
-                            : () => {}
+                            : () => {
+                                  setEmail(e.target.value);
+                              }
                     }
                     // disabled={!isSignIn ? true : false}
                     type="email"
@@ -141,7 +143,9 @@ function AuthPage({ isSignIn }) {
                                 ? (e) => {
                                       setAccessCode(e.target.value);
                                   }
-                                : () => {}
+                                : () => {
+                                      setAccessCode(e.target.value);
+                                  }
                         }
                         type="text"
                         required
