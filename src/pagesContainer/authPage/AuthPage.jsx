@@ -95,7 +95,7 @@ function AuthPage({ isSignIn }) {
                             ? (e) => {
                                   setEmail(e.target.value);
                               }
-                            : () => {
+                            : (e) => {
                                   setEmail(e.target.value);
                               }
                     }
@@ -143,7 +143,7 @@ function AuthPage({ isSignIn }) {
                                 ? (e) => {
                                       setAccessCode(e.target.value);
                                   }
-                                : () => {
+                                : (e) => {
                                       setAccessCode(e.target.value);
                                   }
                         }
