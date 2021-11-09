@@ -55,5 +55,6 @@ function AlbumPage({ songs, album }) {
         </div>
     );
 }
+// Nothing
 
 export default React.memo(AlbumPage);
