@@ -77,7 +77,8 @@ function MusicPlayer() {
     // set Default once song is done playing.
     useEffect(() => {
         if (Math.floor(audioPlayer.current?.duration) === Math.floor(currentTime)) {
-            dispatch(setNextSong(song));
+            // dispatch(setNextSong(song));
+            document.getElementById("nextSongButton").click();
             defaultHandler(true);
         }
     }, [audioPlayer.current?.duration, currentTime]);
@@ -185,6 +186,7 @@ function MusicPlayer() {
                         </IconButton>
                         <IconButton
                             onClick={() => dispatch(setNextSong(song))}
+                            id="nextSongButton"
                             aria-label="next song"
                             className={classes.musicControllerBtn}
                         >
