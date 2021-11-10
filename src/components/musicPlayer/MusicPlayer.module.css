@@ -87,6 +87,10 @@
     transform: scale(1.2);
 }
 
+.disableIcon {
+    opacity: 0.5;
+}
+
 .albumsMusicPlayer p {
     font-weight: 600;
     margin: 0 2rem;

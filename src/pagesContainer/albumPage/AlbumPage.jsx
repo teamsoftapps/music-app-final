@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./AlbumPage.module.css";
 import Card from "../../components/card/Card";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { setSong, setSongs, setAlbum } from "../../store/musicReducer";
 import Head from "next/head";
+import { isMobile } from "react-device-detect";
 
 const postSelector = (state) => state.music;
 
@@ -15,13 +16,19 @@ function AlbumPage({ songs, album }) {
     const route = useRouter();
     const dispatch = useDispatch();
 
+    const [currentTime, setCurrentTime] = useState(0);
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         if (!user?.token.length) return route.replace("/login");
         if (!songs?.length) return route.replace("/");
         dispatch(setSongs(songs));
         dispatch(setAlbum(album));
-        dispatch(setSong(songs[0]));
+        if (isMobile) {
+            dispatch(setSong(songs[songs.length - 1]));
+        } else {
+            dispatch(setSong(songs[0]));
+        }
     }, []);
 
     if (!songs || !songs.length) return <h1>Loading...</h1>;
@@ -46,12 +53,21 @@ function AlbumPage({ songs, album }) {
                     disableFetch
                 />
                 <div className={classes.albumsMainPlaylist}>
-                    {songs?.map((albumSong, i) => (
-                        <MusicTracker key={i} albumSong={albumSong} />
-                    ))}
+                    {songs?.map((albumSong, i) =>
+                        songs.length - 1 !== i ? (
+                            <MusicTracker
+                                key={i}
+                                currentTime={currentTime}
+                                setCurrentTime={setCurrentTime}
+                                albumSong={albumSong}
+                                order={i}
+                                songs={songs}
+                            />
+                        ) : null,
+                    )}
                 </div>
             </div>
-            <MusicPlayer />
+            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} />
         </div>
     );
 }

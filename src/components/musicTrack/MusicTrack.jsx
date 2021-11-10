@@ -1,16 +1,24 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MusicNote } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { setIsPlaying, setSong } from "../../store/musicReducer";
+import { setIsPlaying, setSong, setSongs } from "../../store/musicReducer";
+import { isMobile } from "react-device-detect";
 
 const postSelector = (state) => state.music;
 
-function MusicTracker({ albumSong }) {
+function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime }) {
     const { song } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
+
+    const [myCommutativeLength, setMyCommutativeLength] = useState(0);
+
+    useEffect(() => {
+        dispatch(setSongs(songs));
+        setMyCommutativeLengthFunction();
+    });
 
     const trackRef = useCallback((node) => {
         if (node) {
@@ -23,10 +31,34 @@ function MusicTracker({ albumSong }) {
         // dispatch(setIsPlaying(false));
     }
 
+    function calculateSeconds(hms) {
+        var a = hms.split(":");
+        let seconds = a[0] * 60 + +a[1];
+        if (a.length > 2) {
+            seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+        }
+        return seconds;
+    }
+
+    function setMyCommutativeLengthFunction() {
+        let count = 0;
+        songs.map((song, i) => {
+            if (i < order) {
+                count += calculateSeconds(song.Song_Length);
+            }
+        });
+        setMyCommutativeLength(count);
+    }
+
+    function songJump() {
+        document.getElementById("audioPlayer").currentTime = myCommutativeLength;
+        setCurrentTime(myCommutativeLength);
+    }
+
     return (
         <div
             ref={albumSong?._id === song?._id ? trackRef : null}
-            onClick={songHandler}
+            onClick={isMobile ? songJump : songHandler}
             className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null}`}
         >
             <div className={classes.musicTrackLeft}>

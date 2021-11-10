@@ -12,6 +12,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { isMobile } from "react-device-detect";
 
 const postSelector = (state) => state.music;
 
@@ -44,12 +45,12 @@ function a11yProps(index) {
     };
 }
 
-function MusicPlayer() {
+function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const { song, isPlaying, album, language } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
 
-    const [currentTime, setCurrentTime] = useState(0);
+    // const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
     const [showDetails, setshowDetails] = useState(false);
     const [isLyrics, setIsLyrics] = useState(0);
@@ -77,8 +78,7 @@ function MusicPlayer() {
     // set Default once song is done playing.
     useEffect(() => {
         if (Math.floor(audioPlayer.current?.duration) === Math.floor(currentTime)) {
-            // dispatch(setNextSong(song));
-            document.getElementById("nextSongButton").click();
+            dispatch(setNextSong(song));
             defaultHandler(true);
         }
     }, [audioPlayer.current?.duration, currentTime]);
@@ -152,6 +152,53 @@ function MusicPlayer() {
         return duration && typeof duration === "number" && duration;
     }
 
+    function calculateSeconds(hms) {
+        var a = hms.split(":");
+        let seconds = a[0] * 60 + +a[1];
+        if (a.length > 2) {
+            seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+        }
+        return seconds;
+    }
+
+    // function jumpNext() {
+    //     let count = 0;
+    //     let found = false;
+    //     let foundId = null;
+    //     songs.map((songLocal, i) => {
+    //         if (song._id === songLocal._id) {
+    //             found = true;
+    //             foundId = i;
+    //             count += calculateSeconds(songLocal.Song_Length);
+    //             alert(count);
+    //         }
+    //         if (!found) {
+    //             count += calculateSeconds(songLocal.Song_Length);
+    //         }
+    //         if (foundId && foundId + 1 === songs.length) {
+    //             count = 0;
+    //         }
+    //     });
+    //     alert(count);
+    //     document.getElementById("audioPlayer").currentTime = count;
+    //     setCurrentTime(count);
+    // }
+
+    // function jumpPrevious() {
+    //     let count = 0;
+    //     let found = false;
+    //     songs.map((songLocal, i) => {
+    //         if (song._id === songLocal._id) {
+    //             found = true;
+    //         }
+    //         if (!found) {
+    //             count += calculateSeconds(song.Song_Length);
+    //         }
+    //     });
+    //     document.getElementById("audioPlayer").currentTime = count;
+    //     setCurrentTime(count);
+    // }
+
     return (
         <div style={showDetails ? { height: "50vh" } : { height: 130 }} className={`${classes.albumsMusicContainer} `}>
             <div className={classes.albumsMusicPlayer}>
@@ -167,9 +214,10 @@ function MusicPlayer() {
                 <div className={classes.albumsMusicPlayerMain}>
                     <div className={classes.musicController}>
                         <IconButton
-                            onClick={() => dispatch(setPreviousSong(song))}
+                            onClick={isMobile ? "" : () => dispatch(setPreviousSong(song))}
                             aria-label="previous song"
-                            className={classes.musicControllerBtn}
+                            className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : null}`}
+                            disabled={isMobile ? true : false}
                         >
                             <SkipPreviousSharp fontSize="large" />
                         </IconButton>
@@ -185,16 +233,17 @@ function MusicPlayer() {
                             )}
                         </IconButton>
                         <IconButton
-                            onClick={() => dispatch(setNextSong(song))}
-                            id="nextSongButton"
+                            onClick={isMobile ? "" : () => dispatch(setNextSong(song))}
                             aria-label="next song"
-                            className={classes.musicControllerBtn}
+                            disabled={isMobile ? true : false}
+                            className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : null}`}
                         >
                             <SkipNextSharp fontSize="large" />
                         </IconButton>
                     </div>
                     <audio
                         ref={audioPlayer}
+                        id="audioPlayer"
                         autoPlay={true}
                         preload="auto"
                         src={`${process.env.media_url}/${song?.Song_File}`}
