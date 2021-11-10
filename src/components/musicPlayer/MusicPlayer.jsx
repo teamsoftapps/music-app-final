@@ -191,7 +191,13 @@ function MusicPlayer() {
                             <SkipNextSharp fontSize="large" />
                         </IconButton>
                     </div>
-                    <audio ref={audioPlayer} preload="auto" src={`${process.env.media_url}/${song?.Song_File}`} type="audio/mp3">
+                    <audio
+                        ref={audioPlayer}
+                        autoPlay={true}
+                        preload="auto"
+                        src={`${process.env.media_url}/${song?.Song_File}`}
+                        type="audio/mp3"
+                    >
                         {/* <source  src={`songs/${song}.mp3`} type="audio/mp3" /> */}
                         Your browser does not support the audio element.
                     </audio>
