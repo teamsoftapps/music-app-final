@@ -106,18 +106,26 @@
 .musicOptionWrapper {
     width: clamp(100px, 100%, 250px);
     min-width: 100px;
-    margin-bottom: -15px !important;
     display: flex;
 }
 .musicOptionWrapper {
     /* flex-direction: column; */
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     margin: 0 0.5rem;
 }
 
 .musicLyrics {
     max-width: 1.5rem;
+}
+
+.musicLyricsIcon {
+    padding: 0.35rem 0.8rem !important;
+    margin: 0 !important;
+}
+.musicLyricsIconW {
+    max-width: 100% !important;
+    width: min-content;
 }
 
 .albumsMusicPlayerTitle h3 {
@@ -170,6 +178,14 @@
     }
     .albumsMusicContainer {
         position: fixed;
+    }
+    .musicLyricsIconW {
+    }
+    .musicLyricsIcon {
+        flex-flow: wrap;
+        display: flex;
+        padding: 0.3rem 0.5rem;
+        font-size: smaller;
     }
 }
 

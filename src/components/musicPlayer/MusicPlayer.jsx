@@ -152,14 +152,14 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
         return duration && typeof duration === "number" && duration;
     }
 
-    function calculateSeconds(hms) {
-        var a = hms.split(":");
-        let seconds = a[0] * 60 + +a[1];
-        if (a.length > 2) {
-            seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-        }
-        return seconds;
-    }
+    // function calculateSeconds(hms) {
+    //     var a = hms.split(":");
+    //     let seconds = a[0] * 60 + +a[1];
+    //     if (a.length > 2) {
+    //         seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+    //     }
+    //     return seconds;
+    // }
 
     // function jumpNext() {
     //     let count = 0;
@@ -244,7 +244,6 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
                     <audio
                         ref={audioPlayer}
                         id="audioPlayer"
-                        autoPlay={true}
                         preload="auto"
                         src={`${process.env.media_url}/${song?.Song_File}`}
                         type="audio/mp3"
@@ -270,11 +269,14 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
                 </div>
                 <div className={classes.musicOptionWrapper}>
                     {song.Song_Lyrics && (
-                        <div className={classes.musicLyrics}>
-                            <IconButton onClick={() => setshowDetails(!showDetails)}>
-                                <InfoIcon />
-                            </IconButton>
-                        </div>
+                        <span className={`${classes.musicLyrics} ${classes.musicLyricsIconW}`}>
+                            <span
+                                className={`${classes.tab} ${classes.musicLyricsIcon} ${classes.active}`}
+                                onClick={() => setshowDetails(!showDetails)}
+                            >
+                                {language.title === "nl" ? "LIEDTEKSTEN" : "LYRICS"}
+                            </span>
+                        </span>
                     )}
                     <div className={classes.musicVolume}>
                         <IconButton onClick={handleVolume}>

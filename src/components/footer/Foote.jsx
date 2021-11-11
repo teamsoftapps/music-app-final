@@ -27,11 +27,10 @@ function Footer() {
 
     useEffect(() => {
         try {
-            let path = router.asPath.slice(2).split("=");
-            console.log(path);
+            let langPath = router.asPath.slice(2).split("&");
+            let path = langPath[langPath.length - 1].split("=");
             let lan = path[1];
             let attr = path[0].split("").reverse().join("").slice(0, 4).split("").reverse().join("");
-            console.log(attr, lan);
             if (lan && attr === "lang") {
                 if (lan === languages[0].title) {
                     handleLanguage(languages[0]);
