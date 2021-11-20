@@ -28,7 +28,7 @@ function HistoryPage({ history, userEmail }) {
                 <meta name="description" content="history" />
             </Head>
             <br />
-            <h4 style={{ color: "white", textAlign: "center" }}>LAST 20 PLAYED SONGS</h4>
+            <h4 style={{ color: "white", textAlign: "center" }}>RECENTLY PLAYED SONGS</h4>
             <h1>History</h1>
             <div className={classes.tabWrapper}>
                 {user?.email === userEmail ? (

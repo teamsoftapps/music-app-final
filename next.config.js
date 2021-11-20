@@ -8,7 +8,7 @@ module.exports = (phase) => {
                 domains: ["music-apppps.herokuapp.com", "musicfilesforheroku.s3.us-west-1.amazonaws.com"],
             },
             env: {
-                base_url: "http://localhost:5000/api",
+                base_url: "music-apppps.herokuapp.com/api",
                 media_url: "https://musicfilesforheroku.s3.us-west-1.amazonaws.com/uploads",
             },
             httpAgentOptions: {
