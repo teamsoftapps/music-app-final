@@ -16,8 +16,6 @@ export async function getStaticProps(context) {
     //     albumDetails = { Song_Desc: "" };
     // }
 
-    console.log({ albumId });
-
     if (!data?.length) {
         // return { notFound: true };
         return { hasError: true };

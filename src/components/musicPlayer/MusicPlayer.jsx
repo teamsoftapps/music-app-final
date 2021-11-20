@@ -3,6 +3,7 @@ import Image from "next/image";
 import { IconButton, Slider } from "@material-ui/core";
 import { PauseCircleFilled, PlayCircleFilled, SkipNextSharp, SkipPreviousSharp, VolumeDown, VolumeUp, VolumeOff } from "@material-ui/icons";
 import classes from "./MusicPlayer.module.css";
+import axios from "axios";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setNextSong, setPreviousSong, setIsPlaying } from "../../store/musicReducer";
 import InfoIcon from "@mui/icons-material/Info";
@@ -46,7 +47,7 @@ function a11yProps(index) {
 }
 
 function MusicPlayer({ currentTime, setCurrentTime, songs }) {
-    const { song, isPlaying, album, language } = useSelector(postSelector, shallowEqual);
+    const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
 
     const dispatch = useDispatch();
 
@@ -65,6 +66,13 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const initialRef = useRef(0);
 
     useEffect(() => {
+        try {
+            let url = process.env.base_url + "/history/add";
+            let data = { songName: song.Song_Name, albumName: song.Album_Name, userEmail: user.email };
+            axios.post(url, data);
+        } catch (e) {
+            // Nothing
+        }
         if (initialRef.current > 1) {
             defaultHandler(true);
         }

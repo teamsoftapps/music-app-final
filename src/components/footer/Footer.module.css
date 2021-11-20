@@ -21,6 +21,11 @@
     margin-top: 10px;
 }
 
+.btnWrapper {
+    display: flex;
+    align-items: center;
+}
+
 .logoutBtn {
     margin-left: 1rem !important;
     background: #876727f7 !important;

@@ -25,6 +25,10 @@ function Footer() {
         dispatch(setLanguageMode(lan));
     }
 
+    function handleHistory() {
+        router.push(`/history/${user.email}`);
+    }
+
     useEffect(() => {
         try {
             let langPath = router.asPath.slice(2).split("&");
@@ -61,9 +65,14 @@ function Footer() {
                         ))}
                     </ol>
                     {user && (
-                        <Button className={classes.logoutBtn} onClick={handleLogout}>
-                            Logout
-                        </Button>
+                        <span className={classes.btnWrapper}>
+                            <Button className={classes.logoutBtn} onClick={handleLogout}>
+                                Logout
+                            </Button>
+                            <Button className={classes.logoutBtn} onClick={handleHistory}>
+                                History
+                            </Button>
+                        </span>
                     )}
                 </nav>
             </div>
