@@ -31,14 +31,17 @@ function Footer() {
 
     useEffect(() => {
         try {
-            let langPath = router.asPath.slice(2).split("&");
-            let path = langPath[langPath.length - 1].split("=");
-            let lan = path[1];
-            let attr = path[0].split("").reverse().join("").slice(0, 4).split("").reverse().join("");
-            if (lan && attr === "lang") {
-                if (lan === languages[0].title) {
+            let len = router.pathname.length + 1;
+            let query = router.asPath.slice(len).split("&");
+            let subQuery = [];
+            for (let i in query) {
+                subQuery.push(query[i].split("="));
+            }
+            let lang = findParam("lang", subQuery);
+            if (lang !== "") {
+                if (lang === languages[0].title) {
                     handleLanguage(languages[0]);
-                } else if (lan === languages[1].title) {
+                } else if (lang === languages[1].title) {
                     handleLanguage(languages[1]);
                 }
             }
@@ -46,6 +49,15 @@ function Footer() {
             console.log(e, "- Footer");
         }
     }, []);
+
+    const findParam = (name, array) => {
+        for (let i in array) {
+            if (array[i][0] === name) {
+                return array[i][1];
+            }
+        }
+        return "";
+    };
 
     return (
         <footer className={classes.footer}>

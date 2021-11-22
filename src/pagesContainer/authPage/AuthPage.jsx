@@ -35,15 +35,29 @@ function AuthPage({ isSignIn }) {
         if (pageName === "signup") {
             try {
                 let query = router.asPath.slice(8).split("&");
-                let email = query[0].split("=")[1];
-                let access_code = query[1].split("=")[1];
+                let subQuery = [];
+                for (let i in query) {
+                    subQuery.push(query[i].split("="));
+                }
+                let access_code = findParam("access_code", subQuery);
+                let email = findParam("email", subQuery);
                 setEmail(email);
                 setAccessCode(access_code);
             } catch (e) {
                 // Do nothing
+                console.log(e);
             }
         }
     }, []);
+
+    const findParam = (name, array) => {
+        for (let i in array) {
+            if (array[i][0] === name) {
+                return array[i][1];
+            }
+        }
+        return "";
+    };
 
     async function handleSubmit(e) {
         setLoading(true);

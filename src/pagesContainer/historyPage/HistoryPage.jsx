@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classes from "./HistoryPage.module.css";
+import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { isMobile } from "react-device-detect";
@@ -9,9 +10,17 @@ import { IconButton } from "@material-ui/core";
 
 const postSelector = (state) => state.music;
 
-function HistoryPage({ history, userEmail }) {
+function HistoryPage({ userEmail }) {
     const { user } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
+    const [history, setHistory] = useState([]);
+
+    useEffect(async () => {
+        if (userEmail !== undefined) {
+            const { data } = await axios.get(`${process.env.base_url}/history/${userEmail.replace(/-/g, " ")}`);
+            setHistory(data[0]);
+        }
+    }, [userEmail]);
 
     const convertTime = (d) => {
         return new Date(d).toLocaleString();

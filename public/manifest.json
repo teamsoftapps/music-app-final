@@ -3,7 +3,7 @@
     "short_name": "Mulder",
     "background_color": "black",
     "description": "Stream Mulder's 20 solo albums with orchestra",
-    "display": "standalone",
+    "display": "minimal-ui",
     "start_url": "/",
     "icons": [
         {

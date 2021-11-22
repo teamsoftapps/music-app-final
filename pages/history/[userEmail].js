@@ -9,11 +9,11 @@ export default index;
 
 export async function getStaticProps(context) {
     const { userEmail } = context.params;
-    const { data } = await axios.get(`${process.env.base_url}/history/${userEmail.replace(/-/g, " ")}`);
+    // const { data } = await axios.get(`${process.env.base_url}/history/${userEmail.replace(/-/g, " ")}`);
 
     return {
         props: {
-            history: data[0],
+            history: "",
             email: userEmail,
             revalidate: 1800,
         },
