@@ -68,7 +68,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     useEffect(() => {
         try {
             let url = process.env.base_url + "/history/add";
-            let data = { songName: song.Song_Name, albumName: song.Album_Name, userEmail: user.email };
+            let data = { songName: song.Song_Name, albumName: song.Album_Name, userEmail: user.email, createdAt: new Date().getTime() };
             axios.post(url, data);
         } catch (e) {
             // Nothing

@@ -61,7 +61,7 @@ function HistoryPage({ userEmail }) {
                                         </span>
                                     </div>
                                     <div className={classes.musicTrackRight}>
-                                        <h3>{convertTime(item.createdAt)}</h3>
+                                        <p className={classes.playAgain}>{convertTime(parseInt(item.createdAt))}</p>
                                     </div>
                                 </div>
                             );
