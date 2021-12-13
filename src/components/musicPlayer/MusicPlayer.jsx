@@ -19,33 +19,6 @@ const postSelector = (state) => state.music;
 
 // let initialRef = 0;
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        "aria-controls": `simple-tabpanel-${index}`,
-    };
-}
-
 function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
 
@@ -66,14 +39,14 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const initialRef = useRef(0);
 
     useEffect(() => {
-        try {
-            let url = process.env.base_url + "/history/add";
-            let data = { songName: song.Song_Name, albumName: song.Album_Name, userEmail: user.email, createdAt: new Date().getTime() };
-            axios.post(url, data);
-        } catch (e) {
-            // Nothing
-        }
         if (initialRef.current > 1) {
+            try {
+                let url = process.env.base_url + "/history/add";
+                let data = { songName: song.Song_Name, albumName: song.Album_Name, userEmail: user.email, createdAt: new Date().getTime() };
+                axios.post(url, data);
+            } catch (e) {
+                // Nothing
+            }
             defaultHandler(true);
         }
 
@@ -84,7 +57,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     }, [song]);
 
     // set Default once song is done playing.
-    useEffect(() => {
+    useEffect(async () => {
         if (Math.floor(audioPlayer.current?.duration) === Math.floor(currentTime)) {
             dispatch(setNextSong(song));
             defaultHandler(true);

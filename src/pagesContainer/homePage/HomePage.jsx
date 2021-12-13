@@ -1,19 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../../components/card/Card";
 import classes from "./HomePage.module.css";
 import { useSelector, shallowEqual } from "react-redux";
 import Footer from "../../components/footer/Foote";
 import FlipMove from "react-flip-move";
+import downarrow from "../../../public/images/downarrownew.png";
+import uparrow from "../../../public/images/uparrownew.png";
+import Image from "next/image";
+import Advertisement from "../../components/advertisment/Advertisment";
 
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
+    const [openAdd, setOpenAdd] = useState(false);
     const { language } = useSelector(postSelector, shallowEqual);
+
+    const handleAdd = () => {
+        if (openAdd === false) {
+            setOpenAdd(true);
+        } else {
+            setOpenAdd(false);
+        }
+        console.log(openAdd);
+    };
 
     return (
         <div className={classes.homePage}>
             <br />
-            <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
+            <h4 style={{ color: "white", textAlign: "center" }}>STREAMING </h4>
+            {/* Code for Advertisement (start) */}
+            <div className={classes.addcontainer}>
+                <h3 className={classes.addheading} onClick={() => handleAdd()}>
+                    Updates
+                </h3>
+                {openAdd === false ? (
+                    <Image src={downarrow} width={16} height={16} className={classes.arrows} onClick={() => handleAdd()} />
+                ) : (
+                    <Image src={uparrow} width={16} height={16} className={classes.arrows} onClick={() => handleAdd()} />
+                )}
+                {openAdd === true && (
+                    <div className={classes.addwrapper}>
+                        <Advertisement />
+                    </div>
+                )}
+            </div>
+            {/* Code for Advertisement (end) */}
             <FlipMove className={classes.cards}>
                 {albums?.map((album) => {
                     const url = `${process.env.media_url}/${
