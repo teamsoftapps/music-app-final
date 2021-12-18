@@ -97,8 +97,7 @@ function Header() {
                             </a>
                         </Link>
                         {user?.expiresIn >= 0 ? <div className={classes.timer}>
-                            <p>Your Trial Period Expires </p>
-                            <p>{user?.expiresIn === 0 ? 'Today' : `In ${user?.expiresIn} Days`} </p>
+                            <p>Your Trial Period Expires s {user?.expiresIn === 0 ? 'Today' : `In ${user?.expiresIn} Days`} </p>
                         </div> : ''}
 
                     </div>
