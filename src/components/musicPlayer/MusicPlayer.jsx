@@ -21,8 +21,9 @@ const postSelector = (state) => state.music;
 
 function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
-
+    // console.log(isPlaying, song)
     const dispatch = useDispatch();
+    // console.log(currentTime)
 
     // const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
@@ -37,6 +38,17 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const animationRef = useRef();
     const volumePreState = useRef();
     const initialRef = useRef(0);
+
+
+    // auto play song 
+    useEffect(() => {
+        // audioPlayer.current.play();
+        setTimeout(() => {
+            togglePlayPause()
+            // dispatch(setIsPlaying(true))
+
+        }, 100);
+    }, [])
 
     useEffect(() => {
         if (initialRef.current > 1) {
@@ -62,7 +74,10 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
             dispatch(setNextSong(song));
             defaultHandler(true);
         }
+
     }, [audioPlayer.current?.duration, currentTime]);
+
+
 
     function defaultHandler(play) {
         setCurrentTime(0);
@@ -194,6 +209,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
                 </div>
                 <div className={classes.albumsMusicPlayerMain}>
                     <div className={classes.musicController}>
+
                         <IconButton
                             onClick={isMobile ? "" : () => dispatch(setPreviousSong(song))}
                             aria-label="previous song"
@@ -223,6 +239,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
                         </IconButton>
                     </div>
                     <audio
+                        autoPlay={true}
                         ref={audioPlayer}
                         id="audioPlayer"
                         preload="auto"
