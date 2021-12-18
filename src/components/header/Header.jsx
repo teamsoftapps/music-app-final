@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Drawer, List, ListItem } from "@material-ui/core";
 import { useSelector, shallowEqual } from "react-redux";
+import axios from "axios";
+import moment from "moment";
 
 const postSelector = (state) => state.music;
 
@@ -11,6 +13,7 @@ function Header() {
     const { user, language } = useSelector(postSelector, shallowEqual);
     const [open, setOpen] = useState(false);
     const [sideBar, setShowSidebar] = useState(false);
+
 
     useEffect(() => {
         if (window.innerWidth < 992) {
@@ -26,9 +29,22 @@ function Header() {
             }
         });
         return () => {
-            window.removeEventListener("resize", () => {});
+            window.removeEventListener("resize", () => { });
         };
     }, []);
+    useEffect(() => {
+        if (user?.expiresIn || user?.expiresIn === 0) {
+
+            window.onbeforeunload = function () {
+                localStorage.removeItem("music-app-credentials");
+                // return "Do you really want to close?"; //prompts user
+            };
+
+        }
+    }, [user])
+
+
+
 
     function handleToggle() {
         setOpen((preSrate) => !preSrate);
@@ -77,8 +93,14 @@ function Header() {
                                     height={50}
                                     layout="fixed"
                                 />
+
                             </a>
                         </Link>
+                        {user?.expiresIn >= 0 ? <div className={classes.timer}>
+                            <p>Your Trial Period Expires </p>
+                            <p>{user?.expiresIn === 0 ? 'Today' : `${user?.expiresIn} In Days`} </p>
+                        </div> : ''}
+
                     </div>
                 )}
                 {/* <div className={classes.search}>
@@ -125,6 +147,12 @@ function Header() {
                                 />
                             </a>
                         </Link>
+                        {user?.expiresIn >= 0 ? <div className={classes.timer}>
+                            <p>Your Trial Period Expires </p>
+                            <p>{user?.expiresIn === 0 ? 'Today' : `${user?.expiresIn} In Days`} </p>
+                        </div> : ''}
+
+
                     </div>
                     <nav className={classes.headerNavigation}>
                         <ul>

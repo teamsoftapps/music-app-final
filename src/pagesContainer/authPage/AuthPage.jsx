@@ -68,6 +68,7 @@ function AuthPage({ isSignIn }) {
 
         try {
             const { data } = await axios.post(url, payload);
+            console.log(data)
             setLoading(false);
             localStorage.setItem("music-app-credentials", JSON.stringify(data));
             dispatch(setUser(data));
@@ -107,11 +108,11 @@ function AuthPage({ isSignIn }) {
                     onChange={
                         isSignIn
                             ? (e) => {
-                                  setEmail(e.target.value);
-                              }
+                                setEmail(e.target.value);
+                            }
                             : (e) => {
-                                  setEmail(e.target.value);
-                              }
+                                setEmail(e.target.value);
+                            }
                     }
                     // disabled={!isSignIn ? true : false}
                     type="email"
@@ -141,8 +142,8 @@ function AuthPage({ isSignIn }) {
                                 ? "Nieuw Wachtwoord"
                                 : "Your New Password"
                             : language.title === "nl"
-                            ? "Wachtwoord"
-                            : "Your Password"
+                                ? "Wachtwoord"
+                                : "Your Password"
                     }
                 />
             </div>
@@ -155,15 +156,15 @@ function AuthPage({ isSignIn }) {
                         onChange={
                             isSignIn
                                 ? (e) => {
-                                      setAccessCode(e.target.value);
-                                  }
+                                    setAccessCode(e.target.value);
+                                }
                                 : (e) => {
-                                      setAccessCode(e.target.value);
-                                  }
+                                    setAccessCode(e.target.value);
+                                }
                         }
                         type="text"
                         required
-                        minLength={10}
+                        minLength={7}
                         maxLength={10}
                         placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
                     />

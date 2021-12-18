@@ -33,6 +33,7 @@ const HomePage = ({ albums }) => {
                 <h3 className={classes.addheading} onClick={() => handleAdd()}>
                     Updates
                 </h3>
+
                 {openAdd === false ? (
                     <Image src={downarrow} width={16} height={16} className={classes.arrows} onClick={() => handleAdd()} />
                 ) : (
@@ -47,9 +48,8 @@ const HomePage = ({ albums }) => {
             {/* Code for Advertisement (end) */}
             <FlipMove className={classes.cards}>
                 {albums?.map((album) => {
-                    const url = `${process.env.media_url}/${
-                        language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
-                    }`;
+                    const url = `${process.env.media_url}/${language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
+                        }`;
 
                     return <Card key={album?._id + language.title} album={album} url={url} />;
                 })}
