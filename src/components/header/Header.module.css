@@ -16,10 +16,12 @@
 }
 .headerTop .timer {
   position: absolute;
-  right: 20px;
-  top: 0;
+  right: 0;
+  top: -20px;
   color: #fff;
+  /* width: 100px; */
   text-align: center;
+  font-size: small;
 }
 .header .search {
   display: flex;
