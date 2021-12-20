@@ -12,14 +12,17 @@ import { isMobile } from "react-device-detect";
 const postSelector = (state) => state.music;
 
 function AlbumPage({ songs, album }) {
-    const { song, language } = useSelector(postSelector, shallowEqual);
+    const { song, language, user } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
     const dispatch = useDispatch();
 
     const [currentTime, setCurrentTime] = useState(0);
+    const [trial, setTrial] = useState(false);
+
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+
         if (!user?.token.length) return route.replace("/login");
         if (!songs?.length) return route.replace("/");
         dispatch(setSongs(songs));
@@ -45,6 +48,8 @@ function AlbumPage({ songs, album }) {
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             <h1>{song?.Album_Name}</h1>
             <div className={classes.albumsMain}>
+
+
                 <Card
                     title={song?.Album_Name}
                     url={`${process.env.media_url}/${language.title === "eng" ? song?.Album_Image : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
@@ -61,6 +66,7 @@ function AlbumPage({ songs, album }) {
                                 albumSong={albumSong}
                                 order={i}
                                 songs={songs}
+                                trial={user?.hasOwnProperty('expiresIn')}
                             />
                         ) : null,
                     )}

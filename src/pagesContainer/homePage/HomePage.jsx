@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../components/card/Card";
 import classes from "./HomePage.module.css";
 import { useSelector, shallowEqual } from "react-redux";
@@ -12,8 +12,11 @@ import Advertisement from "../../components/advertisment/Advertisment";
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
+
     const [openAdd, setOpenAdd] = useState(false);
-    const { language } = useSelector(postSelector, shallowEqual);
+    const { language, user } = useSelector(postSelector, shallowEqual);
+    // console.log(user)
+
 
     const handleAdd = () => {
         if (openAdd === false) {
@@ -45,13 +48,14 @@ const HomePage = ({ albums }) => {
                     </div>
                 )}
             </div>
+
             {/* Code for Advertisement (end) */}
             <FlipMove className={classes.cards}>
-                {albums?.map((album) => {
+                {albums?.map((album, index) => {
                     const url = `${process.env.media_url}/${language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
                         }`;
 
-                    return <Card key={album?._id + language.title} album={album} url={url} />;
+                    return <Card key={album?._id + language.title} album={album} url={url} index={index} trial={user?.hasOwnProperty('expiresIn')} />;
                 })}
             </FlipMove>
             {/* https://githubmemory.com/repo/joshwcomeau/react-flip-move/issues/256 */}

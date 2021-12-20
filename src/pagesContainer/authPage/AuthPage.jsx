@@ -68,7 +68,7 @@ function AuthPage({ isSignIn }) {
 
         try {
             const { data } = await axios.post(url, payload);
-            console.log(data)
+            // console.log(data)
             setLoading(false);
             localStorage.setItem("music-app-credentials", JSON.stringify(data));
             dispatch(setUser(data));
