@@ -1,3 +1,5 @@
+import classes from "./Advertisment.module.css";
+
 const Advertisement = () => {
     return (
         <div class="item" style={{ height: "100%" }}>
