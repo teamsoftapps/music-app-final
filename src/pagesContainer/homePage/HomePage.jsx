@@ -34,7 +34,7 @@ const HomePage = ({ albums }) => {
             {/* Code for Advertisement (start) */}
             <div className={classes.addcontainer}>
                 <h3 className={classes.addheading} onClick={() => handleAdd()}>
-                    Exclusive Content
+                    Exclusive Video
                 </h3>
 
                 {openAdd === false ? (
