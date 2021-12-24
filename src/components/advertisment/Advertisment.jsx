@@ -28,7 +28,8 @@ const Advertisement = () => {
             ></iframe>
             <span>Mulder plays an Organ Improvisation on Dutch and British Christmas Carols, 
                 during a sold-out concert at the St. Laurenskerk Cathedral in Rotterdam (the Netherlands).
-                    <p><br>Mulder&apos;s Christmas Greeting: May God bless you in the year to come with peace, hope, and joy in Christ, our Savior.</p>
+                <br></br>
+                    <p>Mulder&apos;s Christmas Greeting: May God bless you in the year to come with peace, hope, and joy in Christ, our Savior.</p>
                 </span>
             </div>
         </div>
