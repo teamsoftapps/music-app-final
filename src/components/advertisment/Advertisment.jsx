@@ -14,7 +14,7 @@ const Advertisement = () => {
             {/* <video>
                 <source src="" type="video/mp4" />
             </video> */}
-            {/* <iframe
+            <iframe
                 width="100%"
                 height="100%"
                 src="https://www.youtube.com/embed/4C15fGYzTcQ"
@@ -22,7 +22,7 @@ const Advertisement = () => {
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
-            ></iframe> */}
+            ></iframe>
         </div>
     );
 };
