@@ -24,6 +24,7 @@ const Advertisement = () => {
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowfullscreen
             ></iframe>
+            <span>Mulder plays Christmas organ improvisation during (pre-COVID) European Tour.</span>
             </div>
         </div>
     );
