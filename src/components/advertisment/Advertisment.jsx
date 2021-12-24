@@ -2,7 +2,7 @@ import classes from "./Advertisment.module.css";
 
 const Advertisement = () => {
     return (
-        <div class="item" style={{ height: "100%" }}>
+        <div className={classes.item} style={{ height: "100%" }}>
             {/* <iframe 
             src="https://player.vimeo.com/video/659963617?h=d0cd07c6bd" 
             height="150" 
