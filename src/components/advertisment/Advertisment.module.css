@@ -1,3 +1,2 @@
 .item div {padding:5px; color:#fff; vertical-align:middle; display:table;}
-.item div span {display:table-cell; vertical-align:middle;}
-.item div iframe{float:left}
+.item div span {display:table-row; vertical-align:middle
