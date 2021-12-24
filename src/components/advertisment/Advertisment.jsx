@@ -1,6 +1,6 @@
 const Advertisement = () => {
     return (
-        <div style={{ height: "100%" }} class="item">
+        <div style={{ height: "100%" }}>
             <iframe 
             src="https://player.vimeo.com/video/659963617?h=d0cd07c6bd" 
             height="150" 
