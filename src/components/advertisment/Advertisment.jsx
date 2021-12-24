@@ -11,8 +11,6 @@ const Advertisement = () => {
             allowfullscreen=""
             >
             </iframe>
-            <span>Mulder plays Christmas organ improvisation during (pre-COVID) European Tour.
-            </span>
             </div>
             {/* <h2 style={{ color: "white", textAlign: "center" }}></h2> */}
             {/* <video>
