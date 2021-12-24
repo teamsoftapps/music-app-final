@@ -1,6 +1,6 @@
 const Advertisement = () => {
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: "100%" }} class="item">
             {/* <h2 style={{ color: "white", textAlign: "center" }}></h2> */}
             {/* <video>
                 <source src="" type="video/mp4" />
