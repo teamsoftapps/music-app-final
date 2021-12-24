@@ -26,7 +26,7 @@ const Advertisement = () => {
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowfullscreen
             ></iframe>
-            <span>Mulder plays his Organ Improvisation on Dutch and British Christmas Carols, during a sold-out concert at the St. Laurenskerk Cathedral in Rotterdam (the Netherlands).</span>
+            <span>Mulder plays an Organ Improvisation on Dutch and British Christmas Carols, during a sold-out concert at the St. Laurenskerk Cathedral in Rotterdam (the Netherlands).</span>
             </div>
         </div>
     );
