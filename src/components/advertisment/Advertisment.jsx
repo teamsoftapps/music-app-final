@@ -18,7 +18,7 @@ const Advertisement = () => {
             </video> */}
             <div>
             <iframe
-                width="300"
+                width="100%"
                 height="150"
                 src="https://player.vimeo.com/video/659963617?h=d0cd07c6bd"
                 title="Mulder Christmas Improvisation"
