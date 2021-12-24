@@ -1,7 +1,7 @@
 const Advertisement = () => {
     return (
-        <div style={{ height: "100%" }}>
-            <iframe 
+        <div class="item" style={{ height: "100%" }}>
+            {/* <iframe 
             src="https://player.vimeo.com/video/659963617?h=d0cd07c6bd" 
             height="150" 
             frameborder="0" 
@@ -9,7 +9,7 @@ const Advertisement = () => {
             style="float: left;"
             allowfullscreen=""
             >
-            </iframe>
+            </iframe> */}
             {/* <h2 style={{ color: "white", textAlign: "center" }}></h2> */}
             {/* <video>
                 <source src="" type="video/mp4" />
