@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { MusicNote, Lock } from "@material-ui/icons";
+import { MusicNote, Lock, Heart } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { setIsPlaying, setSong, setSongs } from "../../store/musicReducer";
 import { isMobile } from "react-device-detect";
 import Alert from "@mui/material/Alert";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const postSelector = (state) => state.music;
 
@@ -18,6 +20,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
 
     const [myCommutativeLength, setMyCommutativeLength] = useState(0);
     const [locked, setLocked] = useState(false);
+    const [liked, setLiked] = useState(false);
 
     useEffect(() => {
         dispatch(setSongs(songs));
@@ -65,6 +68,12 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
         setCurrentTime(myCommutativeLength);
     }
 
+    const handleLike = () => {
+        if (locked === true) {
+            setLiked(false);
+        } else setLiked(!liked);
+    };
+
     return (
         <div
             ref={albumSong?._id === song?._id ? trackRef : null}
@@ -77,6 +86,9 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
             <div className={classes.musicTrackLeft}>
                 <IconButton className={classes.songTune}>
                     <MusicNote />
+                </IconButton>
+                <IconButton className={classes.songTune} onClick={() => handleLike()}>
+                    {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
                 {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
                     <marquee behavior="scroll" direction="left" scrollamount="8">
