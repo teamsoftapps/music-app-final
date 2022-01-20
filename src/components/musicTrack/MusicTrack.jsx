@@ -5,8 +5,7 @@ import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { setIsPlaying, setSong, setSongs } from "../../store/musicReducer";
 import { isMobile } from "react-device-detect";
-import Alert from '@mui/material/Alert';
-
+import Alert from "@mui/material/Alert";
 
 const postSelector = (state) => state.music;
 
@@ -18,13 +17,13 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
     const dispatch = useDispatch();
 
     const [myCommutativeLength, setMyCommutativeLength] = useState(0);
-    const [locked, setLocked] = useState(false)
+    const [locked, setLocked] = useState(false);
 
     useEffect(() => {
         dispatch(setSongs(songs));
         setMyCommutativeLengthFunction();
-        if (trial && (order !== 1 && order % 5 !== 0)) {
-            setLocked(true)
+        if (trial && order !== 1 && order % 5 !== 0) {
+            setLocked(true);
         }
     });
 
@@ -35,8 +34,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
     }, []);
 
     function songHandler() {
-
-        if (locked) return
+        if (locked) return;
         dispatch(setSong(albumSong));
 
         // dispatch(setIsPlaying(false));
@@ -62,7 +60,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
     }
 
     function songJump() {
-        if (locked) return
+        if (locked) return;
         document.getElementById("audioPlayer").currentTime = myCommutativeLength;
         setCurrentTime(myCommutativeLength);
     }
@@ -70,9 +68,11 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
     return (
         <div
             ref={albumSong?._id === song?._id ? trackRef : null}
-            onClick={isMobile ? songJump : songHandler}
+            // onClick={isMobile ? songJump : songHandler}
+            // onClick={isMobile ? songJump : songJump}
+            onClick={songJump}
             className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null}`}
-            style={{ cursor: locked && 'not-allowed' }}
+            style={{ cursor: locked && "not-allowed" }}
         >
             <div className={classes.musicTrackLeft}>
                 <IconButton className={classes.songTune}>
@@ -89,14 +89,14 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
             <div></div>
             {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
             <div className={classes.musicTrackRight}>
-                {locked &&
+                {locked && (
                     <span className={classes.locked}>
                         <Lock />
                     </span>
-                }
+                )}
                 <h3>{albumSong?.Song_Length}</h3>
             </div>
-        </div >
+        </div>
     );
 }
 

@@ -19,7 +19,6 @@ function AlbumPage({ songs, album }) {
     const [currentTime, setCurrentTime] = useState(0);
     const [trial, setTrial] = useState(false);
 
-
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
 
@@ -30,7 +29,8 @@ function AlbumPage({ songs, album }) {
         if (isMobile) {
             dispatch(setSong(songs[songs.length - 1]));
         } else {
-            dispatch(setSong(songs[0]));
+            // dispatch(setSong(songs[0]));
+            dispatch(setSong(songs[songs.length - 1]));
         }
     }, []);
 
@@ -48,12 +48,11 @@ function AlbumPage({ songs, album }) {
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             <h1>{song?.Album_Name}</h1>
             <div className={classes.albumsMain}>
-
-
                 <Card
                     title={song?.Album_Name}
-                    url={`${process.env.media_url}/${language.title === "eng" ? song?.Album_Image : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
-                        }`}
+                    url={`${process.env.media_url}/${
+                        language.title === "eng" ? song?.Album_Image : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
+                    }`}
                     disableFetch
                 />
                 <div className={classes.albumsMainPlaylist}>
@@ -66,7 +65,7 @@ function AlbumPage({ songs, album }) {
                                 albumSong={albumSong}
                                 order={i}
                                 songs={songs}
-                                trial={user?.hasOwnProperty('expiresIn')}
+                                trial={user?.hasOwnProperty("expiresIn")}
                             />
                         ) : null,
                     )}

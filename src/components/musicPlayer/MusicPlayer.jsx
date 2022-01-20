@@ -39,16 +39,15 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     const volumePreState = useRef();
     const initialRef = useRef(0);
 
-
-    // auto play song 
+    // auto play song
     useEffect(() => {
         // audioPlayer.current.play();
         setTimeout(() => {
-            togglePlayPause()
+            togglePlayPause();
             // dispatch(setIsPlaying(true))
-
         }, 100);
-    }, [])
+        console.log("screen");
+    }, []);
 
     useEffect(() => {
         if (initialRef.current > 1) {
@@ -74,10 +73,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
             dispatch(setNextSong(song));
             defaultHandler(true);
         }
-
     }, [audioPlayer.current?.duration, currentTime]);
-
-
 
     function defaultHandler(play) {
         setCurrentTime(0);
@@ -209,12 +205,15 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
                 </div>
                 <div className={classes.albumsMusicPlayerMain}>
                     <div className={classes.musicController}>
-
                         <IconButton
-                            onClick={isMobile ? "" : () => dispatch(setPreviousSong(song))}
+                            // onClick={isMobile ? "" : () => dispatch(setPreviousSong(song))}
+                            // onClick={isMobile ? "" : ""}
+                            // onClick={isMobile ? "" : ""}
                             aria-label="previous song"
-                            className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : null}`}
-                            disabled={isMobile ? true : false}
+                            // className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : null}`}
+                            className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : classes.disableIcon}`}
+                            // disabled={isMobile ? true : false}
+                            disabled={isMobile ? true : true}
                         >
                             <SkipPreviousSharp fontSize="large" />
                         </IconButton>
@@ -230,10 +229,13 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
                             )}
                         </IconButton>
                         <IconButton
-                            onClick={isMobile ? "" : () => dispatch(setNextSong(song))}
+                            // onClick={isMobile ? "" : () => dispatch(setNextSong(song))}
+                            // onClick={isMobile ? "" : ""}
                             aria-label="next song"
-                            disabled={isMobile ? true : false}
-                            className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : null}`}
+                            // disabled={isMobile ? true : false}
+                            disabled={isMobile ? true : true}
+                            // className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : null}`}
+                            className={`${classes.musicControllerBtn} ${isMobile ? classes.disableIcon : classes.disableIcon}`}
                         >
                             <SkipNextSharp fontSize="large" />
                         </IconButton>
