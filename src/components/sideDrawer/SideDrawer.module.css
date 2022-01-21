@@ -2,7 +2,10 @@
     background-color: #ccaa6b !important;
     width: 25vw;
 } */
-
+.wrapperWrap {
+    background-color: #ccaa6b !important;
+    width: 25vw !important;
+}
 .playlistWrap {
     display: flex;
 }
