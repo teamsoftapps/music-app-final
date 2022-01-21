@@ -35,6 +35,7 @@ export default function TemporaryDrawer() {
             role="presentation"
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
+            // className={classes.drawerWrap}
         >
             <h1 className={classes.playlistDrawerHeading}>Your Playlist</h1>
             <List className={classes.playlistInnerWrap}>
@@ -64,7 +65,7 @@ export default function TemporaryDrawer() {
     );
 
     return (
-        <div>
+        <div className={classes.drawerWrap}>
             {["right"].map((anchor) => (
                 <React.Fragment key={anchor}>
                     <Button onClick={toggleDrawer(anchor, true)}>
