@@ -200,54 +200,6 @@
     top: 35px;
 }
 
-.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-    background-color: #ccaa6b !important;
-    width: 25vw !important;
-}
-
-@media (max-width: 1400px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 30vw;
-    }
-}
-@media (max-width: 1300px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 35vw;
-    }
-}
-
-@media (max-width: 1200px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 45vw;
-    }
-}
-
-@media (max-width: 800px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 50vw;
-    }
-}
-@media (max-width: 700px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 55vw;
-    }
-}
-@media (max-width: 600px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 65vw;
-    }
-}
-@media (max-width: 500px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 80vw;
-    }
-}
-@media (max-width: 400px) {
-    .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-        width: 90vw;
-    }
-}
-
 @media (max-width: 991px) {
     .headerActive {
         position: sticky;
