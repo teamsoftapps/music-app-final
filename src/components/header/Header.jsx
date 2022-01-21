@@ -6,6 +6,7 @@ import { Drawer, List, ListItem } from "@material-ui/core";
 import { useSelector, shallowEqual } from "react-redux";
 import axios from "axios";
 import moment from "moment";
+import SideDrawer from "../sideDrawer/SideDrawer";
 
 const postSelector = (state) => state.music;
 
@@ -13,7 +14,7 @@ function Header() {
     const { user, language } = useSelector(postSelector, shallowEqual);
     const [open, setOpen] = useState(false);
     const [sideBar, setShowSidebar] = useState(false);
-
+    const [checkCredentials, setCheckCredentials] = useState(null);
 
     useEffect(() => {
         if (window.innerWidth < 992) {
@@ -29,20 +30,19 @@ function Header() {
             }
         });
         return () => {
-            window.removeEventListener("resize", () => { });
+            window.removeEventListener("resize", () => {});
         };
     }, []);
     useEffect(() => {
         if (user?.expiresIn || user?.expiresIn === 0) {
-
             window.onbeforeunload = function () {
                 localStorage.removeItem("music-app-credentials");
                 // return "Do you really want to close?"; //prompts user
             };
-
         }
-    }, [user])
-
+        var credentialsExist = localStorage.getItem("music-app-credentials");
+        setCheckCredentials(credentialsExist);
+    }, [user]);
 
     // minor
 
@@ -84,6 +84,15 @@ function Header() {
                         {/* <IconButton onClick={handleToggle}>
                             <Menu />
                         </IconButton> */}
+
+                        {user?.expiresIn == undefined ? (
+                            <div className={classes.playlistMobile} onClick={() => console.log("clicked")}>
+                                <SideDrawer />
+                            </div>
+                        ) : (
+                            ""
+                        )}
+
                         <Link href="/">
                             <a>
                                 <Image
@@ -93,13 +102,15 @@ function Header() {
                                     height={50}
                                     layout="fixed"
                                 />
-
                             </a>
                         </Link>
-                        {user?.expiresIn >= 0 ? <div className={classes.timer}>
-                            <p>Your Trial Period Expires {user?.expiresIn === 0 ? 'Today' : `In ${user?.expiresIn} Days`} </p>
-                        </div> : ''}
-
+                        {user?.expiresIn >= 0 ? (
+                            <div className={classes.timer}>
+                                <p>Your Trial Period Expires {user?.expiresIn === 0 ? "Today" : `In ${user?.expiresIn} Days`} </p>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 )}
                 {/* <div className={classes.search}>
@@ -135,6 +146,13 @@ function Header() {
             {!sideBar && (
                 <div className={classes.headerMain}>
                     <div className={classes.headerMainImage}>
+                        {user?.expiresIn === undefined ? (
+                            <div className={classes.playlistDesktop} onClick={() => console.log("clicked")}>
+                                {checkCredentials !== null && <SideDrawer />}
+                            </div>
+                        ) : (
+                            ""
+                        )}
                         <Link href="/">
                             <a>
                                 <Image
@@ -146,12 +164,14 @@ function Header() {
                                 />
                             </a>
                         </Link>
-                        {user?.expiresIn >= 0 ? <div className={classes.timer}>
-                            <p>Your Trial Period Expires </p>
-                            <p>{user?.expiresIn === 0 ? 'Today' : `In ${user?.expiresIn}  Days`} </p>
-                        </div> : ''}
-
-
+                        {user?.expiresIn >= 0 ? (
+                            <div className={classes.timer}>
+                                <p>Your Trial Period Expires </p>
+                                <p>{user?.expiresIn === 0 ? "Today" : `In ${user?.expiresIn}  Days`} </p>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                     </div>
                     <nav className={classes.headerNavigation}>
                         <ul>

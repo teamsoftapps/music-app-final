@@ -12,11 +12,9 @@ import Advertisement from "../../components/advertisment/Advertisment";
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
-
     const [openAdd, setOpenAdd] = useState(false);
     const { language, user } = useSelector(postSelector, shallowEqual);
     // console.log(user)
-
 
     const handleAdd = () => {
         if (openAdd === false) {
@@ -30,7 +28,7 @@ const HomePage = ({ albums }) => {
     return (
         <div className={classes.homePage}>
             <br />
-            <h4 style={{ color: "white", textAlign: "center" }}>STREAMING </h4>
+            <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             {/* Code for Advertisement (start) */}
             <div className={classes.addcontainer}>
                 <h3 className={classes.addheading} onClick={() => handleAdd()}>
@@ -52,10 +50,19 @@ const HomePage = ({ albums }) => {
             {/* Code for Advertisement (end) */}
             <FlipMove className={classes.cards}>
                 {albums?.map((album, index) => {
-                    const url = `${process.env.media_url}/${language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
-                        }`;
+                    const url = `${process.env.media_url}/${
+                        language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
+                    }`;
 
-                    return <Card key={album?._id + language.title} album={album} url={url} index={index} trial={user?.hasOwnProperty('expiresIn')} />;
+                    return (
+                        <Card
+                            key={album?._id + language.title}
+                            album={album}
+                            url={url}
+                            index={index}
+                            trial={user?.hasOwnProperty("expiresIn")}
+                        />
+                    );
                 })}
             </FlipMove>
             {/* https://githubmemory.com/repo/joshwcomeau/react-flip-move/issues/256 */}
