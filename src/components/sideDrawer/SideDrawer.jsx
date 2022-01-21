@@ -47,7 +47,6 @@ export default function TemporaryDrawer() {
                                 <ListItemIcon className={classes.playlistTextInner}>{<MusicNote />}</ListItemIcon>
                                 <ListItemText primary={text} className={classes.playlistTextInner} />
                             </div>
-                            <div>{/* <ListItemText primary={text} className={classes.playlistTextInner} /> */}</div>
                         </div>
                     </ListItem>
                 ))}
