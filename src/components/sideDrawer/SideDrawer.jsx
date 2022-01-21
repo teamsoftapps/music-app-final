@@ -65,7 +65,7 @@ export default function TemporaryDrawer() {
     );
 
     return (
-        <div className={classes.drawerWrap}>
+        <div>
             {["right"].map((anchor) => (
                 <React.Fragment key={anchor}>
                     <Button onClick={toggleDrawer(anchor, true)}>
