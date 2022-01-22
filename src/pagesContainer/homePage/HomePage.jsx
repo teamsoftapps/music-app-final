@@ -8,13 +8,22 @@ import downarrow from "../../../public/images/downarrownew.png";
 import uparrow from "../../../public/images/uparrownew.png";
 import Image from "next/image";
 import Advertisement from "../../components/advertisment/Advertisment";
+import { useRouter } from "next/router";
+
 
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
     const [openAdd, setOpenAdd] = useState(false);
     const { language, user } = useSelector(postSelector, shallowEqual);
+    const route = useRouter()
     // console.log(user)
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+
+        if (!user?.token.length) return route.replace("/login");
+
+    }, []);
 
     const handleAdd = () => {
         if (openAdd === false) {
@@ -50,9 +59,8 @@ const HomePage = ({ albums }) => {
             {/* Code for Advertisement (end) */}
             <FlipMove className={classes.cards}>
                 {albums?.map((album, index) => {
-                    const url = `${process.env.media_url}/${
-                        language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
-                    }`;
+                    const url = `${process.env.media_url}/${language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
+                        }`;
 
                     return (
                         <Card

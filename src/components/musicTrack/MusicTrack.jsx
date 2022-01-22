@@ -11,10 +11,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const postSelector = (state) => state.music;
 
-function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial }) {
+function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setSongIndex }) {
     const { song, user } = useSelector(postSelector, shallowEqual);
 
-    // console.log(order)
+
 
     const dispatch = useDispatch();
 
@@ -66,6 +66,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
         if (locked) return;
         document.getElementById("audioPlayer").currentTime = myCommutativeLength;
         setCurrentTime(myCommutativeLength);
+        setSongName(albumSong?.Song_Name)
     }
 
     const handleLike = () => {

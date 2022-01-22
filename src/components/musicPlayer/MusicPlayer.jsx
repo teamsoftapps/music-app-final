@@ -19,11 +19,12 @@ const postSelector = (state) => state.music;
 
 // let initialRef = 0;
 
-function MusicPlayer({ currentTime, setCurrentTime, songs }) {
+function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail }) {
     const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
     // console.log(isPlaying, song)
     const dispatch = useDispatch();
-    // console.log(currentTime)
+
+
 
     // const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
@@ -72,6 +73,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
         if (Math.floor(audioPlayer.current?.duration) === Math.floor(currentTime)) {
             dispatch(setNextSong(song));
             defaultHandler(true);
+
         }
     }, [audioPlayer.current?.duration, currentTime]);
 
@@ -141,6 +143,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
     }
 
     function songDuration(duration) {
+
         return duration && typeof duration === "number" && duration;
     }
 
@@ -196,11 +199,13 @@ function MusicPlayer({ currentTime, setCurrentTime, songs }) {
             <div className={classes.albumsMusicPlayer}>
                 <div className={classes.albumsMusicPlayerProfile}>
                     <div className={classes.musicTrackImage}>
+
                         <Image src={`${process.env.media_url}/${song?.Album_Image}`} alt="" width="75" height="75" layout="responsive" />
                     </div>
                     <div className={classes.albumsMusicPlayerTitle}>
                         <h4>{song?.Album_Name}</h4>
-                        <h3>{song?.Song_Name}</h3>
+                        {/* <h3>{song?.Song_Name}</h3> */}
+                        <h3>{songName}</h3>
                     </div>
                 </div>
                 <div className={classes.albumsMusicPlayerMain}>

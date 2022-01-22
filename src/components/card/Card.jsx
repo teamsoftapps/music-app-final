@@ -58,14 +58,14 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
                     Not Available In Trial Period
                 </Alert>
             )}
-            {/* {trial && index !== 0 && (
+            {trial && index !== 0 && (
                 <span className={classes.locked}>
                     <span>
                         <Lock />
                     </span>
                 </span>
-            )} */}
-            {trial && index !== 0 ? (
+            )}
+            {/* {trial && index !== 0 ? (
                 <span className={classes.locked}>
                     <span>
                         <Lock />
@@ -77,7 +77,7 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
                         <FavoriteBorderIcon />
                     </span>
                 </span>
-            )}
+            )} */}
 
             <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
                 <Image src={url} alt="" width={280} height={280} />

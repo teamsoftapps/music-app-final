@@ -15,13 +15,16 @@ function AlbumPage({ songs, album }) {
     const { song, language, user } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
     const dispatch = useDispatch();
+    // console.log(songs)
 
     const [currentTime, setCurrentTime] = useState(0);
+    const [songName, setSongName] = useState('')
+    const [songIndex, setSongIndex] = useState(0)
     const [trial, setTrial] = useState(false);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
-
+        setSongName(songs[0]?.Song_Name)
         if (!user?.token.length) return route.replace("/login");
         if (!songs?.length) return route.replace("/");
         dispatch(setSongs(songs));
@@ -50,9 +53,8 @@ function AlbumPage({ songs, album }) {
             <div className={classes.albumsMain}>
                 <Card
                     title={song?.Album_Name}
-                    url={`${process.env.media_url}/${
-                        language.title === "eng" ? song?.Album_Image : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
-                    }`}
+                    url={`${process.env.media_url}/${language.title === "eng" ? song?.Album_Image : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
+                        }`}
                     disableFetch
                 />
                 <div className={classes.albumsMainPlaylist}>
@@ -65,13 +67,15 @@ function AlbumPage({ songs, album }) {
                                 albumSong={albumSong}
                                 order={i}
                                 songs={songs}
+                                setSongName={setSongName}
+                                setSongIndex={setSongIndex}
                                 trial={user?.hasOwnProperty("expiresIn")}
                             />
                         ) : null,
                     )}
                 </div>
             </div>
-            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} />
+            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} songName={songName} songIndex={songIndex} />
         </div>
     );
 }
