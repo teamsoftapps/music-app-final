@@ -17,6 +17,34 @@ import { makeStyles, createStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     paper: {
         backgroundColor: "#ccaa6b",
+        "@media (max-width:1800px)": {
+            width: "25vw",
+        },
+        "@media (max-width:1500px)": {
+            width: "35vw",
+        },
+
+        "@media (max-width:1300px)": {
+            width: "40vw",
+        },
+        "@media (max-width:1200px)": {
+            width: "45vw",
+        },
+        "@media (max-width:900px)": {
+            width: "50vw",
+        },
+        "@media (max-width:700px)": {
+            width: "55vw",
+        },
+        "@media (max-width:600px)": {
+            width: "65vw",
+        },
+        "@media (max-width:500px)": {
+            width: "80vw",
+        },
+        "@media (max-width:400px)": {
+            width: "90vw",
+        },
     },
     playlistDrawerHeading: {
         textAlign: "center",
