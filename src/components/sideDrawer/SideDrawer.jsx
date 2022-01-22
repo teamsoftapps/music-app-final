@@ -9,11 +9,48 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import classes from "./SideDrawer.module.css";
+// import classes from "./SideDrawer.module.css";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import { MusicNote, Lock, Heart } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+    playlistDrawerHeading: {
+        textAlign: "center",
+        color: "#382b11",
+        margin: "20px 0px",
+    },
+    playlistInnerWrap: {
+        padding: "0px 2vw",
+    },
+    innerWrapInner: {
+        display: "flex",
+
+        backgroundColor: "#382b11",
+        borderRadius: "4px",
+        width: "100%",
+        flexDirection: "row",
+        margin: "5px 0px",
+    },
+    innerWrapname: {
+        display: "flex",
+    },
+    playlistTextInner: {
+        color: "#fff !important",
+        margin: "10px 0px",
+    },
+    playlistWrap: {
+        display: "flex",
+    },
+    playlistText: {
+        color: "#fff !important",
+        margin: "0px 6px",
+        fontWeight: "bold",
+    },
+});
 
 export default function TemporaryDrawer() {
+    const classes = useStyles();
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -64,13 +101,13 @@ export default function TemporaryDrawer() {
     );
 
     return (
-        <div>
+        <div className={classes.mainWrap}>
             {["right"].map((anchor) => (
                 <React.Fragment key={anchor}>
                     <Button onClick={toggleDrawer(anchor, true)}>
                         <div className={classes.playlistWrap}>
                             <div className={classes.playlistText}>Playlist</div>
-                            <div>
+                            <div className={classes.playlistText}>
                                 <QueueMusicIcon />
                             </div>
                         </div>

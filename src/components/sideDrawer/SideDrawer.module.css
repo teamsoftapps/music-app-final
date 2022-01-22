@@ -1,8 +1,3 @@
-/* .drawerWrap {
-    background-color: #ccaa6b !important;
-    width: 25vw;
-} */
-
 .playlistWrap {
     display: flex;
 }
@@ -19,14 +14,12 @@
 }
 
 .playlistInnerWrap {
-    /* background-color: green; */
-    /* padding-left: 2vw; */
     padding: 0px 2vw;
 }
 
 .innerWrapInner {
     display: flex;
-    /* border: 1px solid #382b11; */
+
     background-color: #382b11;
     border-radius: 4px;
     width: 100%;
