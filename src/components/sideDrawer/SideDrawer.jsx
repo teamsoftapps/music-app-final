@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
         "@media (max-width:1200px)": {
             width: "45vw",
         },
+
         "@media (max-width:900px)": {
             width: "50vw",
         },
@@ -77,6 +78,14 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff !important",
         margin: "0px 6px",
         fontWeight: "bold",
+        "@media (max-width:991px)": {
+            display: "none",
+        },
+    },
+    playlistIcon: {
+        margin: "0px 6px",
+        fontWeight: "bold",
+        color: "#fff !important",
     },
 }));
 
@@ -138,7 +147,7 @@ export default function TemporaryDrawer() {
                     <Button onClick={toggleDrawer(anchor, true)}>
                         <div className={classes.playlistWrap}>
                             <div className={classes.playlistText}>Playlist</div>
-                            <div className={classes.playlistText}>
+                            <div className={classes.playlistIcon}>
                                 <QueueMusicIcon />
                             </div>
                         </div>
