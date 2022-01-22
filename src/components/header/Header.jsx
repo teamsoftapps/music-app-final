@@ -7,6 +7,7 @@ import { useSelector, shallowEqual } from "react-redux";
 import axios from "axios";
 import moment from "moment";
 import SideDrawer from "../sideDrawer/SideDrawer";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const postSelector = (state) => state.music;
 

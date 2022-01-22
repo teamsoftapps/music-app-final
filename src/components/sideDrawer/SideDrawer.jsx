@@ -12,9 +12,12 @@ import MailIcon from "@mui/icons-material/Mail";
 // import classes from "./SideDrawer.module.css";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import { MusicNote, Lock, Heart } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        backgroundColor: "#ccaa6b",
+    },
     playlistDrawerHeading: {
         textAlign: "center",
         color: "#382b11",
@@ -47,7 +50,7 @@ const useStyles = makeStyles({
         margin: "0px 6px",
         fontWeight: "bold",
     },
-});
+}));
 
 export default function TemporaryDrawer() {
     const classes = useStyles();
@@ -112,7 +115,7 @@ export default function TemporaryDrawer() {
                             </div>
                         </div>
                     </Button>
-                    <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+                    <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)} classes={{ paper: classes.paper }}>
                         {list(anchor)}
                     </Drawer>
                 </React.Fragment>
