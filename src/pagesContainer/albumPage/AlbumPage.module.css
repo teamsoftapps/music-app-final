@@ -21,8 +21,8 @@
 .albumsMainPlaylist {
     flex: 1;
     padding-left: 2rem;
-    overflow-y: scroll;
-    height: clamp(550px, 550px, 600px);
+    /* overflow-y: scroll;
+    height: clamp(550px, 550px, 600px); */
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
