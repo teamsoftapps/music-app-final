@@ -69,6 +69,11 @@ a {
     width: 25vw !important;
 }
 
+.MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-1ab2xsx {
+    background-color: #ccaa6b !important;
+    width: 25vw !important;
+}
+
 @media (max-width: 1400px) {
     .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
         width: 30vw;
