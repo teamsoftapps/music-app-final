@@ -9,6 +9,7 @@
     --secondary-color: #dddd;
     /* --button-color: #5e77fb; */
     --button-color: #876727f7;
+    --dark-color: #ccaa6b;
 }
 
 @font-face {
@@ -64,10 +65,14 @@ a {
     margin: 0;
 }
 
-/* .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+.paper {
+    background-color: "#ccaa6b" !important;
+}
+
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
     background-color: #ccaa6b !important;
-    width: 25vw !important;
-} */
+    /* width: 25vw !important; */
+}
 
 /* @media (max-width: 1400px) {
     .css-1160xiw-MuiPaper-root-MuiDrawer-paper {

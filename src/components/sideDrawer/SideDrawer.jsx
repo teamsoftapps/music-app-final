@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
     },
     innerWrapname: {
         display: "flex",
+        alignItems: "center",
     },
     playlistTextInner: {
         color: "#fff !important",
