@@ -18,6 +18,7 @@ import { makeStyles, createStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     paper: {
         backgroundColor: "#ccaa6b",
+
         "@media (max-width:1800px)": {
             width: "25vw",
         },
