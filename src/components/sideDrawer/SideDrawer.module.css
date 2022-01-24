@@ -36,6 +36,9 @@
     margin: 20px 0px;
 }
 
+.makeStyles-paper-6 {
+    background-color: #ccaa6b !important;
+}
 @media (max-width: 991px) {
     .playlistText {
         display: none;

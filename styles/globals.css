@@ -70,6 +70,9 @@ a {
     width: 25vw !important;
 } */
 
+.makeStyles-paper-6 {
+    background-color: #ccaa6b !important;
+}
 /* @media (max-width: 1400px) {
     .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
         width: 30vw !important;
