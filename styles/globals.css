@@ -73,6 +73,53 @@ a {
 .css-1ab2xsx {
     background-color: #ccaa6b !important;
 }
+
+@media (max-width: 1800px) {
+    .css-1ab2xsx {
+        width: 25vw;
+    }
+}
+@media (max-width: 1500px) {
+    .css-1ab2xsx {
+        width: 35vw;
+    }
+}
+@media (max-width: 1300px) {
+    .css-1ab2xsx {
+        width: 40vw;
+    }
+}
+@media (max-width: 1200px) {
+    .css-1ab2xsx {
+        width: 45vw;
+    }
+}
+
+@media (max-width: 900px) {
+    .css-1ab2xsx {
+        width: 50vw;
+    }
+}
+@media (max-width: 700px) {
+    .css-1ab2xsx {
+        width: 55vw;
+    }
+}
+@media (max-width: 600px) {
+    .css-1ab2xsx {
+        width: 65vw;
+    }
+}
+@media (max-width: 500px) {
+    .css-1ab2xsx {
+        width: 80vw;
+    }
+}
+@media (max-width: 400px) {
+    .css-1ab2xsx {
+        width: 90vw;
+    }
+}
 /* @media (max-width: 1400px) {
     .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
         width: 30vw !important;
