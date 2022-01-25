@@ -5,9 +5,10 @@ import MusicTracker from "../../components/musicTrack/MusicTrack";
 import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
 import { useRouter } from "next/router";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { setSong, setSongs, setAlbum } from "../../store/musicReducer";
+import { setSong, setSongs, setAlbum, setFavourites } from "../../store/musicReducer";
 import Head from "next/head";
 import { isMobile } from "react-device-detect";
+import axios from "axios";
 
 const postSelector = (state) => state.music;
 
@@ -15,11 +16,11 @@ function AlbumPage({ songs, album }) {
     const { song, language, user } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
     const dispatch = useDispatch();
-    // console.log(songs)
 
     const [currentTime, setCurrentTime] = useState(0);
     const [songName, setSongName] = useState('')
     const [songIndex, setSongIndex] = useState(0)
+
     const [trial, setTrial] = useState(false);
 
     useEffect(() => {
@@ -36,6 +37,28 @@ function AlbumPage({ songs, album }) {
             dispatch(setSong(songs[songs.length - 1]));
         }
     }, []);
+    // get favourites
+    useEffect(() => {
+        const { token } = JSON.parse(localStorage.getItem('music-app-credentials'))
+
+        const fetchFavourites = async () => {
+            try {
+                const url = process.env.base_url;
+                const { data } = await axios.get(`${url}/getFavourites`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                // tempArr.push(data?.favourites)
+                dispatch(setFavourites(data?.favourites))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchFavourites()
+
+    }, [])
+
 
     if (!songs || !songs.length) return <h1>Loading...</h1>;
 
@@ -70,6 +93,7 @@ function AlbumPage({ songs, album }) {
                                 setSongName={setSongName}
                                 setSongIndex={setSongIndex}
                                 trial={user?.hasOwnProperty("expiresIn")}
+
                             />
                         ) : null,
                     )}

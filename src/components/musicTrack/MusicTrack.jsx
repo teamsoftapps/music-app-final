@@ -3,24 +3,33 @@ import { MusicNote, Lock, Heart } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import classes from "./MusicTrack.module.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { setIsPlaying, setSong, setSongs } from "../../store/musicReducer";
+import { setFavourites, setIsPlaying, setSong, setSongs } from "../../store/musicReducer";
 import { isMobile } from "react-device-detect";
-import Alert from "@mui/material/Alert";
+// import Alert from "@mui/material/Alert";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
+import axios from "axios";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const postSelector = (state) => state.music;
 
 function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setSongIndex }) {
-    const { song, user } = useSelector(postSelector, shallowEqual);
+    const { song, user, favourites } = useSelector(postSelector, shallowEqual);
 
 
-
+    // console.log(user)
     const dispatch = useDispatch();
 
     const [myCommutativeLength, setMyCommutativeLength] = useState(0);
     const [locked, setLocked] = useState(false);
     const [liked, setLiked] = useState(false);
+    const [open, setOpen] = useState(false);
+
+
+
 
     useEffect(() => {
         dispatch(setSongs(songs));
@@ -29,7 +38,16 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
             setLocked(true);
         }
     });
+    const handleClick = () => {
+        setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
+        setOpen(false);
+    };
     const trackRef = useCallback((node) => {
         if (node) {
             node.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -69,10 +87,25 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
         setSongName(albumSong?.Song_Name)
     }
 
-    const handleLike = () => {
+    const handleLike = async (id) => {
+        setOpen(true)
+        const { token } = JSON.parse(localStorage.getItem('music-app-credentials'))
         if (locked === true) {
             setLiked(false);
         } else setLiked(!liked);
+        try {
+            const url = process.env.base_url;
+            const { data } = await axios.get(`${url}/favourites/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+
+            dispatch(setFavourites(data?.favourites))
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     return (
@@ -88,9 +121,12 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
                 <IconButton className={classes.songTune}>
                     <MusicNote />
                 </IconButton>
-                <IconButton className={classes.songTune} onClick={() => handleLike()}>
-                    {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </IconButton>
+                {!locked &&
+
+                    <IconButton className={classes.songTune} onClick={() => handleLike(albumSong?._id)}>
+                        {favourites?.includes(songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    </IconButton>
+                }
                 {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
                     <marquee behavior="scroll" direction="left" scrollamount="8">
                     {albumSong?.Song_Lyrics}
@@ -109,6 +145,11 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
                 )}
                 <h3>{albumSong?.Song_Length}</h3>
             </div>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={1000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Favourites Updated!
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

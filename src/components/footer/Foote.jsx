@@ -17,7 +17,7 @@ function Footer() {
         dispatch(setSong({}));
         dispatch(setSongs([]));
         dispatch(setUser(null));
-        router.push(`/?lan=${language.title}`);
+        router.push(`/login`);
     }
     function handleLanguage(lan) {
         const { route } = router;
