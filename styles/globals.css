@@ -65,15 +65,14 @@ a {
     margin: 0;
 }
 
-/* .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
-    background-color: #ccaa6b !important;
-    width: 25vw !important;
-} */
-
 .css-1ab2xsx {
     background-color: #ccaa6b !important;
 }
 
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+    background-color: #ccaa6b !important;
+    width: 25vw !important;
+}
 @media (max-width: 1800px) {
     .css-1ab2xsx {
         width: 25vw;
@@ -120,7 +119,7 @@ a {
         width: 90vw;
     }
 }
-/* @media (max-width: 1400px) {
+@media (max-width: 1400px) {
     .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
         width: 30vw !important;
     }
@@ -161,4 +160,4 @@ a {
     .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
         width: 90vw !important;
     }
-} */
+}
