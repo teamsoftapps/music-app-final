@@ -16,11 +16,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 const postSelector = (state) => state.music;
 
-function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setSongIndex }) {
+function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setLyrics }) {
     const { song, user, favourites } = useSelector(postSelector, shallowEqual);
 
 
     // console.log(user)
+
     const dispatch = useDispatch();
 
     const [myCommutativeLength, setMyCommutativeLength] = useState(0);
@@ -85,6 +86,8 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
         document.getElementById("audioPlayer").currentTime = myCommutativeLength;
         setCurrentTime(myCommutativeLength);
         setSongName(albumSong?.Song_Name)
+        setLyrics(albumSong?.Song_Lyrics)
+        console.log(albumSong)
     }
 
     const handleLike = async (id) => {

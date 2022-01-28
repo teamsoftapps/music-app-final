@@ -19,7 +19,7 @@ const postSelector = (state) => state.music;
 
 // let initialRef = 0;
 
-function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, }) {
+function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, lyrics }) {
     const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
     // console.log(isPlaying, song)
     const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
     // auto change song name while playing..
     useEffect(() => {
         let calcSecs = !isChanged ? calculateSeconds(songs[currentSongIndex]?.Song_Length) : songTime
-
+        // console.log(songs)
         let tempIndex = currentSongIndex
         let roundCurrentTime = Math.floor(currentTime)
 
@@ -67,7 +67,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
             setCurrentSongIndex(tempIndex)
 
             calcSecs += calculateSeconds(songs[tempIndex]?.Song_Length)
-
+            console.log(songs[tempIndex])
             setSongName(songs[tempIndex].Song_Name)
 
             setSongTime(calcSecs)
@@ -378,7 +378,9 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                         </div>
                     </div>
                     <div className={classes.tabsContentWrapper}>
-                        {isLyrics === 0 ? <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span> : ""}
+                        {/* {isLyrics === 0 ? <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span> : ""}
+                        {isLyrics === 1 ? <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span> : ""} */}
+                        {isLyrics === 0 ? <span className={classes.lyricsText}>{lyrics ? lyrics : 'No Lyrics Available'}</span> : ""}
                         {isLyrics === 1 ? <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span> : ""}
                     </div>
                 </div>

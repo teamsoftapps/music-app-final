@@ -19,13 +19,15 @@ function AlbumPage({ songs, album }) {
 
     const [currentTime, setCurrentTime] = useState(0);
     const [songName, setSongName] = useState('')
-    const [songIndex, setSongIndex] = useState(0)
+    const [lyrics, setLyrics] = useState('')
+
 
     const [trial, setTrial] = useState(false);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         setSongName(songs[0]?.Song_Name)
+        setLyrics(songs[0]?.Song_Lyrics)
         if (!user?.token.length) return route.replace("/login");
         if (!songs?.length) return route.replace("/");
         dispatch(setSongs(songs));
@@ -91,7 +93,7 @@ function AlbumPage({ songs, album }) {
                                 order={i}
                                 songs={songs}
                                 setSongName={setSongName}
-                                setSongIndex={setSongIndex}
+                                setLyrics={setLyrics}
                                 trial={user?.hasOwnProperty("expiresIn")}
 
                             />
@@ -99,7 +101,7 @@ function AlbumPage({ songs, album }) {
                     )}
                 </div>
             </div>
-            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} songName={songName} setSongName={setSongName} songIndex={songIndex} />
+            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} songName={songName} setSongName={setSongName} lyrics={lyrics} />
         </div>
     );
 }
