@@ -99,7 +99,7 @@ function AlbumPage({ songs, album }) {
                     )}
                 </div>
             </div>
-            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} songName={songName} songIndex={songIndex} />
+            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} songName={songName} setSongName={setSongName} songIndex={songIndex} />
         </div>
     );
 }

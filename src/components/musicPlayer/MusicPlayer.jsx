@@ -19,7 +19,7 @@ const postSelector = (state) => state.music;
 
 // let initialRef = 0;
 
-function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail }) {
+function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, }) {
     const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
     // console.log(isPlaying, song)
     const dispatch = useDispatch();
@@ -30,6 +30,9 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
     const [volume, setVolume] = useState(1);
     const [showDetails, setshowDetails] = useState(false);
     const [isLyrics, setIsLyrics] = useState(0);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0)
+    const [songTime, setSongTime] = useState(0)
+    const [isChanged, setIsChanged] = useState(false)
 
     const handleIsLyrics = (event, newValue) => {
         setIsLyrics(newValue);
@@ -39,6 +42,42 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
     const animationRef = useRef();
     const volumePreState = useRef();
     const initialRef = useRef(0);
+
+
+    // auto change song name while playing..
+    useEffect(() => {
+        let calcSecs = !isChanged ? calculateSeconds(songs[currentSongIndex]?.Song_Length) : songTime
+
+        let tempIndex = currentSongIndex
+        let roundCurrentTime = Math.floor(currentTime)
+
+
+
+        let fullLengthOfSong = calculateSeconds(songs[songs?.length - 1]?.Song_Length)
+
+        if (fullLengthOfSong === roundCurrentTime) {
+            setCurrentSongIndex(0)
+            setIsChanged(false)
+            setSongName(songs[0].Song_Name)
+            return
+        }
+
+        if (roundCurrentTime >= calcSecs) {
+            tempIndex += 1
+            setCurrentSongIndex(tempIndex)
+
+            calcSecs += calculateSeconds(songs[tempIndex]?.Song_Length)
+
+            setSongName(songs[tempIndex].Song_Name)
+
+            setSongTime(calcSecs)
+            setIsChanged(true)
+            return
+        }
+
+
+
+    }, [currentTime])
 
     // auto play song
     useEffect(() => {
@@ -77,8 +116,11 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
         }
     }, [audioPlayer.current?.duration, currentTime]);
 
+
+
     function defaultHandler(play) {
         setCurrentTime(0);
+        // setCopyCurrentTime(0)
         dispatch(setIsPlaying(play));
         if (play) {
             setTimeout(() => {
@@ -97,6 +139,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
             const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
             const seconds = Math.floor(secs % 60);
             const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
             return `${returnedMinutes}:${returnedSeconds}`;
         }
     }
@@ -116,6 +159,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
     // Connect progress bar(Slider) with the currrent time.
     function whilePlaying() {
         setCurrentTime(audioPlayer.current?.currentTime);
+        // setCopyCurrentTime(audioPlayer.current?.currentTime)
         animationRef.current = requestAnimationFrame(whilePlaying);
     }
 
@@ -123,6 +167,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
         if (value) {
             audioPlayer.current.currentTime = value;
             setCurrentTime(value);
+            // setCopyCurrentTime(value)
         }
     }
 
@@ -147,14 +192,14 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, songDetail 
         return duration && typeof duration === "number" && duration;
     }
 
-    // function calculateSeconds(hms) {
-    //     var a = hms.split(":");
-    //     let seconds = a[0] * 60 + +a[1];
-    //     if (a.length > 2) {
-    //         seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-    //     }
-    //     return seconds;
-    // }
+    function calculateSeconds(hms) {
+        var a = hms.split(":");
+        let seconds = a[0] * 60 + +a[1];
+        if (a.length > 2) {
+            seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+        }
+        return seconds;
+    }
 
     // function jumpNext() {
     //     let count = 0;
