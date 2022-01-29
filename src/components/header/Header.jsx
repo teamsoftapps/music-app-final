@@ -31,7 +31,7 @@ function Header() {
             }
         });
         return () => {
-            window.removeEventListener("resize", () => {});
+            window.removeEventListener("resize", () => { });
         };
     }, []);
     useEffect(() => {
@@ -148,7 +148,7 @@ function Header() {
                 <div className={classes.headerMain}>
                     <div className={classes.headerMainImage}>
                         {user?.expiresIn === undefined ? (
-                            <div className={classes.playlistDesktop} onClick={() => console.log("clicked")}>
+                            <div className={classes.playlistDesktop} >
                                 {checkCredentials !== null && <SideDrawer />}
                             </div>
                         ) : (

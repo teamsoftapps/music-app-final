@@ -19,11 +19,10 @@ const postSelector = (state) => state.music;
 
 // let initialRef = 0;
 
-function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, lyrics }) {
-    const { song, isPlaying, album, language, user } = useSelector(postSelector, shallowEqual);
+function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, lyrics, trial }) {
+    const { song, isPlaying, album, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
     // console.log(isPlaying, song)
     const dispatch = useDispatch();
-
 
 
     // const [currentTime, setCurrentTime] = useState(0);
@@ -67,7 +66,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
             setCurrentSongIndex(tempIndex)
 
             calcSecs += calculateSeconds(songs[tempIndex]?.Song_Length)
-            console.log(songs[tempIndex])
+            // console.log(songs[tempIndex])
             setSongName(songs[tempIndex].Song_Name)
 
             setSongTime(calcSecs)
@@ -78,10 +77,22 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
 
 
     }, [currentTime])
+    // // set song from playlist
+    // useEffect(() => {
+    //     songs?.some((s) => {
+    //         if (s?._id === favouriteId) {
+    //             let calcSecs = calculateSeconds(s?.Song_Length)
+    //             console.log(calcSecs)
+    //             setCurrentTime(calcSecs)
+    //         }
+    //     })
+    // }, [])
+    // console.log(currentTime)
 
     // auto play song
     useEffect(() => {
         // audioPlayer.current.play();
+
         setTimeout(() => {
             togglePlayPause();
             // dispatch(setIsPlaying(true))
@@ -164,6 +175,8 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
     }
 
     function changeMusicTime(e, value) {
+        // console.log(value, currentTime)
+        if (value < currentTime) return
         if (value) {
             audioPlayer.current.currentTime = value;
             setCurrentTime(value);
@@ -309,6 +322,8 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                             value={typeof currentTime === "number" ? currentTime : 0}
                             onChange={changeMusicTime}
                             aria-labelledby="input-slider"
+                            // disabled={trial}
+
                             max={songDuration(audioPlayer.current?.duration)}
                         />
                         <p>

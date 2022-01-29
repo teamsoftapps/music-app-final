@@ -87,7 +87,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
         setCurrentTime(myCommutativeLength);
         setSongName(albumSong?.Song_Name)
         setLyrics(albumSong?.Song_Lyrics)
-        console.log(albumSong)
+
     }
 
     const handleLike = async (id) => {
@@ -127,7 +127,8 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
                 {!locked &&
 
                     <IconButton className={classes.songTune} onClick={() => handleLike(albumSong?._id)}>
-                        {favourites?.includes(songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                        {/* {favourites?.includes(songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />} */}
+                        {favourites?.some(item => item?._id === songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                     </IconButton>
                 }
                 {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (

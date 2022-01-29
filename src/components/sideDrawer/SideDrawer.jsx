@@ -14,6 +14,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 import { MusicNote, Lock, Heart } from "@material-ui/icons";
 import { makeStyles, createStyles } from "@material-ui/core";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { setFavouriteId } from "../../store/musicReducer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -65,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         flexDirection: "row",
         margin: "5px 0px",
+        padding: '0 10px'
     },
     innerWrapname: {
         display: "flex",
@@ -91,8 +95,13 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff !important",
     },
 }));
+const postSelector = (state) => state.music;
 
-export default function TemporaryDrawer() {
+function TemporaryDrawer() {
+    const dispatch = useDispatch()
+    const { user, favourites } = useSelector(postSelector, shallowEqual);
+    // console.log(favourites)
+    const route = useRouter()
     const classes = useStyles();
     const [state, setState] = React.useState({
         // top: false,
@@ -108,6 +117,15 @@ export default function TemporaryDrawer() {
 
         setState({ ...state, [anchor]: open });
     };
+    function handleClick(album) {
+        console.log(album)
+        dispatch(setFavouriteId(album?._id))
+        if (!user) {
+            route.replace("/login");
+            return;
+        }
+        route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
+    }
 
     const list = (anchor) => (
         <Box
@@ -115,17 +133,18 @@ export default function TemporaryDrawer() {
             role="presentation"
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
-            // className={classes.drawerWrap}
+        // className={classes.drawerWrap}
         >
             <h1 className={classes.playlistDrawerHeading}>Your Playlist</h1>
             <List className={classes.playlistInnerWrap}>
-                {["King of Kings", "Prince of Peace", "Lord of Lords", "Bread of Life"].map((text, index) => (
-                    <ListItem button key={text}>
+                {/* {["King of Kings", "Prince of Peace", "Lord of Lords", "Bread of Life"].map((text, index) => ( */}
+                {favourites?.map((item, index) => (
+                    <ListItem button key={item?._id} onClick={() => handleClick(item)}>
                         {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
                         <div className={classes.innerWrapInner}>
                             <div className={classes.innerWrapname}>
                                 <ListItemIcon className={classes.playlistTextInner}>{<MusicNote />}</ListItemIcon>
-                                <ListItemText primary={text} className={classes.playlistTextInner} />
+                                <ListItemText primary={item?.Song_Name} className={classes.playlistTextInner} />
                             </div>
                         </div>
                     </ListItem>
@@ -163,3 +182,4 @@ export default function TemporaryDrawer() {
         </div>
     );
 }
+export default React.memo(TemporaryDrawer)

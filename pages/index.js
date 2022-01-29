@@ -6,12 +6,12 @@ const index = ({ albums }) => <HomePage albums={albums} />;
 export default index;
 
 export async function getStaticProps() {
-    const { data } = await axios.get(`${process.env.base_url}/albums`);
+  const { data } = await axios.get(`${process.env.base_url}/albums`);
 
-    return {
-        props: {
-            albums: data,
-            revalidate: 1800,
-        },
-    };
+  return {
+    props: {
+      albums: data,
+      revalidate: 1800,
+    },
+  };
 }

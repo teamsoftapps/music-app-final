@@ -13,18 +13,26 @@ import axios from "axios";
 const postSelector = (state) => state.music;
 
 function AlbumPage({ songs, album }) {
-    const { song, language, user } = useSelector(postSelector, shallowEqual);
+    const { song, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
     const route = useRouter();
     const dispatch = useDispatch();
-
     const [currentTime, setCurrentTime] = useState(0);
     const [songName, setSongName] = useState('')
     const [lyrics, setLyrics] = useState('')
 
-
+    // console.log(album, songs)
     const [trial, setTrial] = useState(false);
 
+
     useEffect(() => {
+        // songs?.some((s) => {
+        //     if (s?._id === favouriteId) {
+        //         let calcSecs = calculateSeconds(s?.Song_Length)
+        //         console.log(calcSecs)
+        //         setCurrentTime(calcSecs)
+        //     }
+        // })
+        // console.log(songs)
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
         setSongName(songs[0]?.Song_Name)
         setLyrics(songs[0]?.Song_Lyrics)
@@ -38,30 +46,31 @@ function AlbumPage({ songs, album }) {
             // dispatch(setSong(songs[0]));
             dispatch(setSong(songs[songs.length - 1]));
         }
-    }, []);
-    // get favourites
-    useEffect(() => {
-        const { token } = JSON.parse(localStorage.getItem('music-app-credentials'))
 
-        const fetchFavourites = async () => {
-            try {
-                const url = process.env.base_url;
-                const { data } = await axios.get(`${url}/getFavourites`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                // tempArr.push(data?.favourites)
-                dispatch(setFavourites(data?.favourites))
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchFavourites()
+    }, [album]);
+    // useEffect(() => {
+    //     songs?.filter((s) => {
+    //         if (s?._id === favouriteId) {
+    //             let calcSecs = calculateSeconds(s?.Song_Length)
+    //             console.log(calcSecs)
+    //             setCurrentTime(calcSecs)
+    //         }
+    //     })
+    // }, [])
+    // // set song from playlist
+    // useEffect(() => {
 
-    }, [])
+    // }, [])
+    // console.log(currentTime)
 
-
+    // function calculateSeconds(hms) {
+    //     var a = hms.split(":");
+    //     let seconds = a[0] * 60 + +a[1];
+    //     if (a.length > 2) {
+    //         seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
+    //     }
+    //     return seconds;
+    // }
     if (!songs || !songs.length) return <h1>Loading...</h1>;
 
     return (
@@ -101,7 +110,7 @@ function AlbumPage({ songs, album }) {
                     )}
                 </div>
             </div>
-            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} songName={songName} setSongName={setSongName} lyrics={lyrics} />
+            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} lyrics={lyrics} />
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/card/Card";
 import classes from "./HomePage.module.css";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Footer from "../../components/footer/Foote";
 import FlipMove from "react-flip-move";
 import downarrow from "../../../public/images/downarrownew.png";
@@ -9,6 +9,8 @@ import uparrow from "../../../public/images/uparrownew.png";
 import Image from "next/image";
 import Advertisement from "../../components/advertisment/Advertisment";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { setFavourites } from "../../store/musicReducer";
 
 
 const postSelector = (state) => state.music;
@@ -17,11 +19,30 @@ const HomePage = ({ albums }) => {
     const [openAdd, setOpenAdd] = useState(false);
     const { language, user } = useSelector(postSelector, shallowEqual);
     const route = useRouter()
+    const dispatch = useDispatch()
     // console.log(user)
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
 
         if (!user?.token.length) return route.replace("/login");
+
+        const { token } = JSON.parse(localStorage.getItem('music-app-credentials'))
+
+        const fetchFavourites = async () => {
+            try {
+                const url = process.env.base_url;
+                const { data } = await axios.get(`${url}/getFavourites`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                // tempArr.push(data?.favourites)
+                dispatch(setFavourites(data?.favourites))
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchFavourites()
 
     }, []);
 

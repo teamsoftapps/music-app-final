@@ -11,6 +11,7 @@ const initialState = {
   isPlaying: false,
   album: {},
   favourites: null,
+  favouriteId: null,
 };
 
 export const counterSlice = createSlice({
@@ -59,6 +60,9 @@ export const counterSlice = createSlice({
     setFavourites: (state, { payload }) => {
       state.favourites = payload;
     },
+    setFavouriteId: (state, { payload }) => {
+      state.favouriteId = payload;
+    },
   },
 });
 
@@ -73,6 +77,7 @@ export const {
   setLanguageMode,
   setAlbum,
   setFavourites,
+  setFavouriteId,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
