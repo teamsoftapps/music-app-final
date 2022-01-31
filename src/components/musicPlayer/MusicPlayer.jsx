@@ -19,9 +19,9 @@ const postSelector = (state) => state.music;
 
 // let initialRef = 0;
 
-function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, lyrics, trial }) {
+function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, lyrics, setLyrics, trial }) {
     const { song, isPlaying, album, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
-    // console.log(isPlaying, song)
+    // console.log(favouriteId)
     const dispatch = useDispatch();
 
 
@@ -54,10 +54,11 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
 
         let fullLengthOfSong = calculateSeconds(songs[songs?.length - 1]?.Song_Length)
 
-        if (fullLengthOfSong === roundCurrentTime) {
+        if (roundCurrentTime >= fullLengthOfSong) {
             setCurrentSongIndex(0)
             setIsChanged(false)
-            setSongName(songs[0].Song_Name)
+            setSongName(songs[0]?.Song_Name)
+            setLyrics(songs[0]?.Song_Lyrics)
             return
         }
 
@@ -68,6 +69,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
             calcSecs += calculateSeconds(songs[tempIndex]?.Song_Length)
             // console.log(songs[tempIndex])
             setSongName(songs[tempIndex].Song_Name)
+            setLyrics(songs[tempIndex]?.Song_Lyrics)
 
             setSongTime(calcSecs)
             setIsChanged(true)
@@ -77,13 +79,19 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
 
 
     }, [currentTime])
-    // // set song from playlist
+    // set song from playlist
     // useEffect(() => {
     //     songs?.some((s) => {
     //         if (s?._id === favouriteId) {
+    //             console.log(s)
     //             let calcSecs = calculateSeconds(s?.Song_Length)
     //             console.log(calcSecs)
+    //             setSongTime(calcSecs)
+    //             setSongName(s?.Song_Name)
     //             setCurrentTime(calcSecs)
+    //             return
+    //         } else {
+    //             console.log('not found')
     //         }
     //     })
     // }, [])
@@ -127,7 +135,14 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
         }
     }, [audioPlayer.current?.duration, currentTime]);
 
+    // function songJump() {
+    //     if (locked) return;
+    //     document.getElementById("audioPlayer").currentTime = myCommutativeLength;
+    //     setCurrentTime(myCommutativeLength);
+    //     setSongName(albumSong?.Song_Name)
+    //     setLyrics(albumSong?.Song_Lyrics)
 
+    // }
 
     function defaultHandler(play) {
         setCurrentTime(0);
@@ -176,7 +191,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
 
     function changeMusicTime(e, value) {
         // console.log(value, currentTime)
-        if (value < currentTime) return
+        // if (value < currentTime) return
         if (value) {
             audioPlayer.current.currentTime = value;
             setCurrentTime(value);
@@ -322,7 +337,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                             value={typeof currentTime === "number" ? currentTime : 0}
                             onChange={changeMusicTime}
                             aria-labelledby="input-slider"
-                            // disabled={trial}
+                            disabled={trial}
 
                             max={songDuration(audioPlayer.current?.duration)}
                         />

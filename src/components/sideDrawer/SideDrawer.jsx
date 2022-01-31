@@ -16,7 +16,7 @@ import { MusicNote, Lock, Heart } from "@material-ui/icons";
 import { makeStyles, createStyles } from "@material-ui/core";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { setFavouriteId } from "../../store/musicReducer";
+import { setFavouriteId, setFavouriteIndex } from "../../store/musicReducer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -117,9 +117,10 @@ function TemporaryDrawer() {
 
         setState({ ...state, [anchor]: open });
     };
-    function handleClick(album) {
-        console.log(album)
+    function handleClick(album, index) {
+        console.log(album, index)
         dispatch(setFavouriteId(album?._id))
+        // dispatch(setFavouriteIndex(index))
         if (!user) {
             route.replace("/login");
             return;
@@ -139,7 +140,7 @@ function TemporaryDrawer() {
             <List className={classes.playlistInnerWrap}>
                 {/* {["King of Kings", "Prince of Peace", "Lord of Lords", "Bread of Life"].map((text, index) => ( */}
                 {favourites?.map((item, index) => (
-                    <ListItem button key={item?._id} onClick={() => handleClick(item)}>
+                    <ListItem button key={item?._id} onClick={() => handleClick(item, index)}>
                         {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
                         <div className={classes.innerWrapInner}>
                             <div className={classes.innerWrapname}>

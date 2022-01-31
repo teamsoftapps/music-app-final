@@ -110,7 +110,7 @@ function AlbumPage({ songs, album }) {
                     )}
                 </div>
             </div>
-            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} lyrics={lyrics} />
+            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} setLyrics={setLyrics} lyrics={lyrics} />
         </div>
     );
 }

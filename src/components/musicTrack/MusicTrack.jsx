@@ -78,6 +78,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
                 count += calculateSeconds(song.Song_Length);
             }
         });
+
         setMyCommutativeLength(count);
     }
 
