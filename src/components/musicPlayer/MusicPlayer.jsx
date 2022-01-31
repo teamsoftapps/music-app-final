@@ -191,7 +191,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
 
     function changeMusicTime(e, value) {
         // console.log(value, currentTime)
-        // if (value < currentTime) return
+        if (value < currentTime) return
         if (value) {
             audioPlayer.current.currentTime = value;
             setCurrentTime(value);
