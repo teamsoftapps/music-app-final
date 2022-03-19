@@ -16,6 +16,17 @@ import { setFavourites } from "../../store/musicReducer";
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
+
+
+    let albumArray = [];
+
+    albums?.forEach(element => {
+        let { index } = element;
+        albumArray[index - 1] = element;
+    });
+
+
+    // console.log(albumArray)
     const [openAdd, setOpenAdd] = useState(false);
     const { language, user } = useSelector(postSelector, shallowEqual);
     const route = useRouter()
@@ -79,7 +90,7 @@ const HomePage = ({ albums }) => {
 
             {/* Code for Advertisement (end) */}
             <FlipMove className={classes.cards}>
-                {albums?.map((album, index) => {
+                {albumArray?.map((album, index) => {
                     const url = `${process.env.media_url}/${language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")
                         }`;
 

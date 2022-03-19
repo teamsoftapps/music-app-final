@@ -16,11 +16,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 const postSelector = (state) => state.music;
 
-function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setLyrics }) {
+function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setLyrics, setSongArray, setSingleSong }) {
+
+
     const { song, user, favourites } = useSelector(postSelector, shallowEqual);
 
-
-    // console.log(user)
 
     const dispatch = useDispatch();
 
@@ -28,7 +28,6 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
     const [locked, setLocked] = useState(false);
     const [liked, setLiked] = useState(false);
     const [open, setOpen] = useState(false);
-
 
 
 
@@ -84,11 +83,19 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
 
     function songJump() {
         if (locked) return;
-        document.getElementById("audioPlayer").currentTime = myCommutativeLength;
-        setCurrentTime(myCommutativeLength);
-        setSongName(albumSong?.Song_Name)
-        setLyrics(albumSong?.Song_Lyrics)
+        let songArray = localStorage.getItem('songArray');
+        songArray = JSON.parse(songArray);
+        const index = songArray.findIndex((o) => {
+            return o.Song_Name === albumSong.Song_Name
+        });
 
+        const arr1 = songArray.slice(index, songArray.length);
+        const arr2 = songArray.slice(0, index);
+        songArray = [...arr1, ...arr2];
+        localStorage.setItem('currentSongIndex', 0)
+        localStorage.setItem('songArray', JSON.stringify(songArray));
+        setSingleSong(songArray[0]);
+        setSongArray(songArray);
     }
 
     const handleLike = async (id) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import classes from "./AlbumPage.module.css";
 import Card from "../../components/card/Card";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
@@ -8,9 +8,14 @@ import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { setSong, setSongs, setAlbum, setFavourites } from "../../store/musicReducer";
 import Head from "next/head";
 import { isMobile } from "react-device-detect";
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 import axios from "axios";
-
+import { useTimer } from 'react-timer-hook';
+import moment from 'moment';
 const postSelector = (state) => state.music;
+
+
 
 function AlbumPage({ songs, album }) {
     const { song, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
@@ -19,12 +24,45 @@ function AlbumPage({ songs, album }) {
     const [currentTime, setCurrentTime] = useState(0);
     const [songName, setSongName] = useState('')
     const [lyrics, setLyrics] = useState('')
+    const [file, setFile] = useState('');
+    const [singleSong, setSingleSong] = useState('');
+    const [songArray, setSongArray] = useState([]);
+    const [time, setTime] = useState(1000);
+    // seperate each song file
+    const songFileArray = songs.map((ele, ind) => {
+        let fileName = process.env.media_url.concat(ele.Song_File)
+        return {
+            fileName,
+            length: ele.Song_Length
+        }
+    });
 
-    // console.log(album, songs)
-    const [trial, setTrial] = useState(false);
+    const onEndSong = () => {
+
+        let currentSongIndex = localStorage.getItem('currentSongIndex');
+        currentSongIndex++;
+        if (currentSongIndex < songArray.length) {
+            localStorage.setItem('currentSongIndex', currentSongIndex);
+            setSingleSong(`${process.env.media_url}/${songArray[currentSongIndex].Song_File}`);
+        } else {
+            localStorage.setItem('currentSongIndex', 0);
+            setSingleSong(`${process.env.media_url}/${songArray[0].Song_File}`);
+        }
+    }
 
 
     useEffect(() => {
+        // console.log(`${process.env.media_url}/${songArray[0]?.Song_File}`)
+        setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`)
+    }, [songArray])
+
+
+
+    useEffect(() => {
+
+        localStorage.setItem('currentSongIndex', 0);
+
+        // console.log(`${process.env.media_url}/${songs[0].Song_File}`);
         // songs?.some((s) => {
         //     if (s?._id === favouriteId) {
         //         let calcSecs = calculateSeconds(s?.Song_Length)
@@ -34,6 +72,28 @@ function AlbumPage({ songs, album }) {
         // })
         // console.log(songs)
         const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+
+
+
+        if (user?.hasOwnProperty('expiresIn')) {
+            let tempArr = songs.filter((ele, i) => {
+                if (i === 1) return ele;
+                if ((i !== 1) && i % 5 === 0) {
+                    return ele;
+                }
+            })
+            let stringifyArray = JSON.stringify(tempArr);
+            localStorage.setItem('songArray', stringifyArray);
+            setSongArray(tempArr);
+            setSingleSong(`${process.env.media_url}/${tempArr[0].Song_File}`)
+        } else {
+            let stringifyArray = JSON.stringify(songs);
+            localStorage.setItem('songArray', stringifyArray);
+            setSongArray(songs);
+            setSingleSong(`${process.env.media_url}/${songs[0].Song_File}`)
+        }
+
+
         setSongName(songs[0]?.Song_Name)
         setLyrics(songs[0]?.Song_Lyrics)
         if (!user?.token.length) return route.replace("/login");
@@ -46,7 +106,7 @@ function AlbumPage({ songs, album }) {
             // dispatch(setSong(songs[0]));
             dispatch(setSong(songs[songs.length - 1]));
         }
-
+        return () => localStorage.removeItem('counter');
     }, [album]);
     // useEffect(() => {
     //     songs?.filter((s) => {
@@ -104,13 +164,20 @@ function AlbumPage({ songs, album }) {
                                 setSongName={setSongName}
                                 setLyrics={setLyrics}
                                 trial={user?.hasOwnProperty("expiresIn")}
-
+                                setSongArray={setSongArray}
+                                setSingleSong={setSingleSong}
                             />
                         ) : null,
                     )}
                 </div>
             </div>
-            <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} setLyrics={setLyrics} lyrics={lyrics} />
+            <AudioPlayer
+                autoPlay
+                progressJumpStep={3000}
+                src={singleSong}
+                onEnded={(e) => onEndSong()}
+            />
+            {/* <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} setLyrics={setLyrics} lyrics={lyrics} /> */}
         </div>
     );
 }
