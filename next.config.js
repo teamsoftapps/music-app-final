@@ -1,5 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
-
+const path = require('path')
 module.exports = (phase) => {
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         return {
@@ -14,6 +14,9 @@ module.exports = (phase) => {
             httpAgentOptions: {
                 keepAlive: true,
             },
+            sassOption: {
+                includePaths: [path.join(__dirname, 'styles')]
+            }
         };
     }
 
@@ -29,6 +32,10 @@ module.exports = (phase) => {
             httpAgentOptions: {
                 keepAlive: true,
             },
+
         },
+        sassOption: {
+            includePaths: [path.join(__dirname, 'styles')]
+        }
     };
 };

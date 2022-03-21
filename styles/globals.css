@@ -63,6 +63,7 @@ a {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    color: white;
 }
 
 .css-1ab2xsx {
@@ -72,6 +73,44 @@ a {
 .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
     background-color: #ccaa6b !important;
     width: 25vw !important;
+}
+.rhap_time {
+    color: white!important;
+}
+.rhap_progress-filled{
+    background-color: #3f51b5!important;
+    border-radius: 1px!important;
+    
+}
+.rhap_progress-indicator{
+    background-color: #3f51b5!important;
+}
+.rhap_download-progress{
+    background-color: #3f51b5!important;
+}
+.rhap_play-pause-button{
+    background-color: #3f51b5!important;
+    border-radius: 100%;
+}
+.rhap_volume-bar{
+    background-color: #3f51b5!important;
+}
+.rhap_volume-indicator{
+    background-color: white!important;
+}
+@media(max-width: 540px){
+    .rhap_repeat-button{
+        display: none;
+    }
+    .rhap_volume-button{
+        display: none;
+    }
+    .rhap_volume-container{
+        display: none;
+    }
+    .rhap_volume-bar{
+        display: none;
+    }
 }
 @media (max-width: 1800px) {
     .css-1ab2xsx {

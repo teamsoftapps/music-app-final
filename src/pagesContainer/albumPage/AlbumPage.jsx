@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import classes from "./AlbumPage.module.css";
+import style from '../../../styles/global.module.scss'
 import Card from "../../components/card/Card";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
@@ -19,16 +20,22 @@ const postSelector = (state) => state.music;
 
 function AlbumPage({ songs, album }) {
     const { song, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
+
+
+    // console.log(ind);
     const route = useRouter();
     const dispatch = useDispatch();
     const [currentTime, setCurrentTime] = useState(0);
-    const [songName, setSongName] = useState('')
+    const [songName, setSongName] = useState('');
+    const [albumName, setAlbumName] = useState('');
+    const [pic, setPic] = useState('');
     const [lyrics, setLyrics] = useState('')
     const [file, setFile] = useState('');
     const [singleSong, setSingleSong] = useState('');
     const [songArray, setSongArray] = useState([]);
     const [time, setTime] = useState(1000);
     // seperate each song file
+    // console.log(pic)
     const songFileArray = songs.map((ele, ind) => {
         let fileName = process.env.media_url.concat(ele.Song_File)
         return {
@@ -43,13 +50,34 @@ function AlbumPage({ songs, album }) {
         currentSongIndex++;
         if (currentSongIndex < songArray.length) {
             localStorage.setItem('currentSongIndex', currentSongIndex);
+
             setSingleSong(`${process.env.media_url}/${songArray[currentSongIndex].Song_File}`);
+
         } else {
             localStorage.setItem('currentSongIndex', 0);
-            setSingleSong(`${process.env.media_url}/${songArray[0].Song_File}`);
+            setSongName(songArray[0].Song_Name);
+            setAlbumName(songArray[0].Album_Name);
+            console.log("img", process.env.media_url.concat(songArray[0].Album_Image));
+            setPic(process.env.media_url.concat(songArray[0].Album_Image))
+            setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`);
         }
     }
 
+    // useEffect(() => {
+    //     if (songArray[0]?._id !== favouriteId) {
+    //         let songArra = songArray;
+    //         const index = songArra.findIndex((o) => {
+    //             return o._id === favouriteId
+    //         });
+    //         const arr1 = songArra.slice(index, songArra.length);
+    //         const arr2 = songArra.slice(0, index);
+    //         songArra = [...arr1, ...arr2];
+    //         localStorage.setItem('currentSongIndex', 0)
+    //         localStorage.setItem('songArray', JSON.stringify(songArra));
+    //         setSingleSong(songArra[0]);
+    //         setSongArray(songArra);
+    //     }
+    // }, [favouriteId])
 
     useEffect(() => {
         // console.log(`${process.env.media_url}/${songArray[0]?.Song_File}`)
@@ -57,6 +85,13 @@ function AlbumPage({ songs, album }) {
     }, [songArray])
 
 
+
+    useEffect(() => {
+        let currentSongIndex = localStorage.getItem('currentSongIndex');
+        setAlbumName(songArray[currentSongIndex]?.Album_Name);
+        setSongName(songArray[currentSongIndex]?.Song_Name);
+        setPic(`${process.env.media_url}/`.concat(songArray[currentSongIndex]?.Album_Image))
+    }, [singleSong])
 
     useEffect(() => {
 
@@ -89,6 +124,11 @@ function AlbumPage({ songs, album }) {
         } else {
             let stringifyArray = JSON.stringify(songs);
             localStorage.setItem('songArray', stringifyArray);
+            const ind = songs.findIndex((o) => {
+                return o._id === favouriteId;
+            })
+            // const arr1 = songs.splice(ind);
+            console.log(ind);
             setSongArray(songs);
             setSingleSong(`${process.env.media_url}/${songs[0].Song_File}`)
         }
@@ -171,12 +211,26 @@ function AlbumPage({ songs, album }) {
                     )}
                 </div>
             </div>
-            <AudioPlayer
-                autoPlay
-                progressJumpStep={3000}
-                src={singleSong}
-                onEnded={(e) => onEndSong()}
-            />
+            <div className={style.music}>
+                <img src={pic} ></img>
+                <div className={style.infoDiv}>
+                    <p className={style.Album_Name}>{albumName}</p>
+                    {/* <br></br> */}
+                    <p>{songName}</p>
+                </div>
+                <div className={style.trash}></div>
+                <div className={style.trash}></div>
+                <div className={style.trash}></div>
+                <div className={style.trash}></div>
+                <div className={style.trash}></div>
+                <AudioPlayer className={style.player}
+                    autoPlay
+                    progressJumpStep={3000}
+                    src={singleSong}
+                    onEnded={(e) => onEndSong()}
+                />
+            </div>
+
             {/* <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} setLyrics={setLyrics} lyrics={lyrics} /> */}
         </div>
     );

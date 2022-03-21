@@ -124,7 +124,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
             ref={albumSong?._id === song?._id ? trackRef : null}
             // onClick={isMobile ? songJump : songHandler}
             // onClick={isMobile ? songJump : songJump}
-            onClick={songJump}
+
             className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null}`}
             style={{ cursor: locked && "not-allowed" }}
         >
@@ -144,7 +144,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
                     {albumSong?.Song_Lyrics}
                     </marquee>
                 ) : ( */}
-                <h4>{albumSong?.Song_Name}</h4>
+                <h4 onClick={songJump}>{albumSong?.Song_Name}</h4>
                 {/* )} */}
             </div>
             <div></div>
