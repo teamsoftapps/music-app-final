@@ -14,14 +14,14 @@ import 'react-h5-audio-player/lib/styles.css';
 import axios from "axios";
 import { useTimer } from 'react-timer-hook';
 import moment from 'moment';
+import { setFavouriteId, setFavouriteIndex } from "../../store/musicReducer";
 const postSelector = (state) => state.music;
 
 
 
 function AlbumPage({ songs, album }) {
     const { song, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
-
-
+    console.log(favouriteId);
     // console.log(ind);
     const route = useRouter();
     const dispatch = useDispatch();
@@ -63,22 +63,6 @@ function AlbumPage({ songs, album }) {
         }
     }
 
-    // useEffect(() => {
-    //     if (songArray[0]?._id !== favouriteId) {
-    //         let songArra = songArray;
-    //         const index = songArra.findIndex((o) => {
-    //             return o._id === favouriteId
-    //         });
-    //         const arr1 = songArra.slice(index, songArra.length);
-    //         const arr2 = songArra.slice(0, index);
-    //         songArra = [...arr1, ...arr2];
-    //         localStorage.setItem('currentSongIndex', 0)
-    //         localStorage.setItem('songArray', JSON.stringify(songArra));
-    //         setSingleSong(songArra[0]);
-    //         setSongArray(songArra);
-    //     }
-    // }, [favouriteId])
-
     useEffect(() => {
         // console.log(`${process.env.media_url}/${songArray[0]?.Song_File}`)
         setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`)
@@ -90,7 +74,8 @@ function AlbumPage({ songs, album }) {
         let currentSongIndex = localStorage.getItem('currentSongIndex');
         setAlbumName(songArray[currentSongIndex]?.Album_Name);
         setSongName(songArray[currentSongIndex]?.Song_Name);
-        setPic(`${process.env.media_url}/`.concat(songArray[currentSongIndex]?.Album_Image))
+        setPic(`${process.env.media_url}/`.concat(songArray[currentSongIndex]?.Album_Image));
+
     }, [singleSong])
 
     useEffect(() => {
@@ -124,13 +109,18 @@ function AlbumPage({ songs, album }) {
         } else {
             let stringifyArray = JSON.stringify(songs);
             localStorage.setItem('songArray', stringifyArray);
-            const ind = songs.findIndex((o) => {
-                return o._id === favouriteId;
-            })
-            // const arr1 = songs.splice(ind);
-            console.log(ind);
-            setSongArray(songs);
-            setSingleSong(`${process.env.media_url}/${songs[0].Song_File}`)
+            if (favouriteId) {
+                let index = songs.findIndex((o) => o._id === favouriteId);
+                let arr1 = songs.slice(index, songs.length);
+                let arr2 = songs.slice(0, index);
+                const finalArr = [...arr1, ...arr2];
+                setSongArray(finalArr);
+                setSingleSong(`${process.env.media_url}/${finalArr[0].Song_File}`)
+            }
+            else {
+                setSongArray(songs);
+                setSingleSong(`${process.env.media_url}/${songs[0].Song_File}`);
+            }
         }
 
 
@@ -146,7 +136,10 @@ function AlbumPage({ songs, album }) {
             // dispatch(setSong(songs[0]));
             dispatch(setSong(songs[songs.length - 1]));
         }
-        return () => localStorage.removeItem('counter');
+        return () => {
+            localStorage.removeItem('counter');
+            dispatch(setFavouriteId(''));
+        }
     }, [album]);
     // useEffect(() => {
     //     songs?.filter((s) => {
