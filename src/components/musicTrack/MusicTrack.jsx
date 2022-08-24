@@ -9,18 +9,26 @@ import { isMobile } from "react-device-detect";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const postSelector = (state) => state.music;
 
-function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, trial, setSongName, setLyrics, setSongArray, setSingleSong }) {
-
-
+function MusicTracker({
+    albumSong,
+    order,
+    songs,
+    currentTime,
+    setCurrentTime,
+    trial,
+    setSongName,
+    setLyrics,
+    setSongArray,
+    setSingleSong,
+}) {
     const { song, user, favourites } = useSelector(postSelector, shallowEqual);
-
 
     const dispatch = useDispatch();
 
@@ -28,8 +36,6 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
     const [locked, setLocked] = useState(false);
     const [liked, setLiked] = useState(false);
     const [open, setOpen] = useState(false);
-
-
 
     useEffect(() => {
         dispatch(setSongs(songs));
@@ -42,7 +48,7 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
         setOpen(true);
     };
     const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
+        if (reason === "clickaway") {
             return;
         }
 
@@ -83,24 +89,24 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
 
     function songJump() {
         if (locked) return;
-        let songArray = localStorage.getItem('songArray');
+        let songArray = localStorage.getItem("songArray");
         songArray = JSON.parse(songArray);
         const index = songArray.findIndex((o) => {
-            return o.Song_Name === albumSong.Song_Name
+            return o.Song_Name === albumSong.Song_Name;
         });
 
         const arr1 = songArray.slice(index, songArray.length);
         const arr2 = songArray.slice(0, index);
         songArray = [...arr1, ...arr2];
-        localStorage.setItem('currentSongIndex', 0)
-        localStorage.setItem('songArray', JSON.stringify(songArray));
+        localStorage.setItem("currentSongIndex", 0);
+        localStorage.setItem("songArray", JSON.stringify(songArray));
         setSingleSong(songArray[0]);
         setSongArray(songArray);
     }
 
     const handleLike = async (id) => {
-        setOpen(true)
-        const { token } = JSON.parse(localStorage.getItem('music-app-credentials'))
+        setOpen(true);
+        const { token } = JSON.parse(localStorage.getItem("music-app-credentials"));
         if (locked === true) {
             setLiked(false);
         } else setLiked(!liked);
@@ -108,60 +114,66 @@ function MusicTracker({ albumSong, order, songs, currentTime, setCurrentTime, tr
             const url = process.env.base_url;
             const { data } = await axios.get(`${url}/favourites/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-
-            dispatch(setFavourites(data?.favourites))
+            dispatch(setFavourites(data?.favourites));
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
 
     return (
-        <div
-            ref={albumSong?._id === song?._id ? trackRef : null}
-            // onClick={isMobile ? songJump : songHandler}
-            // onClick={isMobile ? songJump : songJump}
+        <div>
+            <div
+                ref={albumSong?._id === song?._id ? trackRef : null}
+                // onClick={isMobile ? songJump : songHandler}
+                // onClick={isMobile ? songJump : songJump}
 
-            className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null}`}
-            style={{ cursor: locked && "not-allowed" }}
-        >
-            <div className={classes.musicTrackLeft}>
-                <IconButton className={classes.songTune}>
-                    <MusicNote />
-                </IconButton>
-                {!locked &&
-
-                    <IconButton className={classes.songTune} onClick={() => handleLike(albumSong?._id)}>
-                        {/* {favourites?.includes(songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />} */}
-                        {favourites?.some(item => item?._id === songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null}`}
+                style={{ cursor: locked && "not-allowed" }}
+            >
+                <div className={classes.musicTrackLeft}>
+                    <IconButton className={classes.songTune}>
+                        <MusicNote />
                     </IconButton>
-                }
-                {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
+                    {!locked && (
+                        <IconButton className={classes.songTune} onClick={() => handleLike(albumSong?._id)}>
+                            {/* {favourites?.includes(songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />} */}
+                            {favourites?.some((item) => item?._id === songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                        </IconButton>
+                    )}
+                    {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
                     <marquee behavior="scroll" direction="left" scrollamount="8">
                     {albumSong?.Song_Lyrics}
                     </marquee>
                 ) : ( */}
-                <h4 onClick={songJump}>{albumSong?.Song_Name}</h4>
-                {/* )} */}
+                    <h4 onClick={songJump}>{albumSong?.Song_Name}</h4>
+                    {/* )} */}
+                </div>
+                <div></div>
+                {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
+                <div className={classes.musicTrackRight}>
+                    {locked && (
+                        <span className={classes.locked}>
+                            <Lock />
+                        </span>
+                    )}
+                    <h3>{albumSong?.Song_Length}</h3>
+                </div>
+
+                <Snackbar
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                    open={open}
+                    autoHideDuration={1000}
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+                        Favourites Updated!
+                    </Alert>
+                </Snackbar>
             </div>
-            <div></div>
-            {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
-            <div className={classes.musicTrackRight}>
-                {locked && (
-                    <span className={classes.locked}>
-                        <Lock />
-                    </span>
-                )}
-                <h3>{albumSong?.Song_Length}</h3>
-            </div>
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={1000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    Favourites Updated!
-                </Alert>
-            </Snackbar>
         </div>
     );
 }
