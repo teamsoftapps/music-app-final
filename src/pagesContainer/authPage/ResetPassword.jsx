@@ -9,7 +9,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
 
 const postSelector = (state) => state.music;
-function AuthPage({ isSignIn }) {
+function ResetPassword({ isSignIn }) {
     const { language } = useSelector(postSelector, shallowEqual);
 
     const router = useRouter();
@@ -85,7 +85,7 @@ function AuthPage({ isSignIn }) {
         }
     }
 
-    const loginTextEng = isSignIn ? "Login" : "Sign Up";
+    const loginTextEng = isSignIn ? "Login" : "Reset Password";
     const loginTextNl = isSignIn ? "Inloggen" : "Maak uw account aan";
     const codePromiseText =
         language.title === "nl"
@@ -101,28 +101,6 @@ function AuthPage({ isSignIn }) {
             <h1>{isForget ? "Reset" : language.title === "nl" ? loginTextNl : loginTextEng}</h1>
             {loading && <h3>Loading..</h3>}
             {error && <h3 style={{ color: "red" }}>{error}</h3>}
-
-            <div className={classes.input}>
-                <label htmlFor="">Email</label>
-                <input
-                    value={email}
-                    onChange={
-                        isSignIn
-                            ? (e) => {
-                                  setEmail(e.target.value);
-                              }
-                            : (e) => {
-                                  setEmail(e.target.value);
-                              }
-                    }
-                    // disabled={!isSignIn ? true : false}
-                    type="email"
-                    required
-                    placeholder={language.title === "nl" ? "Uw emailadres" : "Your Email Address"}
-                />
-            </div>
-            {/* Email */}
-            {/* Disable conditions on the basis of /signup and /signup?uduiwe */}
 
             <div className={classes.input}>
                 <label htmlFor="">
@@ -173,88 +151,16 @@ function AuthPage({ isSignIn }) {
             ) : (
                 ""
             )}
-            {!isSignIn && (
-                <>
-                    <br />
-                    <FormControlLabel
-                        style={{ display: "block" }}
-                        control={<Checkbox color="default" value={checkBox} onClick={() => setCheckBox(!checkBox)} />}
-                        label={codePromiseText}
-                    />
-                </>
-            )}
-            <Button disabled={!isSignIn && !checkBox} type="submit" variant="contained">
-                {isForget && language.title === "nl" ? "Resetten" : isForget && language.title === "eng" ? "Reset" : loginTextEng}
+            <Button type="submit" variant="contained">
+                {/* {isForget && language.title === "nl" ? "Resetten" : isForget && language.title === "eng" ? "Reset" : loginTextEng} */}
+                Submit
             </Button>
             <br />
             <p>
-                {!isSignIn ? (
-                    <span onClick={() => router.push("/login")}>
-                        {language.title === "nl" ? "Heeft u al een account? Inloggen." : "Already have an account"}
-                    </span>
-                ) : (
-                    <>
-                        <span className={classes.linkBoxWrapper}>
-                            {isForget ? (
-                                <span
-                                    onClick={() => {
-                                        setIsForget(!isForget);
-                                        setAccessCode("");
-                                        setPassword("");
-                                    }}
-                                >
-                                    {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
-                                </span>
-                            ) : (
-                                <span
-                                    onClick={() => {
-                                        setIsForget(!isForget);
-                                        setPassword("");
-                                    }}
-                                >
-                                    {language.title === "nl" ? "Wachtwoord vergeten?" : "Forgot Password?"}
-                                </span>
-                            )}
-                            {/* <span onClick={() => router.push("/signup")}>
-                                {language.title === "nl" ? "Account aanmaken" : "Create Your Account"}
-                            </span> */}
-                        </span>
-                    </>
-                )}
+                <span className={classes.linkBoxWrapper}>Back to Login</span>
             </p>
-            {!isSignIn && (
-                <>
-                    <br />
-                    {/* <span>Forgot your password</span> */}
-                    {language.title === "nl" ? (
-                        <a target="_blank" href="https://janmulder.us/store/?album=Streaming">
-                            Door u aan te melden gaat u akkoord met onze terms & conditions.
-                        </a>
-                    ) : (
-                        <a target="_blank" href="https://janmulder.us/store/?album=Streaming">
-                            By Signing up, you are agree to follow our <span>Terms & conditions.</span>
-                        </a>
-                    )}
-                </>
-            )}
         </form>
     );
 }
 
-export default AuthPage;
-
-// Sign up form: add the following checkbox (below Access Code field) that is required in order to register:
-// I promise this account will only be used by me, and not to share any of the content with others.
-// Dutch translation: Ik ben de exclusieve gebruiker van deze account en beloof de muziek niet te delen met derden.
-// 4) Sign up form: Please link the Terms & Conditions (both English & Dutch
-
-// I thought to already provide the Dutch translation for the text labels in the Sign up and Login screens. I hope the following format is OK (first the English, then the Dutch equivalent)
-// "Sign Up", "Maak uw account aan"
-// "Email", "Email"
-// "Your email address", "Uw emailadres"
-// "Password", "Wachtwoord"
-// "Access Code", "Toegangscode"
-// "Already have an account", "Heeft u al een account?" Inloggen."
-// "By signing up, you are agree to follow our Terms and Conditions.", "Door u aan te melden gaat u akkoord met onze terms & conditions."
-// "Login", "Inloggen"
-// "Create your account", "Account aanmaken"
+export default ResetPassword;
