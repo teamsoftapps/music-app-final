@@ -39,12 +39,11 @@ function MusicTracker({
 
     useEffect(() => {
         dispatch(setSongs(songs));
-        handleLike(albumSong?._id)
         setMyCommutativeLengthFunction();
         if (trial && order !== 1 && order % 5 !== 0) {
             setLocked(true);
         }
-    }, []);
+    });
     const handleClick = () => {
         setOpen(true);
     };
