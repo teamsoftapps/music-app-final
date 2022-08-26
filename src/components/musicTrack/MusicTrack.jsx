@@ -135,9 +135,7 @@ function MusicTracker({
                 style={{ cursor: locked && "not-allowed" }}
             >
                 <div className={classes.musicTrackLeft}>
-                    <IconButton className={classes.songTune}>
-                        <MusicNote />
-                    </IconButton>
+                    <IconButton className={classes.songTune}>{/* <MusicNote /> */}</IconButton>
                     {!locked && (
                         <IconButton className={classes.songTune} onClick={() => handleLike(albumSong?._id)}>
                             {/* {favourites?.includes(songs[order]?._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />} */}

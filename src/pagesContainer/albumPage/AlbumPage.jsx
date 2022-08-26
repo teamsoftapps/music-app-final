@@ -32,6 +32,7 @@ function AlbumPage({ songs, album }) {
     const [singleSong, setSingleSong] = useState("");
     const [songArray, setSongArray] = useState([]);
     const [time, setTime] = useState(1000);
+    const [showLyrics, setShowLyrics] = useState(false);
     // seperate each song file
     // console.log(pic)
     const songFileArray = songs.map((ele, ind) => {
@@ -165,6 +166,7 @@ function AlbumPage({ songs, album }) {
             <br />
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             <h1>{song?.Album_Name}</h1>
+            {showLyrics && <div className={classes.contentStyle}>{lyrics}</div>}
             <div className={classes.albumsMain}>
                 <Card
                     title={song?.Album_Name}
@@ -196,12 +198,21 @@ function AlbumPage({ songs, album }) {
                     )}
                 </div>
             </div>
+
             <div className={style.music}>
-                <img src={pic}></img>
+                <div className={classes.hoverStyling}>
+                    <img src={pic}></img>
+                </div>
                 <div className={style.infoDiv}>
                     <p className={style.Album_Name}>{albumName}</p>
                     {/* <br></br> */}
                     <p>{songName}</p>
+                    <p
+                        style={{ fontSize: "12px", textDecoration: "underline", cursor: "pointer" }}
+                        onClick={() => setShowLyrics(!showLyrics)}
+                    >
+                        Show Lyrics
+                    </p>
                 </div>
                 <div className={style.trash}></div>
                 <div className={style.trash}></div>
