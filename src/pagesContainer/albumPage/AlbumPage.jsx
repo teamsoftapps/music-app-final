@@ -15,6 +15,7 @@ import axios from "axios";
 import { useTimer } from "react-timer-hook";
 import moment from "moment";
 import { setFavouriteId, setFavouriteIndex } from "../../store/musicReducer";
+import LyricsModal from "../../components/lyricsModal/LyricsModal";
 const postSelector = (state) => state.music;
 
 function AlbumPage({ songs, album }) {
@@ -33,6 +34,9 @@ function AlbumPage({ songs, album }) {
     const [songArray, setSongArray] = useState([]);
     const [time, setTime] = useState(1000);
     const [showLyrics, setShowLyrics] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     // seperate each song file
     // console.log(pic)
     const songFileArray = songs.map((ele, ind) => {
@@ -166,7 +170,7 @@ function AlbumPage({ songs, album }) {
             <br />
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             <h1>{song?.Album_Name}</h1>
-            {showLyrics && <div className={classes.contentStyle}>{lyrics}</div>}
+            <LyricsModal open={open} setOpem={setOpen} handleOpen={handleOpen} handleClose={handleClose} lyrics={lyrics} />
             <div className={classes.albumsMain}>
                 <Card
                     title={song?.Album_Name}
@@ -207,10 +211,7 @@ function AlbumPage({ songs, album }) {
                     <p className={style.Album_Name}>{albumName}</p>
                     {/* <br></br> */}
                     <p>{songName}</p>
-                    <p
-                        style={{ fontSize: "12px", textDecoration: "underline", cursor: "pointer" }}
-                        onClick={() => setShowLyrics(!showLyrics)}
-                    >
+                    <p style={{ fontSize: "12px", textDecoration: "underline", cursor: "pointer" }} onClick={() => setOpen(true)}>
                         Show Lyrics
                     </p>
                 </div>
