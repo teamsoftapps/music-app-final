@@ -16,6 +16,8 @@ import { useTimer } from "react-timer-hook";
 import moment from "moment";
 import { setFavouriteId, setFavouriteIndex } from "../../store/musicReducer";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const postSelector = (state) => state.music;
 
 function AlbumPage({ songs, album }) {
@@ -37,15 +39,16 @@ function AlbumPage({ songs, album }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [loading, setLoading] = useState(true);
     // seperate each song file
     // console.log(pic)
-    const songFileArray = songs.map((ele, ind) => {
-        let fileName = process.env.media_url.concat(ele.Song_File);
-        return {
-            fileName,
-            length: ele.Song_Length,
-        };
-    });
+    // const songFileArray = songs.map((ele, ind) => {
+    //     let fileName = process.env.media_url.concat(ele.Song_File);
+    //     return {
+    //         fileName,
+    //         length: ele.Song_Length,
+    //     };
+    // });
 
     const onEndSong = () => {
         let currentSongIndex = localStorage.getItem("currentSongIndex");
@@ -200,9 +203,8 @@ function AlbumPage({ songs, album }) {
                             </>
                         ) : null,
                     )}
-                </div>
+                </div>           
             </div>
-
             <div className={style.music}>
                 <div className={classes.hoverStyling}>
                     <img src={pic}></img>

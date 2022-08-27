@@ -7,6 +7,7 @@ import axios from "axios";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setNextSong, setPreviousSong, setIsPlaying } from "../../store/musicReducer";
 import InfoIcon from "@mui/icons-material/Info";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -271,6 +272,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                         <h3>{songName}</h3>
                     </div>
                 </div>
+                
                 <div className={classes.albumsMusicPlayerMain}>
                     <div className={classes.musicController}>
                         <IconButton

@@ -14,7 +14,7 @@ import { setFavourites } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
-const HomePage = ({ albums }) => {
+const  HomePage = ({ albums }) => {
     let albumArray = [];
 
     albums?.forEach((element) => {
@@ -55,7 +55,7 @@ const HomePage = ({ albums }) => {
     }, []);
 
     const handleAdd = () => {
-        if (openAdd === false) {
+        if (!openAdd) {
             setOpenAdd(true);
         } else {
             setOpenAdd(false);
@@ -63,7 +63,8 @@ const HomePage = ({ albums }) => {
         console.log(openAdd);
     };
 
-    var theOrder = [];
+    const theOrder = [];
+
     albumArray.map((data) => {
         if (data.Album_Name === "Love Divine 1") {
             theOrder[0] = data;
@@ -142,7 +143,7 @@ const HomePage = ({ albums }) => {
                         Exclusive Video
                     </h3>
 
-                    {openAdd === false ? (
+                    {!openAdd ? (
                         <div>
                             <Image src={downarrow} width={16} height={16} className={classes.arrows} onClick={() => handleAdd()} />
                         </div>
@@ -152,7 +153,7 @@ const HomePage = ({ albums }) => {
                         </div>
                     )}
                 </div>
-                {openAdd === true && (
+                {openAdd && (
                     <div className={classes.addwrapper}>
                         <Advertisement />
                     </div>
@@ -162,7 +163,7 @@ const HomePage = ({ albums }) => {
             {/* Code for Advertisement (end) */}
 
             <FlipMove className={classes.cards}>
-                {albumsOrder.length >= 19 &&
+                {albumsOrder.length > 0 &&
                     albumsOrder?.map((album, index) => {
                         const url = `${process.env.media_url}/${
                             language.title === "eng" ? album?.Album_Image : album?.Album_Image.replace("eng", "nl")

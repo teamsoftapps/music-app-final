@@ -11,6 +11,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -36,6 +37,7 @@ function MusicTracker({
     const [locked, setLocked] = useState(false);
     const [liked, setLiked] = useState(false);
     const [open, setOpen] = useState(false);
+   
 
     useEffect(() => {
         dispatch(setSongs(songs));
@@ -43,7 +45,8 @@ function MusicTracker({
         if (trial && order !== 1 && order % 5 !== 0) {
             setLocked(true);
         }
-    });
+        handleLike(albumSong?._id)
+    },[]);
     const handleClick = () => {
         setOpen(true);
     };
@@ -173,6 +176,7 @@ function MusicTracker({
                 </Snackbar>
             </div>
         </div>
+     
     );
 }
 

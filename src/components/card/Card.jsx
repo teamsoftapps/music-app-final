@@ -7,6 +7,7 @@ import Alert from "@mui/material/Alert";
 import { Lock } from "@material-ui/icons";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ClipLoader from "react-spinners/ClipLoader";
 
 // import axios from "axios";
 // import { setSongs, setSong } from "../../store/musicReducer";
@@ -17,12 +18,15 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
     const { user } = useSelector(postSelector, shallowEqual);
     // const [liked, setLiked] = useState(false);
     // const [trial, setTrial] = useState(false)
+   const [loading, setLoading] = useState(false);
+
     const route = useRouter();
 
     // const dispatch = useDispatch();
     // console.log(index, expiry)
 
     function handleClick() {
+        // setLoading(true)
         if (!user) {
             route.replace("/login");
             return;
@@ -65,6 +69,9 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
                     </span>
                 </span>
             )}
+            <div style={{position: "fixed", top: 0, left: 0, width: "100%", height: "100%", display:"flex", justifyContent:"center",alignItems:"center"}}>
+              <ClipLoader color="red" loading={loading} size={100}/>
+                </div>
             {/* {trial && index !== 0 ? (
                 <span className={classes.locked}>
                     <span>
@@ -81,7 +88,7 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
 
             <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
                 <Image src={url} alt="" width={280} height={280} />
-            </div>
+            </div>    
             <h3>{album?.Album_Name}</h3>
         </div>
     );

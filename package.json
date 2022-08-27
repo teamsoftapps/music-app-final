@@ -30,6 +30,7 @@
         "react-icons": "^4.3.1",
         "react-playlist-player": "^1.2.6",
         "react-redux": "^7.2.5",
+        "react-spinners": "^0.13.4",
         "react-timer-hook": "^3.0.5",
         "sass": "^1.49.9",
         "sharp": "^0.29.2"
