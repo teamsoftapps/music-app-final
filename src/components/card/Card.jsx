@@ -14,65 +14,70 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const postSelector = (state) => state.music;
 const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
-    const [error, setError] = useState(false);
-    const { user } = useSelector(postSelector, shallowEqual);
-    // const [liked, setLiked] = useState(false);
-    // const [trial, setTrial] = useState(false)
-   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const { user } = useSelector(postSelector, shallowEqual);
+  // const [liked, setLiked] = useState(false);
+  // const [trial, setTrial] = useState(false)
+  const [loading, setLoading] = useState(true);
 
-    const route = useRouter();
+  const route = useRouter();
 
-    // const dispatch = useDispatch();
-    // console.log(index, expiry)
+  // const dispatch = useDispatch();
+  // console.log(index, expiry)
 
-    function handleClick() {
-        // setLoading(true)
-        if (!user) {
-            route.replace("/login");
-            return;
-        }
-        if (disableFetch) return;
-        if (user?.hasOwnProperty("expiresIn")) {
-            index === 0 ? route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`) : handleExpireAlert();
-        } else {
-            route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
-        }
-
-        // try {
-        // const { data } = await axios.get(`${process.env.base_url}/songs/${album?.Album_Name}`);
-        // dispatch(setSongs(data));
-        // dispatch(setSong(data[0]));
-        // route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
-        // } catch (err) {
-        //     console.log({ err });
-        // }
+  function handleClick() {
+    // setLoading(true)
+    if (!user) {
+      route.replace("/login");
+      return;
+    }
+    if (disableFetch) return;
+    if (user?.hasOwnProperty("expiresIn")) {
+      index === 0
+        ? route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`)
+        : handleExpireAlert();
+    } else {
+      route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
     }
 
-    const handleExpireAlert = () => {
-        setError(true);
-        setTimeout(() => {
-            setError(false);
-        }, 2000);
-    };
+    // try {
+    // const { data } = await axios.get(`${process.env.base_url}/songs/${album?.Album_Name}`);
+    // dispatch(setSongs(data));
+    // dispatch(setSong(data[0]));
+    // route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
+    // } catch (err) {
+    //     console.log({ err });
+    // }
+  }
 
-    return (
-        <div ref={ref} className={classes.card} onClick={handleClick} style={disableFetch && { cursor: "auto" }}>
-            {error && (
-                <Alert className={classes.alert} severity="error">
-                    Not Available In Trial Period
-                </Alert>
-            )}
-            {trial && index !== 0 && (
-                <span className={classes.locked}>
-                    <span>
-                        <Lock />
-                    </span>
-                </span>
-            )}
-            <div style={{position: "fixed", top: 0, left: 0, width: "100%", height: "100%", display:"flex", justifyContent:"center",alignItems:"center"}}>
-              <ClipLoader color="red" loading={loading} size={100}/>
-                </div>
-            {/* {trial && index !== 0 ? (
+  const handleExpireAlert = () => {
+    setError(true);
+    setTimeout(() => {
+      setError(false);
+    }, 2000);
+  };
+
+  return (
+    <div
+      ref={ref}
+      className={classes.card}
+      onClick={handleClick}
+      style={disableFetch && { cursor: "auto" }}
+    >
+      {error && (
+        <Alert className={classes.alert} severity="error">
+          Not Available In Trial Period
+        </Alert>
+      )}
+      {trial && index !== 0 && (
+        <span className={classes.locked}>
+          <span>
+            <Lock />
+          </span>
+        </span>
+      )}
+
+      {/* {trial && index !== 0 ? (
                 <span className={classes.locked}>
                     <span>
                         <Lock />
@@ -86,12 +91,12 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
                 </span>
             )} */}
 
-            <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
-                <Image src={url} alt="" width={280} height={280} />
-            </div>    
-            <h3>{album?.Album_Name}</h3>
-        </div>
-    );
+      <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
+        <Image src={url} alt="" width={280} height={280} />
+      </div>
+      <h3>{album?.Album_Name}</h3>
+    </div>
+  );
 });
 
 export default React.memo(Card);

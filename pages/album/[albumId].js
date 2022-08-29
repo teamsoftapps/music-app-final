@@ -1,30 +1,16 @@
 import axios from "axios";
 import AlbumPage from "../../src/pagesContainer/albumPage/AlbumPage";
 
-export async function getStaticPaths() {
-  const albumIds = [
-    "Love-Divine-7",
-    "Love-Divine-6",
-    "Love-Divine-5",
-    "Love-Divine-4",
-    "Love-Divine-3",
-    "Love-Divine-2",
-    "Love-Divine-1",
-    "The-Omnipotent",
-  ];
-  const pathWithParams = albumIds.map((id) => ({ params: { albumId: id } }));
-  // if you provide all possible ids so "next" will pre-generate all pages in advance of these ids so the use { fallback:false } otherwise use { fallback:true }.
-  return {
-    paths: pathWithParams,
-    fallback: true,
+const index = ({ songs, album }) => {
+  console.log("songs>>>>>>>>>>>", songs);
+  console.log("album>>>>>>>>>>>", album);
 
-    // paths: [{ params: { albumId: "p1" } }, { params: { albumId: "p2" } }],
-    // fallback: true,
+  console.log("ndnsnsn>>>>>", process.env.base_url);
 
-    // by this replacement of this file will execute after the page fully loaded on server-side.
-    // fallback: "blocking",
-  };
-}
+  return <AlbumPage songs={songs} album={album} />;
+};
+
+export default index;
 
 export async function getStaticProps(context) {
   const { albumId } = context.params;
@@ -54,13 +40,27 @@ export async function getStaticProps(context) {
   };
 }
 
-const index = ({ songs, album }) => {
-  console.log("songs>>>>>>>>>>>", songs);
-  console.log("album>>>>>>>>>>>", album);
+export async function getStaticPaths() {
+  const albumIds = [
+    "Love-Divine-7",
+    "Love-Divine-6",
+    "Love-Divine-5",
+    "Love-Divine-4",
+    "Love-Divine-3",
+    "Love-Divine-2",
+    "Love-Divine-1",
+    "The-Omnipotent",
+  ];
+  const pathWithParams = albumIds.map((id) => ({ params: { albumId: id } }));
+  // if you provide all possible ids so "next" will pre-generate all pages in advance of these ids so the use { fallback:false } otherwise use { fallback:true }.
+  return {
+    paths: pathWithParams,
+    fallback: true,
 
-  console.log("ndnsnsn>>>>>", process.env.base_url);
+    // paths: [{ params: { albumId: "p1" } }, { params: { albumId: "p2" } }],
+    // fallback: true,
 
-  return <AlbumPage songs={songs} album={album} />;
-};
-
-export default index;
+    // by this replacement of this file will execute after the page fully loaded on server-side.
+    // fallback: "blocking",
+  };
+}
