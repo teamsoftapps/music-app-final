@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import classes from "./ForgotPage.module.css";
+import api from "./../../../services/api";
 
 const postSelector = (state) => state.music;
 
