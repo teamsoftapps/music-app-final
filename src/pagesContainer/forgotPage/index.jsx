@@ -1,18 +1,15 @@
-import { Button, FormControlLabel } from "@material-ui/core";
-import Checkbox from "@mui/material/Checkbox";
-import React, { useEffect, useState } from "react";
-import classes from "./AuthPage.module.css";
-import axios from "axios";
-import { useRouter } from "next/router";
-import { setUser } from "../../store/musicReducer";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { Button } from "@material-ui/core";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import classes from "./ForgotPage.module.css";
+import api from "./../../../services/api";
 
 const postSelector = (state) => state.music;
 
-const AuthPage = ({ isSignIn }) => {
-  console.log("AuthPage >>>>>>>>");
-  console.log("isSignIn >>>>>>>>>>>>", isSignIn);
+const ForgotPage = () => {
+  console.log("Auth ForgotPage >>>>>>>>");
 
   const { language } = useSelector(postSelector, shallowEqual);
 
@@ -20,117 +17,40 @@ const AuthPage = ({ isSignIn }) => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [accessCode, setAccessCode] = useState("");
-  const [checkBox, setCheckBox] = useState(false);
   const [isForget, setIsForget] = useState(false);
 
   // console.log({ email, accessCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("music-app-credentials"));
-
-    if (user?.token.length > 30) router.replace("/");
-
-    let pageName = router.asPath.slice(1, 7);
-    if (pageName === "signup") {
-      try {
-        let query = router.asPath.slice(8).split("&");
-        let subQuery = [];
-        for (let i in query) {
-          subQuery.push(query[i].split("="));
-        }
-        let access_code = findParam("access_code", subQuery);
-        let email = findParam("email", subQuery);
-        setEmail(email);
-        setAccessCode(access_code);
-      } catch (e) {
-        // Do nothing
-        console.log(e);
-      }
-    }
-  }, []);
-
-  const findParam = (name, array) => {
-    for (let i in array) {
-      if (array[i][0] === name) {
-        return array[i][1];
-      }
-    }
-    return "";
+  const handleSubmit = async (e) => {
+    // setLoading(true);
+    // e.preventDefault();
+    // const payload = { email };
   };
-
-  async function handleSubmit(e) {
-    setLoading(true);
-    e.preventDefault();
-    const payload =
-      isSignIn && !isForget
-        ? { email, password, code: accessCode }
-        : { email, password, code: accessCode };
-
-    const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
-
-    try {
-      const { data } = await axios.post(url, payload);
-      console.log(data);
-      setLoading(false);
-      localStorage.setItem("music-app-credentials", JSON.stringify(data));
-      dispatch(setUser(data));
-
-      router.push("/");
-    } catch (err) {
-      setLoading(false);
-      console.log({ err });
-      setError(err?.response?.data);
-
-      setTimeout(() => {
-        setError("");
-      }, 3000);
-    }
-  }
-
-  const loginTextEng = isSignIn ? "Login" : "Sign Up";
-  const loginTextNl = isSignIn ? "Inloggen" : "Maak uw account aan";
-  const codePromiseText =
-    language.title === "nl"
-      ? "Ik ben de exclusieve gebruiker van deze account en beloof de muziek niet te delen met derden."
-      : "I promise this account will only be used by me, and not to share any of the content with others.";
 
   return (
     <form onSubmit={handleSubmit} className={classes.auth}>
       <Head>
-        <title>
-          Mulder Music Streaming |{" "}
-          {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
-        </title>
+        <title>Mulder Music Streaming | </title>
       </Head>
 
       <h1>
-        {isForget
-          ? "Reset"
-          : language.title === "nl"
-          ? loginTextNl
-          : loginTextEng}
+        {language.title === "nl" ? "Vind Je Account" : "Find Your Account"}
       </h1>
+
       {loading && <h3>Loading..</h3>}
+
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={classes.input}>
-        <label htmlFor="">Email</label>
+        <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
         <input
           value={email}
-          onChange={
-            isSignIn
-              ? (e) => {
-                  setEmail(e.target.value);
-                }
-              : (e) => {
-                  setEmail(e.target.value);
-                }
-          }
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
           // disabled={!isSignIn ? true : false}
           type="email"
           required
@@ -139,10 +59,11 @@ const AuthPage = ({ isSignIn }) => {
           }
         />
       </div>
+
       {/* Email */}
       {/* Disable conditions on the basis of /signup and /signup?uduiwe */}
 
-      <div className={classes.input}>
+      {/* <div className={classes.input}>
         <label htmlFor="">
           {isForget ? (language.title === "nl" ? "Nieuw" : "New") : ""}{" "}
           {language.title === "nl" ? "Wachtwoord" : "Password"}
@@ -166,8 +87,9 @@ const AuthPage = ({ isSignIn }) => {
               : "Your Password"
           }
         />
-      </div>
-      {!isSignIn || isForget ? (
+      </div> */}
+
+      {/* {!isSignIn || isForget ? (
         <div className={classes.input}>
           <label htmlFor="">
             {language.title === "nl" ? "Toegangscode" : "Access Code"}
@@ -195,8 +117,8 @@ const AuthPage = ({ isSignIn }) => {
         </div>
       ) : (
         ""
-      )}
-      {!isSignIn && (
+      )} */}
+      {/* {!isSignIn && (
         <>
           <br />
           <FormControlLabel
@@ -211,20 +133,16 @@ const AuthPage = ({ isSignIn }) => {
             label={codePromiseText}
           />
         </>
-      )}
+      )} */}
       <Button
-        disabled={!isSignIn && !checkBox}
+        // disabled={!isSignIn && !checkBox}
         type="submit"
         variant="contained"
       >
-        {isForget && language.title === "nl"
-          ? "Resetten"
-          : isForget && language.title === "eng"
-          ? "Reset"
-          : loginTextEng}
+        {language.title === "nl" ? "Indienen" : "Submit"}
       </Button>
       <br />
-      <p>
+      {/* <p>
         {!isSignIn ? (
           <span onClick={() => router.push("/auth/login")}>
             {language.title === "nl"
@@ -238,8 +156,8 @@ const AuthPage = ({ isSignIn }) => {
                 <span
                   onClick={() => {
                     setIsForget(!isForget);
-                    setAccessCode("");
-                    setPassword("");
+                    // setAccessCode("");
+                    // setPassword("");
                   }}
                 >
                   {language.title === "nl"
@@ -257,19 +175,19 @@ const AuthPage = ({ isSignIn }) => {
                     ? "Wachtwoord vergeten?"
                     : "Forgot Password?"}
                 </span>
-              )}
-              {/* <span onClick={() => router.push("/signup")}>
+              )} */}
+      {/* <span onClick={() => router.push("/signup")}>
                                 {language.title === "nl" ? "Account aanmaken" : "Create Your Account"}
                             </span> */}
-            </span>
+      {/* </span>
           </>
         )}
-      </p>
-      {!isSignIn && (
+      </p> */}
+      {/* {!isSignIn && (
         <>
-          <br />
-          {/* <span>Forgot your password</span> */}
-          {language.title === "nl" ? (
+          <br /> */}
+      {/* <span>Forgot your password</span> */}
+      {/* {language.title === "nl" ? (
             <a
               target="_blank"
               href="https://janmulder.us/store/?album=Streaming"
@@ -286,12 +204,12 @@ const AuthPage = ({ isSignIn }) => {
             </a>
           )}
         </>
-      )}
+      )} */}
     </form>
   );
 };
 
-export default AuthPage;
+export default ForgotPage;
 
 // Sign up form: add the following checkbox (below Access Code field) that is required in order to register:
 // I promise this account will only be used by me, and not to share any of the content with others.

@@ -1,13 +1,10 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import classes from "./Card.module.css";
+import { Lock } from "@material-ui/icons";
+import Alert from "@mui/material/Alert";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useSelector, shallowEqual } from "react-redux";
-import Alert from "@mui/material/Alert";
-import { Lock } from "@material-ui/icons";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ClipLoader from "react-spinners/ClipLoader";
+import React, { forwardRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import classes from "./Card.module.css";
 
 // import axios from "axios";
 // import { setSongs, setSong } from "../../store/musicReducer";
@@ -28,7 +25,7 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
   function handleClick() {
     // setLoading(true)
     if (!user) {
-      route.replace("/login");
+      route.replace("/auth/login");
       return;
     }
     if (disableFetch) return;

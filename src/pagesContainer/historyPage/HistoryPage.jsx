@@ -10,72 +10,80 @@ import { IconButton } from "@material-ui/core";
 
 const postSelector = (state) => state.music;
 
-function HistoryPage({ userEmail }) {
-    const { user } = useSelector(postSelector, shallowEqual);
-    const route = useRouter();
-    const [history, setHistory] = useState([]);
+const HistoryPage = ({ userEmail }) => {
+  console.log("HistoryPage >>>>>>>>");
 
-    useEffect(async () => {
-        if (userEmail !== undefined) {
-            const { data } = await axios.get(`${process.env.base_url}/history/${userEmail.replace(/-/g, " ")}`);
-            setHistory(data[0]);
-        }
-    }, [userEmail]);
+  const { user } = useSelector(postSelector, shallowEqual);
+  const route = useRouter();
+  const [history, setHistory] = useState([]);
 
-    const convertTime = (d) => {
-        return new Date(d).toLocaleString();
-    };
+  useEffect(async () => {
+    if (userEmail !== undefined) {
+      const { data } = await axios.get(
+        `${process.env.base_url}/history/${userEmail.replace(/-/g, " ")}`
+      );
+      setHistory(data[0]);
+    }
+  }, [userEmail]);
 
-    // const redirectMe = () => {
-    //     route.push(`/`);
-    // };
+  const convertTime = (d) => {
+    return new Date(d).toLocaleString();
+  };
 
-    return (
-        <div className={classes.albums}>
-            <Head>
-                <title>History</title>
-                <meta name="description" content="history" />
-            </Head>
-            <br />
-            <h4 style={{ color: "white", textAlign: "center" }}>RECENTLY PLAYED SONGS</h4>
-            <h1>History</h1>
-            <div className={classes.tabWrapper}>
-                {user?.email === userEmail ? (
-                    history ? (
-                        history.map((item, index) => {
-                            return (
-                                <div
-                                    className={`${classes.musicTrack}`}
-                                    key={index}
-                                    onClick={() => {
-                                        route.push(`/album/${item.albumName.replaceAll(" ", "-")}`);
-                                    }}
-                                >
-                                    <div className={classes.musicTrackLeft}>
-                                        <IconButton className={classes.songTune}>
-                                            <MusicNote />
-                                        </IconButton>
-                                        <span className={classes.nameWrapper}>
-                                            <h4>{item.songName}</h4>
-                                            <p className={classes.nameP}>{item.albumName}</p>
-                                        </span>
-                                    </div>
-                                    <div className={classes.musicTrackRight}>
-                                        <p className={classes.playAgain}>{convertTime(parseInt(item.createdAt))}</p>
-                                    </div>
-                                </div>
-                            );
-                        })
-                    ) : (
-                        <h4 style={{ color: "grey", textAlign: "center" }}>Loading...</h4>
-                    )
-                ) : (
-                    <h4 style={{ color: "grey", textAlign: "center" }}>Loading...</h4>
-                )}
-            </div>
-        </div>
-    );
-}
+  // const redirectMe = () => {
+  //     route.push(`/`);
+  // };
+
+  return (
+    <div className={classes.albums}>
+      <Head>
+        <title>History</title>
+        <meta name="description" content="history" />
+      </Head>
+      <br />
+      <h4 style={{ color: "white", textAlign: "center" }}>
+        RECENTLY PLAYED SONGS
+      </h4>
+      <h1>History</h1>
+      <div className={classes.tabWrapper}>
+        {user?.email === userEmail ? (
+          history ? (
+            history.map((item, index) => {
+              return (
+                <div
+                  className={`${classes.musicTrack}`}
+                  key={index}
+                  onClick={() => {
+                    route.push(`/album/${item.albumName.replaceAll(" ", "-")}`);
+                  }}
+                >
+                  <div className={classes.musicTrackLeft}>
+                    <IconButton className={classes.songTune}>
+                      <MusicNote />
+                    </IconButton>
+                    <span className={classes.nameWrapper}>
+                      <h4>{item.songName}</h4>
+                      <p className={classes.nameP}>{item.albumName}</p>
+                    </span>
+                  </div>
+                  <div className={classes.musicTrackRight}>
+                    <p className={classes.playAgain}>
+                      {convertTime(parseInt(item.createdAt))}
+                    </p>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <h4 style={{ color: "grey", textAlign: "center" }}>Loading...</h4>
+          )
+        ) : (
+          <h4 style={{ color: "grey", textAlign: "center" }}>Loading...</h4>
+        )}
+      </div>
+    </div>
+  );
+};
 // Nothing
 
 export default React.memo(HistoryPage);
