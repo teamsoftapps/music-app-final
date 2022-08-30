@@ -1,27 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
-import classes from "./AlbumPage.module.css";
-import style from "../../../styles/global.module.scss";
-import Card from "../../components/card/Card";
-import MusicTracker from "../../components/musicTrack/MusicTrack";
-import MusicPlayer from "../../components/musicPlayer/MusicPlayer";
-import { useRouter } from "next/router";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import {
-  setSong,
-  setSongs,
-  setAlbum,
-  setFavourites,
-} from "../../store/musicReducer";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-import axios from "axios";
-import { useTimer } from "react-timer-hook";
-import moment from "moment";
-import { setFavouriteId, setFavouriteIndex } from "../../store/musicReducer";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import style from "../../../styles/global.module.scss";
+import Card from "../../components/card/Card";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
-import ClipLoader from "react-spinners/ClipLoader";
+import MusicTracker from "../../components/musicTrack/MusicTrack";
+import {
+  setAlbum,
+  setFavouriteId,
+  setSong,
+  setSongs,
+} from "../../store/musicReducer";
+import classes from "./AlbumPage.module.css";
 
 const postSelector = (state) => state.music;
 
@@ -138,7 +132,7 @@ const AlbumPage = ({ songs, album }) => {
         setSingleSong(`${process.env.media_url}/${finalArr[0].Song_File}`);
       } else {
         setSongArray(songs);
-        setSingleSong(`${process.env.media_url}/${songs[0].Song_File}`);
+        setSingleSong(`${process.env.media_url}/${songs[0]?.Song_File}`);
       }
     }
 

@@ -57,7 +57,7 @@ const LoginPage = () => {
   };
 
   const loginTextEng = "Login";
-  const loginTextNl = "Inloggen";
+  const loginTextNl = "Log in";
 
   return (
     <form onSubmit={handleSubmit} className={classes.auth}>
@@ -74,7 +74,7 @@ const LoginPage = () => {
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={classes.input}>
-        <label htmlFor="">Email</label>
+        <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
         <input
           value={email}
           onChange={(e) => {
@@ -112,7 +112,7 @@ const LoginPage = () => {
         type="submit"
         variant="contained"
       >
-        {loginTextEng}
+        {language.title === "nl" ? loginTextNl : loginTextEng}
       </Button>
       <br />
       <p>

@@ -1,16 +1,17 @@
+import axios from "axios";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import Card from "../../components/card/Card";
-import classes from "./HomePage.module.css";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Footer from "../../components/footer/Foote";
 import FlipMove from "react-flip-move";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import ClipLoader from "react-spinners/ClipLoader";
 import downarrow from "../../../public/images/downarrownew.png";
 import uparrow from "../../../public/images/uparrownew.png";
-import Image from "next/image";
 import Advertisement from "../../components/advertisment/Advertisment";
-import { useRouter } from "next/router";
-import axios from "axios";
+import Card from "../../components/card/Card";
+import Footer from "../../components/footer/Foote";
 import { setFavourites } from "../../store/musicReducer";
+import classes from "./HomePage.module.css";
 
 const postSelector = (state) => state.music;
 
@@ -29,9 +30,13 @@ const HomePage = ({ albums }) => {
   const [openAdd, setOpenAdd] = useState(false);
   const { language, user } = useSelector(postSelector, shallowEqual);
   const [albumsOrder, setAlbumsOrder] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const route = useRouter();
   const dispatch = useDispatch();
+
   // console.log(user)
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("music-app-credentials"));
 
@@ -140,6 +145,22 @@ const HomePage = ({ albums }) => {
       <br />
       <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
       {/* Code for Advertisement (start) */}
+
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ClipLoader color="red" loading={loading} size={100} />
+      </div>
+
       <div className={classes.addcontainer}>
         <div className={classes.addcontainerInner}>
           <h3 className={classes.addheading} onClick={() => handleAdd()}>
