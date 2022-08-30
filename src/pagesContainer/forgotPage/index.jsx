@@ -7,7 +7,7 @@ import classes from "./ForgotPage.module.css";
 
 const postSelector = (state) => state.music;
 
-const ForgotPage = () => {
+const ForgotPage = (async) => {
   console.log("Auth ForgotPage >>>>>>>>");
 
   const { language } = useSelector(postSelector, shallowEqual);
@@ -22,7 +22,12 @@ const ForgotPage = () => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const payload = { email };
+    // const payload = { email };
+    const body = {
+      email,
+    };
+    let res = await api.post(`/forgot-password`, body);
+    console.log("api response>>>>>>>>>>>", res);
   };
 
   return (

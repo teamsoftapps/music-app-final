@@ -9,7 +9,7 @@ import downarrow from "../../../public/images/downarrownew.png";
 import uparrow from "../../../public/images/uparrownew.png";
 import Advertisement from "../../components/advertisment/Advertisment";
 import Card from "../../components/card/Card";
-import Footer from "../../components/footer/Foote";
+import Footer from "../../components/footer";
 import { setFavourites } from "../../store/musicReducer";
 import classes from "./HomePage.module.css";
 
