@@ -272,7 +272,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                         <h3>{songName}</h3>
                     </div>
                 </div>
-                
+
                 <div className={classes.albumsMusicPlayerMain}>
                     <div className={classes.musicController}>
                         <IconButton

@@ -28,13 +28,13 @@ module.exports = (phase) => {
     reactStrictMode: true,
     images: {
       domains: [
-        "music-apppps.herokuapp.com",
+        "iam-mulder-music-app.herokuapp.com",
         "musicfilesforheroku.s3.us-west-1.amazonaws.com",
       ],
     },
     // images: { domains: ["localhost", "musicfilesforheroku.s3.us-west-1.amazonaws.com"] },
     env: {
-      base_url: "https://music-apppps.herokuapp.com/api",
+      base_url: "https://https://iam-mulder-music-app.herokuapp.com/api",
       media_url:
         "https://musicfilesforheroku.s3.us-west-1.amazonaws.com/uploads",
       // base_url: "https://music-appps.herokuapp.com/api",
