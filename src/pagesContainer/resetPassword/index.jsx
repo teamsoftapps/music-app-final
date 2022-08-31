@@ -1,11 +1,9 @@
 import { Button } from "@material-ui/core";
-import axios from "axios";
-import { apiOwnKeys } from "mobx/dist/internal";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/musicReducer";
+import api from "./../../../services/api";
 import classes from "./ResetPassword.module.css";
 
 const postSelector = (state) => state.music;
@@ -31,17 +29,27 @@ const ResetPassword = () => {
     setLoading(true);
     e.preventDefault();
 
-const body ={
-  accessCode = "",
-  password = "",
-  confirmPassword = "",
-}
-localStorage.getItem("userID",res.data.data.id)
-let res = await api.post(`/reset-password/:id`,body)
-console.log("reset password>>>>>>>>>>>>>",res);
+    try {
+      const body = {
+        code: accessCode,
+        password,
+      };
 
+      const userID = localStorage.getItem("userID");
 
-   // const payload = { email, password, code: accessCode };
+      let res = await api.patch(`/reset-password/${userID}`, body);
+
+      console.log("reset password>>>>>>>>>>>>>", res);
+
+      localStorage.removeItem("userID");
+
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("error >>>>>>", error);
+      setError(error);
+    }
+
+    // const payload = { email, password, code: accessCode };
 
     // const url = `${process.env.base_url}/updatePassword`;
 
@@ -55,7 +63,6 @@ console.log("reset password>>>>>>>>>>>>>",res);
     //   localStorage.setItem("music-app-credentials", JSON.stringify(data));
     //   dispatch(setUser(data));
 
-    //   router.push("/auth/login");
     // } catch (err) {
     //   setLoading(false);
     //   console.log({ err });
@@ -88,11 +95,11 @@ console.log("reset password>>>>>>>>>>>>>",res);
           {language.title === "nl" ? "Wachtwoord" : "Password"}
         </label>
         <input
-          value={password}
           type="password"
           onChange={(e) => {
             setPassword(e.target.value);
           }}
+          value={password}
           required
           minLength={6}
           maxLength={36}
@@ -106,12 +113,12 @@ console.log("reset password>>>>>>>>>>>>>",res);
           {language.title === "nl" ? "Toegangscode" : "Access Code"}
         </label>
         <input
-          value={accessCode}
           // disabled={!isSignIn ? true : false}
+          type="text"
           onChange={(e) => {
             setAccessCode(e.target.value);
           }}
-          type="text"
+          value={accessCode}
           required
           minLength={7}
           maxLength={10}

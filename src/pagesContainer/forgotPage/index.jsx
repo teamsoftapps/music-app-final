@@ -23,13 +23,18 @@ const ForgotPage = (async) => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+
     // const payload = { email };
+
     const body = {
       email,
     };
+
     let res = await api.post(`/forgot-password`, body);
+
     console.log("api response>>>>>>>>>>>", res);
-    // localStorage.setItem("userID", res.data.data.id);
+
+    localStorage.setItem("userID", res.data.data.id);
   };
 
   return (
@@ -66,7 +71,7 @@ const ForgotPage = (async) => {
         type="submit"
         variant="contained"
         onClick={() => {
-          router.push("/success");
+          router.push("/auth/reset-password");
         }}
       >
         {language.title === "nl" ? "Indienen" : "Submit"}
