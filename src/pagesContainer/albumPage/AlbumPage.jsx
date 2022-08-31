@@ -121,6 +121,7 @@ const AlbumPage = ({ songs, album }) => {
 
         setSongName(songs[0]?.Song_Name);
         setLyrics(songs[0]?.Song_Lyrics);
+
         if (!user?.token.length) return route.replace("/auth/login");
         if (!songs?.length) return route.replace("/");
         dispatch(setSongs(songs));

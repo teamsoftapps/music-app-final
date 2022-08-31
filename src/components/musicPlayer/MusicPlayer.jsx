@@ -22,7 +22,7 @@ const postSelector = (state) => state.music;
 
 function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName, lyrics, setLyrics, trial }) {
     const { song, isPlaying, album, language, user, favouriteId } = useSelector(postSelector, shallowEqual);
-    // console.log(favouriteId)
+
     const dispatch = useDispatch();
 
     // const [currentTime, setCurrentTime] = useState(0);
