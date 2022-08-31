@@ -7,6 +7,7 @@ import axios from "axios";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setNextSong, setPreviousSong, setIsPlaying } from "../../store/musicReducer";
 import InfoIcon from "@mui/icons-material/Info";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -24,14 +25,13 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
     // console.log(favouriteId)
     const dispatch = useDispatch();
 
-
     // const [currentTime, setCurrentTime] = useState(0);
     const [volume, setVolume] = useState(1);
     const [showDetails, setshowDetails] = useState(false);
     const [isLyrics, setIsLyrics] = useState(0);
-    const [currentSongIndex, setCurrentSongIndex] = useState(0)
-    const [songTime, setSongTime] = useState(0)
-    const [isChanged, setIsChanged] = useState(false)
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+    const [songTime, setSongTime] = useState(0);
+    const [isChanged, setIsChanged] = useState(false);
 
     const handleIsLyrics = (event, newValue) => {
         setIsLyrics(newValue);
@@ -42,43 +42,37 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
     const volumePreState = useRef();
     const initialRef = useRef(0);
 
-
     // auto change song name while playing..
     useEffect(() => {
-        let calcSecs = !isChanged ? calculateSeconds(songs[currentSongIndex]?.Song_Length) : songTime
+        let calcSecs = !isChanged ? calculateSeconds(songs[currentSongIndex]?.Song_Length) : songTime;
         // console.log(songs)
-        let tempIndex = currentSongIndex
-        let roundCurrentTime = Math.floor(currentTime)
+        let tempIndex = currentSongIndex;
+        let roundCurrentTime = Math.floor(currentTime);
 
-
-
-        let fullLengthOfSong = calculateSeconds(songs[songs?.length - 1]?.Song_Length)
+        let fullLengthOfSong = calculateSeconds(songs[songs?.length - 1]?.Song_Length);
 
         if (roundCurrentTime >= fullLengthOfSong) {
-            setCurrentSongIndex(0)
-            setIsChanged(false)
-            setSongName(songs[0]?.Song_Name)
-            setLyrics(songs[0]?.Song_Lyrics)
-            return
+            setCurrentSongIndex(0);
+            setIsChanged(false);
+            setSongName(songs[0]?.Song_Name);
+            setLyrics(songs[0]?.Song_Lyrics);
+            return;
         }
 
         if (roundCurrentTime >= calcSecs) {
-            tempIndex += 1
-            setCurrentSongIndex(tempIndex)
+            tempIndex += 1;
+            setCurrentSongIndex(tempIndex);
 
-            calcSecs += calculateSeconds(songs[tempIndex]?.Song_Length)
+            calcSecs += calculateSeconds(songs[tempIndex]?.Song_Length);
             // console.log(songs[tempIndex])
-            setSongName(songs[tempIndex].Song_Name)
-            setLyrics(songs[tempIndex]?.Song_Lyrics)
+            setSongName(songs[tempIndex].Song_Name);
+            setLyrics(songs[tempIndex]?.Song_Lyrics);
 
-            setSongTime(calcSecs)
-            setIsChanged(true)
-            return
+            setSongTime(calcSecs);
+            setIsChanged(true);
+            return;
         }
-
-
-
-    }, [currentTime])
+    }, [currentTime]);
     // set song from playlist
     // useEffect(() => {
     //     songs?.some((s) => {
@@ -131,7 +125,6 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
         if (Math.floor(audioPlayer.current?.duration) === Math.floor(currentTime)) {
             dispatch(setNextSong(song));
             defaultHandler(true);
-
         }
     }, [audioPlayer.current?.duration, currentTime]);
 
@@ -191,7 +184,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
 
     function changeMusicTime(e, value) {
         // console.log(value, currentTime)
-        if (value < currentTime) return
+        if (value < currentTime) return;
         if (value) {
             audioPlayer.current.currentTime = value;
             setCurrentTime(value);
@@ -216,7 +209,6 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
     }
 
     function songDuration(duration) {
-
         return duration && typeof duration === "number" && duration;
     }
 
@@ -272,7 +264,6 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
             <div className={classes.albumsMusicPlayer}>
                 <div className={classes.albumsMusicPlayerProfile}>
                     <div className={classes.musicTrackImage}>
-
                         <Image src={`${process.env.media_url}/${song?.Album_Image}`} alt="" width="75" height="75" layout="responsive" />
                     </div>
                     <div className={classes.albumsMusicPlayerTitle}>
@@ -281,6 +272,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                         <h3>{songName}</h3>
                     </div>
                 </div>
+
                 <div className={classes.albumsMusicPlayerMain}>
                     <div className={classes.musicController}>
                         <IconButton
@@ -338,7 +330,6 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                             onChange={changeMusicTime}
                             aria-labelledby="input-slider"
                             disabled={trial}
-
                             max={songDuration(audioPlayer.current?.duration)}
                         />
                         <p>
@@ -410,7 +401,7 @@ function MusicPlayer({ currentTime, setCurrentTime, songs, songName, setSongName
                     <div className={classes.tabsContentWrapper}>
                         {/* {isLyrics === 0 ? <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span> : ""}
                         {isLyrics === 1 ? <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span> : ""} */}
-                        {isLyrics === 0 ? <span className={classes.lyricsText}>{lyrics ? lyrics : 'No Lyrics Available'}</span> : ""}
+                        {isLyrics === 0 ? <span className={classes.lyricsText}>{lyrics ? lyrics : "No Lyrics Available"}</span> : ""}
                         {isLyrics === 1 ? <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span> : ""}
                     </div>
                 </div>

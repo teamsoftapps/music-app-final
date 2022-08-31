@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         flexDirection: "row",
         margin: "5px 0px",
-        padding: '0 10px'
+        padding: "0 10px",
     },
     innerWrapname: {
         display: "flex",
@@ -98,10 +98,10 @@ const useStyles = makeStyles((theme) => ({
 const postSelector = (state) => state.music;
 
 function TemporaryDrawer() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const { user, favourites } = useSelector(postSelector, shallowEqual);
     // console.log(favourites)
-    const route = useRouter()
+    const route = useRouter();
     const classes = useStyles();
     const [state, setState] = React.useState({
         // top: false,
@@ -118,11 +118,12 @@ function TemporaryDrawer() {
         setState({ ...state, [anchor]: open });
     };
     function handleClick(album, index) {
-        console.log(album, index)
-        dispatch(setFavouriteId(album?._id))
+        console.log(album, index);
+        dispatch(setFavouriteId(album?._id));
+
         // dispatch(setFavouriteIndex(index))
         if (!user) {
-            route.replace("/login");
+            route.replace("/auth/login");
             return;
         }
         route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
@@ -134,7 +135,7 @@ function TemporaryDrawer() {
             role="presentation"
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
-        // className={classes.drawerWrap}
+            // className={classes.drawerWrap}
         >
             <h1 className={classes.playlistDrawerHeading}>Your Playlist</h1>
             <List className={classes.playlistInnerWrap}>
@@ -183,4 +184,4 @@ function TemporaryDrawer() {
         </div>
     );
 }
-export default React.memo(TemporaryDrawer)
+export default React.memo(TemporaryDrawer);

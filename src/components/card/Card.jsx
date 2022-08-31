@@ -1,30 +1,31 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import classes from "./Card.module.css";
+import { Lock } from "@material-ui/icons";
+import Alert from "@mui/material/Alert";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useSelector, shallowEqual } from "react-redux";
-import Alert from "@mui/material/Alert";
-import { Lock } from "@material-ui/icons";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import React, { forwardRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import classes from "./Card.module.css";
 
 // import axios from "axios";
 // import { setSongs, setSong } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
-const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
+const Card = forwardRef(({ album, url, index, trial, disableFetch, setLoading }, ref) => {
     const [error, setError] = useState(false);
     const { user } = useSelector(postSelector, shallowEqual);
     // const [liked, setLiked] = useState(false);
     // const [trial, setTrial] = useState(false)
+    // const [loading, setLoading] = useState(true);
+
     const route = useRouter();
 
     // const dispatch = useDispatch();
     // console.log(index, expiry)
 
     function handleClick() {
+        setLoading(true);
         if (!user) {
-            route.replace("/login");
+            route.replace("/auth/login");
             return;
         }
         if (disableFetch) return;
@@ -65,6 +66,7 @@ const Card = forwardRef(({ album, url, index, trial, disableFetch }, ref) => {
                     </span>
                 </span>
             )}
+
             {/* {trial && index !== 0 ? (
                 <span className={classes.locked}>
                     <span>

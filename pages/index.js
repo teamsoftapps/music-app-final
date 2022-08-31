@@ -1,12 +1,10 @@
 import HomePage from "../src/pagesContainer/homePage/HomePage";
-import axios from "axios";
+import api from "./../services/api";
 
-const index = ({ albums }) => <HomePage albums={albums} />;
-
-export default index;
+// console.log("process.env.base_url >>>>>>>>>>", process.env.base_url);
 
 export async function getStaticProps() {
-  const { data } = await axios.get(`${process.env.base_url}/albums`);
+  const { data } = await api.get("/albums");
 
   return {
     props: {
@@ -15,3 +13,7 @@ export async function getStaticProps() {
     },
   };
 }
+
+const index = ({ albums }) => <HomePage albums={albums} />;
+
+export default index;
