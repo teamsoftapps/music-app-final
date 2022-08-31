@@ -29,6 +29,7 @@ const ForgotPage = (async) => {
     };
     let res = await api.post(`/forgot-password`, body);
     console.log("api response>>>>>>>>>>>", res);
+    // localStorage.setItem("userID", res.data.data.id);
   };
 
   return (
@@ -61,7 +62,13 @@ const ForgotPage = (async) => {
         />
       </div>
 
-      <Button type="submit" variant="contained">
+      <Button
+        type="submit"
+        variant="contained"
+        onClick={() => {
+          router.push("/success");
+        }}
+      >
         {language.title === "nl" ? "Indienen" : "Submit"}
       </Button>
 

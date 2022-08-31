@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import axios from "axios";
+import { apiOwnKeys } from "mobx/dist/internal";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,7 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // console.log({ email, accessCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
@@ -29,30 +31,40 @@ const ResetPassword = () => {
     setLoading(true);
     e.preventDefault();
 
-    const payload = { email, password, code: accessCode };
+const body ={
+  accessCode = "",
+  password = "",
+  confirmPassword = "",
+}
+localStorage.getItem("userID",res.data.data.id)
+let res = await api.post(`/reset-password/:id`,body)
+console.log("reset password>>>>>>>>>>>>>",res);
 
-    const url = `${process.env.base_url}/updatePassword`;
 
-    try {
-      const { data } = await axios.post(url, payload);
+   // const payload = { email, password, code: accessCode };
 
-      console.log(data);
+    // const url = `${process.env.base_url}/updatePassword`;
 
-      setLoading(false);
+    // try {
+    //   const { data } = await axios.post(url, payload);
 
-      localStorage.setItem("music-app-credentials", JSON.stringify(data));
-      dispatch(setUser(data));
+    //   console.log(data);
 
-      router.push("/auth/login");
-    } catch (err) {
-      setLoading(false);
-      console.log({ err });
-      setError(err?.response?.data);
+    //   setLoading(false);
 
-      setTimeout(() => {
-        setError("");
-      }, 3000);
-    }
+    //   localStorage.setItem("music-app-credentials", JSON.stringify(data));
+    //   dispatch(setUser(data));
+
+    //   router.push("/auth/login");
+    // } catch (err) {
+    //   setLoading(false);
+    //   console.log({ err });
+    //   setError(err?.response?.data);
+
+    //   setTimeout(() => {
+    //     setError("");
+    //   }, 3000);
+    // }
   };
 
   return (
