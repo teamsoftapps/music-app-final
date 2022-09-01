@@ -9,89 +9,88 @@ import api from "./../../../services/api";
 const postSelector = (state) => state.music;
 
 const ForgotPage = (async) => {
-  console.log("Auth ForgotPage >>>>>>>>");
+    console.log("Auth ForgotPage >>>>>>>>");
 
-  const { language } = useSelector(postSelector, shallowEqual);
+    const { language } = useSelector(postSelector, shallowEqual);
 
-  const router = useRouter();
-  const dispatch = useDispatch();
+    const router = useRouter();
+    const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        setLoading(true);
+        e.preventDefault();
 
-    // const payload = { email };
+        // const payload = { email };
+        try {
+            const body = {
+                email,
+            };
 
-    const body = {
-      email,
+            let res = await api.post(`/forgot-password`, body);
+
+            console.log("api response>>>>>>>>>>>", res);
+
+            localStorage.setItem("userID", res.data.data.id);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    let res = await api.post(`/forgot-password`, body);
+    return (
+        <form onSubmit={handleSubmit} className={classes.auth}>
+            <Head>
+                <title>Mulder Music Streaming | </title>
+            </Head>
 
-    console.log("api response>>>>>>>>>>>", res);
+            <h1>{language.title === "nl" ? "Vind Je Account" : "Find Your Account"}</h1>
 
-    localStorage.setItem("userID", res.data.data.id);
-  };
+            {loading && <h3>Loading..</h3>}
 
-  return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
-      <Head>
-        <title>Mulder Music Streaming | </title>
-      </Head>
+            {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
-      <h1>
-        {language.title === "nl" ? "Vind Je Account" : "Find Your Account"}
-      </h1>
+            <div className={classes.input}>
+                <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
+                <input
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                    }}
+                    // disabled={loading ? true : false}
+                    type="email"
+                    required
+                    placeholder={language.title === "nl" ? "Uw emailadres" : "Your Email Address"}
+                />
+            </div>
 
-      {loading && <h3>Loading..</h3>}
+            <Button
+                type="submit"
+                variant="contained"
+                onClick={() => {
+                    router.push("/auth/reset-password");
+                }}
+            >
+                {language.title === "nl" ? "Indienen" : "Submit"}
+            </Button>
 
-      {error && <h3 style={{ color: "red" }}>{error}</h3>}
+            <br />
 
-      <div className={classes.input}>
-        <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
-        <input
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          // disabled={loading ? true : false}
-          type="email"
-          required
-          placeholder={
-            language.title === "nl" ? "Uw emailadres" : "Your Email Address"
-          }
-        />
-      </div>
-
-      <Button
-        type="submit"
-        variant="contained"
-        onClick={() => {
-          router.push("/auth/reset-password");
-        }}
-      >
-        {language.title === "nl" ? "Indienen" : "Submit"}
-      </Button>
-
-      <br />
-
-      <p>
-        <span className={classes.linkBoxWrapper}>
-          <span
-            onClick={() => {
-              router.push("/auth/login");
-            }}
-          >
-            {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
-          </span>
-        </span>
-      </p>
-    </form>
-  );
+            <p>
+                <span className={classes.linkBoxWrapper}>
+                    <span
+                        onClick={() => {
+                            router.push("/auth/login");
+                        }}
+                    >
+                        {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
+                    </span>
+                </span>
+            </p>
+        </form>
+    );
 };
 
 export default ForgotPage;
