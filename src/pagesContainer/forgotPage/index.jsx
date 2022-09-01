@@ -5,92 +5,132 @@ import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import classes from "./ForgotPage.module.css";
 import api from "./../../../services/api";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const postSelector = (state) => state.music;
 
 const ForgotPage = (async) => {
-    console.log("Auth ForgotPage >>>>>>>>");
+  console.log("Auth ForgotPage >>>>>>>>");
 
-    const { language } = useSelector(postSelector, shallowEqual);
+  const { language } = useSelector(postSelector, shallowEqual);
 
-    const router = useRouter();
-    const dispatch = useDispatch();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-    const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-    const handleSubmit = async (e) => {
-        setLoading(true);
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    e.preventDefault();
 
-        // const payload = { email };
-        try {
-            const body = {
-                email,
-            };
+    // const payload = { email };
+    try {
+      const body = {
+        email,
+      };
 
-            let res = await api.post(`/forgot-password`, body);
+      let res = await api.post(`/forgot-password`, body);
 
-            console.log("api response>>>>>>>>>>>", res);
+      console.log("api response>>>>>>>>>>>", res);
 
-            localStorage.setItem("userID", res.data.data.id);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+      if (res) {
+        localStorage.setItem("userID", res.data.data.id);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    return (
-        <form onSubmit={handleSubmit} className={classes.auth}>
-            <Head>
-                <title>Mulder Music Streaming | </title>
-            </Head>
+  return (
+    <form onSubmit={handleSubmit} className={classes.auth}>
+      <Head>
+        <title>Mulder Music Streaming | </title>
+      </Head>
 
-            <h1>{language.title === "nl" ? "Vind Je Account" : "Find Your Account"}</h1>
+      <h1>
+        {language.title === "nl" ? "Vind Je Account" : "Find Your Account"}
+      </h1>
 
-            {loading && <h3>Loading..</h3>}
+      {loading && <h3>Loading..</h3>}
 
-            {error && <h3 style={{ color: "red" }}>{error}</h3>}
+      {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
-            <div className={classes.input}>
-                <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
-                <input
-                    value={email}
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                    }}
-                    // disabled={loading ? true : false}
-                    type="email"
-                    required
-                    placeholder={language.title === "nl" ? "Uw emailadres" : "Your Email Address"}
-                />
-            </div>
+      <div className={classes.input}>
+        <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
+        <input
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          // disabled={loading ? true : false}
+          type="email"
+          required
+          placeholder={
+            language.title === "nl" ? "Uw emailadres" : "Your Email Address"
+          }
+        />
+      </div>
 
-            <Button
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                    router.push("/auth/reset-password");
-                }}
-            >
-                {language.title === "nl" ? "Indienen" : "Submit"}
-            </Button>
+      <Button
+        type="submit"
+        variant="contained"
+        onClick={() => {
+          router.push("/auth/reset-password");
+        }}
+      >
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: "44vw",
+            left: "44vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 100,
+          }}
+        >
+          <ClipLoader color="red" loading={loading} size={"10vw"} />
+        </div>
+        {language.title === "nl" ? "Indienen" : "Submit"}
+      </Button>
+      {/* <div
+        style={{
+          position: "fixed",
+          top: "50%",
+          right: "44vw",
+          left: "44vw",
 
-            <br />
+          // left: 0,
+          // width: "100%",
+          // height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 100,
+        }}
+      >
+        <ClipLoader color="red" loading={loading} size={"10vw"} />
+      </div> */}
 
-            <p>
-                <span className={classes.linkBoxWrapper}>
-                    <span
-                        onClick={() => {
-                            router.push("/auth/login");
-                        }}
-                    >
-                        {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
-                    </span>
-                </span>
-            </p>
-        </form>
-    );
+      <br />
+
+      <p>
+        <span className={classes.linkBoxWrapper}>
+          <span
+            onClick={() => {
+              router.push("/auth/login");
+            }}
+          >
+            {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
+          </span>
+        </span>
+      </p>
+    </form>
+  );
 };
 
 export default ForgotPage;
