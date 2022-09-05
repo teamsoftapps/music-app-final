@@ -1,11 +1,12 @@
-import { Button } from "@material-ui/core";
-import axios from "axios";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { Button, FormControlLabel } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/musicReducer";
 import classes from "./AuthPage.module.css";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { setUser } from "../../store/musicReducer";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 
 const postSelector = (state) => state.music;
 

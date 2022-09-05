@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../../card/Card";
 import classes from "./Banner.module.css";
+import Card from "../../card/Card";
 // import Slider from "react-slick";
 
 const Banner = () => {
@@ -14,7 +14,7 @@ const Banner = () => {
   //     centerPadding: "60px",
   //     speed: 500,
   //     slidesToShow: 2,
-  //     initialSlide: 0,o
+  //     initialSlide: 0,
   // };
 
   const style = {

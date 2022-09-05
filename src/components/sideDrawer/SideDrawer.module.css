@@ -19,13 +19,13 @@
 
 .innerWrapInner {
   display: flex;
+
   background-color: #382b11;
   border-radius: 4px;
   width: 100%;
   flex-direction: row;
   margin: 5px 0px;
 }
-
 .innerWrapname {
   display: flex;
 }

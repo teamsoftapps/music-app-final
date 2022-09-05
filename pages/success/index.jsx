@@ -1,5 +1,5 @@
+import Head from "next/head";
 import Footer from "./../../src/components/footer";
-
 const index = () => {
   return (
     <>

@@ -5,7 +5,6 @@ const initialState = {
     title: "eng",
     src: "usa-2.jpg",
   },
-
   user: null,
   songs: [],
   song: {},
@@ -38,11 +37,9 @@ export const counterSlice = createSlice({
     setSong: (state, { payload }) => {
       state.song = payload;
     },
-
     setIsPlaying: (state, { payload }) => {
       state.isPlaying = payload;
     },
-
     setPreviousSong: (state, { payload }) => {
       const currentIndex = state.songs.findIndex(
         (song) => song._id === payload._id
@@ -50,7 +47,6 @@ export const counterSlice = createSlice({
       if (currentIndex <= 0) return;
       state.song = state.songs[currentIndex - 1];
     },
-
     setNextSong: (state, { payload }) => {
       const currentIndex = state.songs.findIndex(
         (song) => song._id === payload._id
@@ -58,15 +54,12 @@ export const counterSlice = createSlice({
       if (currentIndex < 0 || currentIndex === state.songs.length - 1) return;
       state.song = state.songs[currentIndex + 1];
     },
-
     setAlbum: (state, { payload }) => {
       state.album = payload;
     },
-
     setFavourites: (state, { payload }) => {
       state.favourites = payload;
     },
-
     setFavouriteId: (state, { payload }) => {
       state.favouriteId = payload;
     },

@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ClipLoader from "react-spinners/ClipLoader";
 import api from "./../../../services/api";
 import classes from "./ResetPassword.module.css";
 
@@ -39,13 +38,12 @@ const ResetPassword = () => {
       const userID = localStorage.getItem("userID");
 
       let res = await api.patch(`/reset-password/${userID}`, body);
-      if (res) {
-        console.log("reset password>>>>>>>>>>>>>", res);
 
-        localStorage.removeItem("userID");
-        setLoading(false);
-        router.push("/auth/login");
-      }
+      console.log("reset password>>>>>>>>>>>>>", res);
+
+      localStorage.removeItem("userID");
+
+      router.push("/auth/login");
     } catch (error) {
       console.error("error >>>>>>", error);
       setError(error);
@@ -129,39 +127,7 @@ const ResetPassword = () => {
       </div>
       <Button type="submit" variant="contained">
         {language.title === "nl" ? "Indienen" : "Submit"}
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            right: "44vw",
-            left: "44vw",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 100,
-          }}
-        >
-          <ClipLoader color="red" loading={loading} size={"10vw"} />
-        </div>
       </Button>
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          right: "44vw",
-          left: "44vw",
-
-          // left: 0,
-          // width: "100%",
-          // height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 100,
-        }}
-      >
-        <ClipLoader color="red" loading={loading} size={"10vw"} />
-      </div>
       <br />
     </form>
   );
