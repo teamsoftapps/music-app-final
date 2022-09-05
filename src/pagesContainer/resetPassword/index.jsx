@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import ClipLoader from "react-spinners/ClipLoader";
 import api from "./../../../services/api";
 import classes from "./ResetPassword.module.css";
-import ClipLoader from "react-spinners/ClipLoader";
 
 const postSelector = (state) => state.music;
 
