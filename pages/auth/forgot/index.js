@@ -1,5 +1,5 @@
-import ForgetPage from "../../../src/pagesContainer/forgotPage";
 import Footer from "../../../src/components/footer";
+import ForgetPage from "../../../src/pagesContainer/forgotPage";
 
 const index = () => {
   return (

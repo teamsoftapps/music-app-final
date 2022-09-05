@@ -57,17 +57,21 @@
   background: var(--button-color);
   color: var(--primary-color);
 }
+
 .auth p span {
   margin: 0 0.5rem;
 }
+
 .auth p {
   margin: 0 0.5rem;
 }
+
 .auth span {
   cursor: pointer;
   color: var(--secondary-color);
   text-decoration: underline;
 }
+
 .auth > span {
   display: block;
   margin: 1rem;
@@ -84,9 +88,11 @@
   .linkBoxWrapper {
     flex-direction: column;
   }
+
   .auth p span {
     margin: 0.5rem;
   }
+
   .auth {
     width: clamp(300px, 90%, 800px);
     margin: 5vw auto;
