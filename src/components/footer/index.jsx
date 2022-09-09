@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { default as React, useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import {
   setLanguageMode,
@@ -12,6 +12,7 @@ import {
 import classes from "./Footer.module.css";
 
 const postSelector = (state) => state.music;
+
 function Footer() {
   const { user, language } = useSelector(postSelector, shallowEqual);
   const router = useRouter();

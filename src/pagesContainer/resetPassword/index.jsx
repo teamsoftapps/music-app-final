@@ -17,13 +17,14 @@ const ResetPassword = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [accessCode, setAccessCode] = useState("");
+  const [resetPasswordVerificationCode, setResetPasswordVerificationCode] =
+    useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // console.log({ email, accessCode });
+  // console.log({ email, resetPasswordVerificationCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
   const handleSubmit = async (e) => {
@@ -32,26 +33,31 @@ const ResetPassword = () => {
 
     try {
       const body = {
-        code: accessCode,
+        resetPasswordVerificationCode,
         password,
       };
 
       const userID = localStorage.getItem("userID");
 
       let res = await api.patch(`/reset-password/${userID}`, body);
-      if (res) {
-        console.log("reset password>>>>>>>>>>>>>", res);
 
+      // console.log("reset password>>>>>>>>>>>>>", res);
+
+      if (res) {
         localStorage.removeItem("userID");
+
+        localStorage.setItem("type", "reset");
+
         setLoading(false);
-        router.push("/auth/login");
+
+        router.push("/auth/success");
       }
     } catch (error) {
       console.error("error >>>>>>", error);
       setError(error);
     }
 
-    // const payload = { email, password, code: accessCode };
+    // const payload = { email, password, code: resetPasswordVerificationCode };
 
     // const url = `${process.env.base_url}/updatePassword`;
 
@@ -94,6 +100,26 @@ const ResetPassword = () => {
 
       <div className={classes.input}>
         <label htmlFor="">
+          {language.title === "nl" ? "Verificatie code" : "Verification Code"}
+        </label>
+        <input
+          // disabled={!isSignIn ? true : false}
+          type="text"
+          onChange={(e) => {
+            setResetPasswordVerificationCode(e.target.value);
+          }}
+          value={resetPasswordVerificationCode}
+          required
+          minLength={7}
+          maxLength={10}
+          placeholder={
+            language.title === "nl" ? "Verificatie code" : "Verification Code"
+          }
+        />
+      </div>
+
+      <div className={classes.input}>
+        <label htmlFor="">
           {language.title === "nl" ? "Wachtwoord" : "Password"}
         </label>
         <input
@@ -110,23 +136,7 @@ const ResetPassword = () => {
           }
         />
       </div>
-      <div className={classes.input}>
-        <label htmlFor="">
-          {language.title === "nl" ? "Toegangscode" : "Access Code"}
-        </label>
-        <input
-          // disabled={!isSignIn ? true : false}
-          type="text"
-          onChange={(e) => {
-            setAccessCode(e.target.value);
-          }}
-          value={accessCode}
-          required
-          minLength={7}
-          maxLength={10}
-          placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
-        />
-      </div>
+
       <Button type="submit" variant="contained">
         {language.title === "nl" ? "Indienen" : "Submit"}
         <div
@@ -144,6 +154,7 @@ const ResetPassword = () => {
           <ClipLoader color="red" loading={loading} size={"10vw"} />
         </div>
       </Button>
+
       <div
         style={{
           position: "fixed",

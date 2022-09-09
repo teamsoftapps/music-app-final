@@ -139,21 +139,26 @@ const AlbumPage = ({ songs, album }) => {
     setSongName(songs[0]?.Song_Name);
     setLyrics(songs[0]?.Song_Lyrics);
 
-    if (!user?.token.length) return route.replace("/auth/login");
+    if (!user?.token) return route.replace("/auth/login");
+
     if (!songs?.length) return route.replace("/");
+
     dispatch(setSongs(songs));
     dispatch(setAlbum(album));
+
     if (isMobile) {
       dispatch(setSong(songs[songs.length - 1]));
     } else {
       // dispatch(setSong(songs[0]));
       dispatch(setSong(songs[songs.length - 1]));
     }
+
     return () => {
       localStorage.removeItem("counter");
       dispatch(setFavouriteId(""));
     };
   }, [album]);
+
   // useEffect(() => {
   //     songs?.filter((s) => {
   //         if (s?._id === favouriteId) {
@@ -163,9 +168,10 @@ const AlbumPage = ({ songs, album }) => {
   //         }
   //     })
   // }, [])
-  // // set song from playlist
-  // useEffect(() => {
 
+  // // set song from playlist
+
+  // useEffect(() => {
   // }, [])
   // console.log(currentTime)
 
@@ -177,6 +183,7 @@ const AlbumPage = ({ songs, album }) => {
   //     }
   //     return seconds;
   // }
+
   if (!songs || !songs.length) return <h1>Loading...</h1>;
 
   return (

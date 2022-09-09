@@ -1,4 +1,3 @@
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import Advertisement from "../../components/advertisment/Advertisment";
 import Card from "../../components/card/Card";
 import Footer from "../../components/footer";
 import { setFavourites } from "../../store/musicReducer";
+import api from "./../../../services/api";
 import classes from "./HomePage.module.css";
 
 const postSelector = (state) => state.music;
@@ -46,8 +46,7 @@ const HomePage = ({ albums }) => {
 
     const fetchFavourites = async () => {
       try {
-        const url = process.env.base_url;
-        const { data } = await axios.get(`${url}/getFavourites`, {
+        const { data } = await api.get(`/getFavourites`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

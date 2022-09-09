@@ -33,7 +33,7 @@ const ForgotPage = (async) => {
 
       let res = await api.post(`/forgot-password`, body);
 
-      console.log("api response>>>>>>>>>>>", res);
+      // console.log("api response >>>>>>>>>>>", res);
 
       if (res) {
         localStorage.setItem("userID", res.data.data.id);

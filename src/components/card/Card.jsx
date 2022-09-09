@@ -10,6 +10,7 @@ import classes from "./Card.module.css";
 // import { setSongs, setSong } from "../../store/musicReducer";
 
 const postSelector = (state) => state.music;
+
 const Card = forwardRef(
   ({ album, url, index, trial, disableFetch, setLoading }, ref) => {
     const [error, setError] = useState(false);

@@ -89,6 +89,17 @@ function Header() {
     </Drawer>
   );
 
+  const handleSubscription = () => {
+    // let body = {
+    // }
+    // try{
+    //     let res =
+    //     console.log(res)
+    // }
+    // catch(err){
+    // }
+  };
+
   return (
     <header className={`${classes.header} ${classes.headerActive}`}>
       <div className={classes.headerTop}>
@@ -169,6 +180,9 @@ function Header() {
       {!sideBar && (
         <div className={classes.headerMain}>
           <div className={classes.headerMainImage}>
+            {/* <div onClick={() => handleSubscription()} style={{ position: "fixed", left: "30px" }}>
+                            Subscription
+                        </div> */}
             {user?.expiresIn === undefined ? (
               <div className={classes.playlistDesktop}>
                 {checkCredentials !== null && <SideDrawer />}

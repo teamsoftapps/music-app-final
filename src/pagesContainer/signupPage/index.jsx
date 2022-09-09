@@ -1,11 +1,11 @@
 import { Button, FormControlLabel } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
-import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/musicReducer";
+import api from "./../../../services/api";
 import styles from "./Signup.module.css";
 
 const postSelector = (state) => state.music;
@@ -23,7 +23,6 @@ const SignupPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [accessCode, setAccessCode] = useState("");
   const [checkBox, setCheckBox] = useState(false);
 
   // console.log({ email, accessCode });
@@ -33,26 +32,29 @@ const SignupPage = () => {
     setLoading(true);
     e.preventDefault();
 
-    const payload = { email, password, code: accessCode };
-
     try {
-      const { data } = await axios.post(
-        `${process.env.base_url}/signup`,
-        payload
-      );
+      const payload = { email, password };
 
-      console.log(data);
+      // console.log("payload >>>>>>>>>", payload);
 
-      setLoading(false);
+      const { data } = await api.post("/signup", payload);
 
-      localStorage.setItem("music-app-credentials", JSON.stringify(data));
+      console.log("data >>>>>>>>", data);
 
-      dispatch(setUser(data));
+      if (data) {
+        localStorage.setItem("music-app-credentials", JSON.stringify(data));
 
-      router.push("/");
+        localStorage.setItem("type", "signup");
+
+        dispatch(setUser(data));
+
+        setLoading(false);
+
+        router.push("/auth/success");
+      }
     } catch (err) {
       setLoading(false);
-      console.log({ err });
+      console.error({ err });
       setError(err?.response?.data);
 
       setTimeout(() => {
@@ -111,21 +113,6 @@ const SignupPage = () => {
         />
       </div>
 
-      <div className={styles.input}>
-        <label>
-          {language.title === "nl" ? "Toegangscode" : "Access Code"}
-        </label>
-        <input
-          value={accessCode}
-          onChange={(e) => setAccessCode(e.target.value)}
-          type="text"
-          required
-          minLength={7}
-          maxLength={10}
-          placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
-        />
-      </div>
-
       <br />
 
       <FormControlLabel
@@ -149,8 +136,8 @@ const SignupPage = () => {
       <p>
         <span onClick={() => router.push("/auth/login")}>
           {language.title === "nl"
-            ? "Heeft u al een account? Inloggen."
-            : "Already have an account"}
+            ? "Heb je al een account? Nu inloggen"
+            : "Already have an account? Now Login"}
         </span>
       </p>
       <br />
