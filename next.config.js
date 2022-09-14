@@ -1,5 +1,7 @@
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+
 const path = require("path");
+
 module.exports = (phase) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     return {
