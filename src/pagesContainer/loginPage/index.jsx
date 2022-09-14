@@ -117,6 +117,15 @@ const LoginPage = () => {
         <p className={classes.forgot_p_tag}>
           <span
             onClick={() => {
+              router.push("/subscriptions");
+            }}
+          >
+            {language.title === "nl"
+              ? "Een Abonnement Kopen"
+              : "Buy a Subscription"}
+          </span>
+          <span
+            onClick={() => {
               router.push("/auth/forgot");
             }}
           >

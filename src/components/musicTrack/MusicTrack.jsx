@@ -33,6 +33,8 @@ const MusicTracker = ({
     shallowEqual
   );
 
+  // console.log("favourites >>>>>>>", favourites);
+
   const dispatch = useDispatch();
 
   const [myCommutativeLength, setMyCommutativeLength] = useState(0);
