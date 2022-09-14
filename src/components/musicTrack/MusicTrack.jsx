@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { MusicNote, Lock, Heart } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import { Lock, MusicNote } from "@material-ui/icons";
-import React, { useCallback, useEffect, useState } from "react";
+import {
+  default as React,
+  default as React,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setFavourites, setSong, setSongs } from "../../store/musicReducer";
 import classes from "./MusicTrack.module.css";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { setFavourites, setIsPlaying, setSong, setSongs } from "../../store/musicReducer";
-import { isMobile } from "react-device-detect";
 // import Alert from "@mui/material/Alert";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MuiAlert from "@mui/material/Alert";
