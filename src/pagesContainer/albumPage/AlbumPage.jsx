@@ -17,7 +17,6 @@ import {
   setSongs,
 } from "../../store/musicReducer";
 import classes from "./AlbumPage.module.css";
-import ClipLoader from "react-spinners/ClipLoader";
 const postSelector = (state) => state.music;
 
 const AlbumPage = ({ songs, album }) => {
