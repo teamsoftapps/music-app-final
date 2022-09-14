@@ -49,7 +49,7 @@
 .auth button,
 .auth button:hover {
   padding: 1rem;
-  margin-top: 2rem;
+  margin: 3rem 0;
   width: 100%;
   text-transform: capitalize;
   font-size: 1.1rem;
@@ -64,18 +64,6 @@
 
 .auth p {
   margin: 0 0.5rem;
-}
-
-.auth .forgot_p_tag {
-  text-align: right;
-  margin-top: 0.625rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.auth .login_btn_div {
-  margin-bottom: 2rem;
 }
 
 .auth span {
@@ -100,11 +88,9 @@
   .linkBoxWrapper {
     flex-direction: column;
   }
-
   .auth p span {
     margin: 0.5rem;
   }
-
   .auth {
     width: clamp(300px, 90%, 800px);
     margin: 5vw auto;

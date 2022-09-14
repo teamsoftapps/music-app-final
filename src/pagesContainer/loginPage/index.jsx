@@ -1,10 +1,10 @@
 import { Button } from "@material-ui/core";
-import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/musicReducer";
+import api from "./../../../services/api";
 import classes from "./LoginPage.module.css";
 
 const postSelector = (state) => state.music;
@@ -31,18 +31,16 @@ const LoginPage = () => {
 
     const payload = { email, password };
 
-    const url = `${process.env.base_url}/signin`;
-
     try {
-      const { data } = await axios.post(url, payload);
+      const { data } = await api.post("/signin", payload);
 
-      console.log(data);
+      console.log("data >>>>>>>>>>>", data);
 
       setLoading(false);
 
       localStorage.setItem("music-app-credentials", JSON.stringify(data));
 
-      dispatch(setUser(data));
+      dispatch(setUser(data.data.user));
 
       router.push("/");
     } catch (err) {
@@ -107,24 +105,45 @@ const LoginPage = () => {
           placeholder={language.title === "nl" ? "Wachtwoord" : "Your Password"}
         />
       </div>
-      <Button
-        // disabled={!isSignIn && !checkBox}
-        type="submit"
-        variant="contained"
-      >
-        {language.title === "nl" ? loginTextNl : loginTextEng}
-      </Button>
-      <br />
+      <div className={classes.login_btn_div}>
+        <Button
+          // disabled={!isSignIn && !checkBox}
+          type="submit"
+          variant="contained"
+        >
+          {language.title === "nl" ? loginTextNl : loginTextEng}
+        </Button>
+        <br />
+        <p className={classes.forgot_p_tag}>
+          <span
+            onClick={() => {
+              router.push("/subscriptions");
+            }}
+          >
+            {language.title === "nl"
+              ? "Een Abonnement Kopen"
+              : "Buy a Subscription"}
+          </span>
+          <span
+            onClick={() => {
+              router.push("/auth/forgot");
+            }}
+          >
+            {language.title === "nl"
+              ? "Wachtwoord vergeten?"
+              : "Forgot Password?"}
+          </span>
+        </p>
+      </div>
       <p>
         <span
           onClick={() => {
-            setPassword("");
-            router.push("/auth/forgot");
+            router.push("/auth/signup");
           }}
         >
           {language.title === "nl"
-            ? "Wachtwoord vergeten?"
-            : "Forgot Password?"}
+            ? "Geen account! Nieuwe aanmaken"
+            : "No Account! Create new one"}
         </span>
       </p>
     </form>

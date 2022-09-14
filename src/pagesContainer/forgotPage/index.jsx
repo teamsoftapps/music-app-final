@@ -3,8 +3,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import classes from "./ForgotPage.module.css";
+import ClipLoader from "react-spinners/ClipLoader";
 import api from "./../../../services/api";
+import classes from "./ForgotPage.module.css";
 
 const postSelector = (state) => state.music;
 
@@ -25,16 +26,22 @@ const ForgotPage = (async) => {
     e.preventDefault();
 
     // const payload = { email };
+    try {
+      const body = {
+        email,
+      };
 
-    const body = {
-      email,
-    };
+      let res = await api.post(`/forgot-password`, body);
 
-    let res = await api.post(`/forgot-password`, body);
+      // console.log("api response >>>>>>>>>>>", res);
 
-    console.log("api response>>>>>>>>>>>", res);
-
-    localStorage.setItem("userID", res.data.data.id);
+      if (res) {
+        localStorage.setItem("userID", res.data.data.id);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -74,8 +81,40 @@ const ForgotPage = (async) => {
           router.push("/auth/reset-password");
         }}
       >
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: "44vw",
+            left: "44vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 100,
+          }}
+        >
+          <ClipLoader color="red" loading={loading} size={"10vw"} />
+        </div>
         {language.title === "nl" ? "Indienen" : "Submit"}
       </Button>
+      {/* <div
+        style={{
+          position: "fixed",
+          top: "50%",
+          right: "44vw",
+          left: "44vw",
+
+          // left: 0,
+          // width: "100%",
+          // height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 100,
+        }}
+      >
+        <ClipLoader color="red" loading={loading} size={"10vw"} />
+      </div> */}
 
       <br />
 

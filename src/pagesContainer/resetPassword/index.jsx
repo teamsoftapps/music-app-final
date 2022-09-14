@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import ClipLoader from "react-spinners/ClipLoader";
 import api from "./../../../services/api";
 import classes from "./ResetPassword.module.css";
 
@@ -16,13 +17,14 @@ const ResetPassword = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [accessCode, setAccessCode] = useState("");
+  const [resetPasswordVerificationCode, setResetPasswordVerificationCode] =
+    useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // console.log({ email, accessCode });
+  // console.log({ email, resetPasswordVerificationCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
   const handleSubmit = async (e) => {
@@ -31,7 +33,7 @@ const ResetPassword = () => {
 
     try {
       const body = {
-        code: accessCode,
+        resetPasswordVerificationCode,
         password,
       };
 
@@ -39,17 +41,23 @@ const ResetPassword = () => {
 
       let res = await api.patch(`/reset-password/${userID}`, body);
 
-      console.log("reset password>>>>>>>>>>>>>", res);
+      // console.log("reset password>>>>>>>>>>>>>", res);
 
-      localStorage.removeItem("userID");
+      if (res) {
+        localStorage.removeItem("userID");
 
-      router.push("/auth/login");
+        localStorage.setItem("type", "reset");
+
+        setLoading(false);
+
+        router.push("/auth/success");
+      }
     } catch (error) {
       console.error("error >>>>>>", error);
       setError(error);
     }
 
-    // const payload = { email, password, code: accessCode };
+    // const payload = { email, password, code: resetPasswordVerificationCode };
 
     // const url = `${process.env.base_url}/updatePassword`;
 
@@ -92,6 +100,26 @@ const ResetPassword = () => {
 
       <div className={classes.input}>
         <label htmlFor="">
+          {language.title === "nl" ? "Verificatie code" : "Verification Code"}
+        </label>
+        <input
+          // disabled={!isSignIn ? true : false}
+          type="text"
+          onChange={(e) => {
+            setResetPasswordVerificationCode(e.target.value);
+          }}
+          value={resetPasswordVerificationCode}
+          required
+          minLength={7}
+          maxLength={10}
+          placeholder={
+            language.title === "nl" ? "Verificatie code" : "Verification Code"
+          }
+        />
+      </div>
+
+      <div className={classes.input}>
+        <label htmlFor="">
           {language.title === "nl" ? "Wachtwoord" : "Password"}
         </label>
         <input
@@ -108,26 +136,43 @@ const ResetPassword = () => {
           }
         />
       </div>
-      <div className={classes.input}>
-        <label htmlFor="">
-          {language.title === "nl" ? "Toegangscode" : "Access Code"}
-        </label>
-        <input
-          // disabled={!isSignIn ? true : false}
-          type="text"
-          onChange={(e) => {
-            setAccessCode(e.target.value);
-          }}
-          value={accessCode}
-          required
-          minLength={7}
-          maxLength={10}
-          placeholder={language.title === "nl" ? "Toegangscode" : "Access Code"}
-        />
-      </div>
+
       <Button type="submit" variant="contained">
         {language.title === "nl" ? "Indienen" : "Submit"}
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            right: "44vw",
+            left: "44vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 100,
+          }}
+        >
+          <ClipLoader color="red" loading={loading} size={"10vw"} />
+        </div>
       </Button>
+
+      <div
+        style={{
+          position: "fixed",
+          top: "50%",
+          right: "44vw",
+          left: "44vw",
+
+          // left: 0,
+          // width: "100%",
+          // height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 100,
+        }}
+      >
+        <ClipLoader color="red" loading={loading} size={"10vw"} />
+      </div>
       <br />
     </form>
   );

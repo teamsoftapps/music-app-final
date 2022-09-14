@@ -12,6 +12,7 @@ const initialState = {
   album: {},
   favourites: null,
   favouriteId: null,
+  tokenObj: null,
 };
 
 export const counterSlice = createSlice({
@@ -63,6 +64,9 @@ export const counterSlice = createSlice({
     setFavouriteId: (state, { payload }) => {
       state.favouriteId = payload;
     },
+    setTokenQuery: (state, { payload }) => {
+      state.tokenObj = payload;
+    },
   },
 });
 
@@ -78,6 +82,7 @@ export const {
   setAlbum,
   setFavourites,
   setFavouriteId,
+  setTokenQuery,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
