@@ -1,25 +1,19 @@
 import { IconButton } from "@material-ui/core";
 import { Lock, MusicNote } from "@material-ui/icons";
-import {
-  default as React,
-  default as React,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setFavourites, setSong, setSongs } from "../../store/musicReducer";
-import classes from "./MusicTrack.module.css";
-// import Alert from "@mui/material/Alert";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { setFavourites, setSong, setSongs } from "../../store/musicReducer";
+import classes from "./MusicTrack.module.css";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+
 const postSelector = (state) => state.music;
 
 const MusicTracker = ({
