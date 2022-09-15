@@ -83,10 +83,10 @@ const AlbumPage = ({ songs, album }) => {
 
       setSongName(songArray[0].Song_Name);
       setAlbumName(songArray[0].Album_Name);
-      console.log(
-        "img",
-        process.env.media_url.concat(songArray[0].Album_Image)
-      );
+      // console.log(
+      //   "img",
+      //   process.env.media_url.concat(songArray[0].Album_Image)
+      // );
       setPic(process.env.media_url.concat(songArray[0].Album_Image));
       setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`);
     }

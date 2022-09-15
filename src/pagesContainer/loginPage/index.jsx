@@ -34,7 +34,7 @@ const LoginPage = () => {
     try {
       const { data } = await api.post("/signin", payload);
 
-      console.log("data >>>>>>>>>>>", data);
+      // console.log("data >>>>>>>>>>>", data);
 
       setLoading(false);
 

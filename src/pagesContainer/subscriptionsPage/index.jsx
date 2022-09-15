@@ -39,9 +39,9 @@ const SubscriptionsPage = () => {
 
   const router = useRouter();
 
-  console.log("ALBUMIMAGE >>>>>>", ALBUMIMAGE);
-  console.log("MELODYIMAGE >>>>>>", MELODYIMAGE);
-  console.log("PRICEIMAGE >>>>>>", PRICEIMAGE);
+  // console.log("ALBUMIMAGE >>>>>>", ALBUMIMAGE);
+  // console.log("MELODYIMAGE >>>>>>", MELODYIMAGE);
+  // console.log("PRICEIMAGE >>>>>>", PRICEIMAGE);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

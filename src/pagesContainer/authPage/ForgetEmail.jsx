@@ -77,7 +77,7 @@ const ForgetEmail = ({ isSignIn }) => {
 
     try {
       const { data } = await axios.post(url, payload);
-      console.log(data);
+      // console.log(data);
       setLoading(false);
 
       if (typeof window !== "undefined") {

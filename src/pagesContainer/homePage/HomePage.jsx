@@ -53,7 +53,7 @@ const HomePage = ({ albums }) => {
         });
         // tempArr.push(data?.favourites)
         dispatch(setFavourites(data?.favourites));
-        console.log("get favourites", data.favourites);
+        // console.log("get favourites", data.favourites);
       } catch (error) {
         console.log(error);
       }
@@ -67,7 +67,7 @@ const HomePage = ({ albums }) => {
     } else {
       setOpenAdd(false);
     }
-    console.log(openAdd);
+    // console.log(openAdd);
   };
 
   const theOrder = [];
@@ -137,7 +137,7 @@ const HomePage = ({ albums }) => {
 
   useEffect(() => {
     setAlbumsOrder(theOrder);
-    console.log(albumsOrder);
+    // console.log(albumsOrder);
   }, []);
 
   return (
