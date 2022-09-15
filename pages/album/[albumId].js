@@ -14,6 +14,9 @@ export default index;
 
 export async function getStaticProps(context) {
   const { albumId } = context.params;
+
+  console.log("albumId >>>>>>>>>>>>>>>", albumId);
+
   const { data } = await axios.get(
     `${process.env.base_url}/songs/${albumId.replace(/-/g, " ")}`
   );
