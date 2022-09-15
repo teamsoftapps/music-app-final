@@ -36,7 +36,10 @@ const ForgotPage = (async) => {
       // console.log("api response >>>>>>>>>>>", res);
 
       if (res) {
-        localStorage.setItem("userID", res.data.data.id);
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.setItem("userID", res.data.data.id);
+        }
         setLoading(false);
       }
     } catch (err) {

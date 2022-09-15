@@ -30,7 +30,11 @@ const ResetPassword = ({ isSignIn }) => {
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+    let user;
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      user = JSON.parse(localStorage.getItem("music-app-credentials"));
+    }
 
     if (user?.token.length > 30) router.replace("/");
 
@@ -76,7 +80,12 @@ const ResetPassword = ({ isSignIn }) => {
       const { data } = await axios.post(url, payload);
       console.log(data);
       setLoading(false);
-      localStorage.setItem("music-app-credentials", JSON.stringify(data));
+
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.setItem("music-app-credentials", JSON.stringify(data));
+      }
+
       dispatch(setUser(data));
 
       router.push("/");

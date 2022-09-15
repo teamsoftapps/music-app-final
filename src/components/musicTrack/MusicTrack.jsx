@@ -95,7 +95,14 @@ const MusicTracker = ({
 
   function songJump() {
     if (locked) return;
-    let songArray = localStorage.getItem("songArray");
+
+    let songArray;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      songArray = localStorage.getItem("songArray");
+    }
+
     songArray = JSON.parse(songArray);
     const index = songArray.findIndex((o) => {
       return o.Song_Name === albumSong.Song_Name;
@@ -104,8 +111,13 @@ const MusicTracker = ({
     const arr1 = songArray.slice(index, songArray.length);
     const arr2 = songArray.slice(0, index);
     songArray = [...arr1, ...arr2];
-    localStorage.setItem("currentSongIndex", 0);
-    localStorage.setItem("songArray", JSON.stringify(songArray));
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      localStorage.setItem("currentSongIndex", 0);
+      localStorage.setItem("songArray", JSON.stringify(songArray));
+    }
+
     setSingleSong(songArray[0]);
     setSongArray(songArray);
   }
