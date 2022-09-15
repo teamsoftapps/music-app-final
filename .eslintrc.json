@@ -6,18 +6,26 @@
         "node": true
     },
     "parser": "babel-eslint",
+    // "extends": [
+        // "eslint:recommended",
+        // "airbnb",
+        // "eslint-config-airbnb",
+        // "airbnb/hooks",
+        // "plugin:react/recommended",
+        // "plugin:import/errors",
+        // "plugin:import/warnings",
+        // "plugin:jsx-a11y/recommended",
+        // "plugin:react-hooks/recommended",
+        // always put prettier at last
+        // "prettier"
+    // ],
     "extends": [
-        "eslint:recommended",
-        "airbnb",
         "eslint-config-airbnb",
-        "airbnb/hooks",
         "plugin:react/recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
         "plugin:jsx-a11y/recommended",
-        // "plugin:react-hooks/recommended",
-        // always put prettier at last
-        "prettier"
+        "plugin:react-hooks/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
