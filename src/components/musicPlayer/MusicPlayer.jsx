@@ -1,5 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { IconButton, Slider } from "@material-ui/core";
 import {
   PauseCircleFilled,
@@ -7,25 +5,16 @@ import {
   SkipNextSharp,
   SkipPreviousSharp,
   VolumeDown,
-  VolumeUp,
   VolumeOff,
+  VolumeUp,
 } from "@material-ui/icons";
-import classes from "./MusicPlayer.module.css";
 import axios from "axios";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import {
-  setNextSong,
-  setPreviousSong,
-  setIsPlaying,
-} from "../../store/musicReducer";
-import InfoIcon from "@mui/icons-material/Info";
-import ClipLoader from "react-spinners/ClipLoader";
+import { setIsPlaying, setNextSong } from "../../store/musicReducer";
+import classes from "./MusicPlayer.module.css";
 
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
 import { isMobile } from "react-device-detect";
 
 const postSelector = (state) => state.music;

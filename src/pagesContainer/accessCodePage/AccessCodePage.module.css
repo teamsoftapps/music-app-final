@@ -88,9 +88,11 @@
   .linkBoxWrapper {
     flex-direction: column;
   }
+
   .auth p span {
     margin: 0.5rem;
   }
+
   .auth {
     width: clamp(300px, 90%, 800px);
     margin: 5vw auto;
