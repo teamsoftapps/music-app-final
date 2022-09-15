@@ -50,9 +50,11 @@ const MusicTracker = ({
     }
     handleLike(albumSong?._id);
   }, []);
+
   const handleClick = () => {
     setOpen(true);
   };
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -60,6 +62,7 @@ const MusicTracker = ({
 
     setOpen(false);
   };
+
   const trackRef = useCallback((node) => {
     if (node) {
       node.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -124,12 +127,26 @@ const MusicTracker = ({
 
   const handleLike = async (id) => {
     setOpen(true);
-    const { token } = JSON.parse(localStorage.getItem("music-app-credentials"));
+
+    console.log(
+      `localStorage.getItem("music-app-credentials") >>>>>>>>>>>>>>>>`,
+      localStorage.getItem("music-app-credentials")
+    );
+
+    let token;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
+    }
+
     if (locked === true) {
       setLiked(false);
     } else setLiked(!liked);
+
     try {
       const url = process.env.base_url;
+
       const { data } = await axios.get(`${url}/favourites/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
