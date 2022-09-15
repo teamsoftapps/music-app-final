@@ -1,5 +1,5 @@
-import axios from "axios";
 import AlbumPage from "../../src/pagesContainer/albumPage/AlbumPage";
+import api from "./../../services/api";
 
 const index = ({ songs, album }) => {
   // console.log("songs>>>>>>>>>>>", songs);
@@ -17,9 +17,7 @@ export async function getStaticProps(context) {
 
   // console.log("albumId >>>>>>>>>>>>>>>", albumId);
 
-  const { data } = await axios.get(
-    `${process.env.base_url}/songs/${albumId.replace(/-/g, " ")}`
-  );
+  const { data } = await api.get(`/songs/${albumId.replace(/-/g, " ")}`);
 
   // let albumDetails;
 

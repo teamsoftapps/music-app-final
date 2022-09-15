@@ -323,7 +323,6 @@ const AlbumPage = ({ songs, album }) => {
         <div className={style.trash}></div>
         <AudioPlayer
           className={style.player}
-          autoPlay
           progressJumpStep={3000}
           src={singleSong}
           onEnded={(e) => onEndSong()}
