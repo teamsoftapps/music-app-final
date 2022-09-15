@@ -19,7 +19,11 @@ function Footer() {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    localStorage.removeItem("music-app-credentials");
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      localStorage.removeItem("music-app-credentials");
+    }
+
     dispatch(setSong({}));
     dispatch(setSongs([]));
     dispatch(setUser(null));

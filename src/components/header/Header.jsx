@@ -34,11 +34,22 @@ function Header() {
   useEffect(() => {
     if (user?.expiresIn || user?.expiresIn === 0) {
       window.onbeforeunload = function () {
-        localStorage.removeItem("music-app-credentials");
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.removeItem("music-app-credentials");
+        }
+
         // return "Do you really want to close?"; //prompts user
       };
     }
-    var credentialsExist = localStorage.getItem("music-app-credentials");
+
+    var credentialsExist;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      credentialsExist = localStorage.getItem("music-app-credentials");
+    }
+
     setCheckCredentials(credentialsExist);
   }, [user]);
 

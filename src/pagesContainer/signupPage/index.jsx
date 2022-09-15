@@ -42,9 +42,12 @@ const SignupPage = () => {
       console.log("data >>>>>>>>", data);
 
       if (data) {
-        localStorage.setItem("music-app-credentials", JSON.stringify(data));
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.setItem("music-app-credentials", JSON.stringify(data));
 
-        localStorage.setItem("type", "signup");
+          localStorage.setItem("type", "signup");
+        }
 
         dispatch(setUser(data));
 

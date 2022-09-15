@@ -24,7 +24,13 @@ const index = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const userData = JSON.parse(localStorage.getItem("music-app-credentials"));
+    let userData;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      userData = JSON.parse(localStorage.getItem("music-app-credentials"));
+    }
+
     // console.log("userData >>>>>>>>>", userData);
 
     try {
@@ -36,9 +42,12 @@ const index = () => {
       // console.log("data >>>>", data);
 
       if (res) {
-        localStorage.removeItem("music-app-credentials");
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.removeItem("music-app-credentials");
 
-        localStorage.setItem("type", "verify");
+          localStorage.setItem("type", "verify");
+        }
 
         router.push("/auth/success");
       }

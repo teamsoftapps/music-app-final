@@ -7,7 +7,12 @@ import styles from "./../../../src/pagesContainer/loginPage/LoginPage.module.css
 const index = () => {
   const router = useRouter();
 
-  const type = localStorage.getItem("type");
+  let type;
+
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    type = localStorage.getItem("type");
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -16,7 +21,11 @@ const index = () => {
         : type === "verify" || type === "reset"
         ? router.push("/auth/login")
         : null;
-      localStorage.removeItem("type");
+
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.removeItem("type");
+      }
     }, 3000);
   }, []);
 

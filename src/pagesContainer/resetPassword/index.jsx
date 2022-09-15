@@ -37,16 +37,24 @@ const ResetPassword = () => {
         password,
       };
 
-      const userID = localStorage.getItem("userID");
+      let userID;
+
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        userID = localStorage.getItem("userID");
+      }
 
       let res = await api.patch(`/reset-password/${userID}`, body);
 
       // console.log("reset password>>>>>>>>>>>>>", res);
 
       if (res) {
-        localStorage.removeItem("userID");
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.removeItem("userID");
 
-        localStorage.setItem("type", "reset");
+          localStorage.setItem("type", "reset");
+        }
 
         setLoading(false);
 

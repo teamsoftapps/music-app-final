@@ -38,7 +38,10 @@ const LoginPage = () => {
 
       setLoading(false);
 
-      localStorage.setItem("music-app-credentials", JSON.stringify(data));
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.setItem("music-app-credentials", JSON.stringify(data));
+      }
 
       dispatch(setUser(data.data.user));
 

@@ -58,16 +58,29 @@ const AlbumPage = ({ songs, album }) => {
   });
 
   const onEndSong = () => {
-    let currentSongIndex = localStorage.getItem("currentSongIndex");
+    let currentSongIndex;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      currentSongIndex = localStorage.getItem("currentSongIndex");
+    }
+
     currentSongIndex++;
     if (currentSongIndex < songArray.length) {
-      localStorage.setItem("currentSongIndex", currentSongIndex);
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.setItem("currentSongIndex", currentSongIndex);
+      }
 
       setSingleSong(
         `${process.env.media_url}/${songArray[currentSongIndex].Song_File}`
       );
     } else {
-      localStorage.setItem("currentSongIndex", 0);
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.setItem("currentSongIndex", 0);
+      }
+
       setSongName(songArray[0].Song_Name);
       setAlbumName(songArray[0].Album_Name);
       console.log(
@@ -85,7 +98,13 @@ const AlbumPage = ({ songs, album }) => {
   }, [songArray]);
 
   useEffect(() => {
-    let currentSongIndex = localStorage.getItem("currentSongIndex");
+    let currentSongIndex;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      currentSongIndex = localStorage.getItem("currentSongIndex");
+    }
+
     setAlbumName(songArray[currentSongIndex]?.Album_Name);
     setSongName(songArray[currentSongIndex]?.Song_Name);
     setPic(
@@ -96,7 +115,10 @@ const AlbumPage = ({ songs, album }) => {
   }, [singleSong]);
 
   useEffect(() => {
-    localStorage.setItem("currentSongIndex", 0);
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      localStorage.setItem("currentSongIndex", 0);
+    }
 
     // console.log(`${process.env.media_url}/${songs[0].Song_File}`);
     // songs?.some((s) => {
@@ -107,7 +129,13 @@ const AlbumPage = ({ songs, album }) => {
     //     }
     // })
     // console.log(songs)
-    const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+
+    let user;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      user = JSON.parse(localStorage.getItem("music-app-credentials"));
+    }
 
     if (user?.hasOwnProperty("expiresIn")) {
       let tempArr = songs.filter((ele, i) => {
@@ -117,12 +145,22 @@ const AlbumPage = ({ songs, album }) => {
         }
       });
       let stringifyArray = JSON.stringify(tempArr);
-      localStorage.setItem("songArray", stringifyArray);
+
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.setItem("songArray", stringifyArray);
+      }
+
       setSongArray(tempArr);
       setSingleSong(`${process.env.media_url}/${tempArr[0].Song_File}`);
     } else {
       let stringifyArray = JSON.stringify(songs);
-      localStorage.setItem("songArray", stringifyArray);
+
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.setItem("songArray", stringifyArray);
+      }
+
       if (favouriteId) {
         let index = songs.findIndex((o) => o._id === favouriteId);
         let arr1 = songs.slice(index, songs.length);
@@ -154,7 +192,11 @@ const AlbumPage = ({ songs, album }) => {
     }
 
     return () => {
-      localStorage.removeItem("counter");
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        localStorage.removeItem("counter");
+      }
+
       dispatch(setFavouriteId(""));
     };
   }, [album]);
