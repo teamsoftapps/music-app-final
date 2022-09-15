@@ -42,7 +42,12 @@ const HomePage = ({ albums }) => {
 
     if (!user) return route.replace("/auth/login");
 
-    const { token } = JSON.parse(localStorage.getItem("music-app-credentials"));
+    let token;
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
+    }
 
     const fetchFavourites = async () => {
       try {
