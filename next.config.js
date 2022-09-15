@@ -8,7 +8,7 @@ module.exports = (phase) => {
       reactStrictMode: true,
       images: {
         domains: [
-          "http://localhost:5000/",
+          "http://localhost:5000",
           "musicfilesforheroku.s3.us-west-1.amazonaws.com",
         ],
       },
