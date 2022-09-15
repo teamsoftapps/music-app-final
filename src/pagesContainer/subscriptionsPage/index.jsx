@@ -14,9 +14,8 @@ import { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ALBUMIMAGE from "./../../../public/images/album.png";
 import MELODYIMAGE from "./../../../public/images/melody.png";
-import PRICEIMAGE from "./../../../public/images/price.png";
 import PAYPALIMAGE from "./../../../public/images/pay_pal.svg";
-import api from "./../../../services/api";
+import PRICEIMAGE from "./../../../public/images/price.png";
 import styles from "./Subscriptions.module.css";
 
 const postSelector = (state) => state.music;

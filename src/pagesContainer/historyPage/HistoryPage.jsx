@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import classes from "./HistoryPage.module.css";
-import axios from "axios";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { isMobile } from "react-device-detect";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { MusicNote } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
+import { MusicNote } from "@material-ui/icons";
+import axios from "axios";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import classes from "./HistoryPage.module.css";
 
 const postSelector = (state) => state.music;
 

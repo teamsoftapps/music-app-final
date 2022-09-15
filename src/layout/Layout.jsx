@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import Head from "next/head";
-import Header from "../components/header/Header";
-import classes from "./Layout.module.css";
-import { setLanguageMode, setUser } from "../store/musicReducer";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import Header from "../components/header/Header";
+import { setLanguageMode, setUser } from "../store/musicReducer";
+import classes from "./Layout.module.css";
 
 const postSelector = (state) => state.music;
 function Layout({ children }) {

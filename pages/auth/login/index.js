@@ -1,5 +1,5 @@
-import LoginPage from "../../../src/pagesContainer/loginPage";
 import Footer from "../../../src/components/footer";
+import LoginPage from "../../../src/pagesContainer/loginPage";
 
 const index = () => (
   <>
@@ -9,30 +9,3 @@ const index = () => (
 );
 
 export default index;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
