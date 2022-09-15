@@ -41,9 +41,9 @@ const LoginPage = () => {
       if (typeof window !== "undefined") {
         // Perform localStorage action
         localStorage.setItem("music-app-credentials", JSON.stringify(data));
-      }
 
-      dispatch(setUser(data.data.user));
+        dispatch(setUser(data));
+      }
 
       router.push("/");
     } catch (err) {

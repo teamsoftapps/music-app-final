@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -277,9 +277,8 @@ const AlbumPage = ({ songs, album }) => {
         <div className={classes.albumsMainPlaylist}>
           {songs?.map((albumSong, i) =>
             songs.length - 1 !== i ? (
-              <>
+              <Fragment key={i}>
                 <MusicTracker
-                  key={i}
                   currentTime={currentTime}
                   setCurrentTime={setCurrentTime}
                   albumSong={albumSong}
@@ -292,7 +291,7 @@ const AlbumPage = ({ songs, album }) => {
                   setSingleSong={setSingleSong}
                 />
                 {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
-              </>
+              </Fragment>
             ) : null
           )}
         </div>
