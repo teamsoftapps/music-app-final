@@ -39,7 +39,7 @@ const SignupPage = () => {
 
       const { data } = await api.post("/signup", payload);
 
-      console.log("data >>>>>>>>", data);
+      // console.log("data >>>>>>>>", data);
 
       if (data) {
         if (typeof window !== "undefined") {

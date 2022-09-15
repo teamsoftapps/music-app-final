@@ -2,10 +2,10 @@ import axios from "axios";
 import AlbumPage from "../../src/pagesContainer/albumPage/AlbumPage";
 
 const index = ({ songs, album }) => {
-  console.log("songs>>>>>>>>>>>", songs);
-  console.log("album>>>>>>>>>>>", album);
+  // console.log("songs>>>>>>>>>>>", songs);
+  // console.log("album>>>>>>>>>>>", album);
 
-  console.log("ndnsnsn>>>>>", process.env.base_url);
+  // console.log("ndnsnsn>>>>>", process.env.base_url);
 
   return <AlbumPage songs={songs} album={album} />;
 };
@@ -15,7 +15,7 @@ export default index;
 export async function getStaticProps(context) {
   const { albumId } = context.params;
 
-  console.log("albumId >>>>>>>>>>>>>>>", albumId);
+  // console.log("albumId >>>>>>>>>>>>>>>", albumId);
 
   const { data } = await axios.get(
     `${process.env.base_url}/songs/${albumId.replace(/-/g, " ")}`
