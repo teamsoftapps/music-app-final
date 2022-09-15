@@ -78,7 +78,7 @@ const SubscriptionsPage = () => {
                   <span>Albums</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  5
+                  1
                 </Typography>
               </Box>
               <Box className={styles.text}>
@@ -87,7 +87,7 @@ const SubscriptionsPage = () => {
                   <span>Songs</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  10
+                  4
                 </Typography>
               </Box>
               <Box className={styles.text}>
@@ -130,7 +130,7 @@ const SubscriptionsPage = () => {
                   <span>Albums</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  5
+                  2
                 </Typography>
               </Box>
               <Box className={styles.text}>
@@ -139,7 +139,7 @@ const SubscriptionsPage = () => {
                   <span>Songs</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  10
+                  8
                 </Typography>
               </Box>
               <Box className={styles.text}>
@@ -148,7 +148,7 @@ const SubscriptionsPage = () => {
                   <span>Price</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  $200
+                  $400
                 </Typography>
               </Box>
             </Box>
@@ -182,7 +182,7 @@ const SubscriptionsPage = () => {
                   <span>Albums</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  5
+                  3
                 </Typography>
               </Box>
               <Box className={styles.text}>
@@ -191,7 +191,7 @@ const SubscriptionsPage = () => {
                   <span>Songs</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  10
+                  12
                 </Typography>
               </Box>
               <Box className={styles.text}>
@@ -200,7 +200,7 @@ const SubscriptionsPage = () => {
                   <span>Price</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  $200
+                  $600
                 </Typography>
               </Box>
             </Box>
