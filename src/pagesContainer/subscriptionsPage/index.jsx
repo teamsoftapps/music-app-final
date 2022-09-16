@@ -74,7 +74,7 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary">
                   <Image src={ALBUMIMAGE} width={30} height={30} />
-                  <span>Albums</span>
+                  <span>{language.title === "nl" ? "Albums" : "Albums"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   1
@@ -83,7 +83,7 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary" my="1rem">
                   <Image src={MELODYIMAGE} width={28} height={28} />
-                  <span>Songs</span>
+                  <span>{language.title === "nl" ? "Liedjes" : "Songs"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   4
@@ -92,7 +92,7 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary">
                   <Image src={PRICEIMAGE} width={30} height={30} />
-                  <span>Price</span>
+                  <span>{language.title === "nl" ? "Prijs" : "Price"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   $200
@@ -106,7 +106,7 @@ const SubscriptionsPage = () => {
               size="small"
               onClick={handleOpen}
             >
-              Avail
+              {language.title === "nl" ? "Beschikbaar" : "Avail"}
             </Button>
           </CardActions>
         </Card>
@@ -126,7 +126,7 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary">
                   <Image src={ALBUMIMAGE} width={30} height={30} />
-                  <span>Albums</span>
+                  <span>{language.title === "nl" ? "Albums" : "Albums"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   2
@@ -135,19 +135,19 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary" my="1rem">
                   <Image src={MELODYIMAGE} width={28} height={28} />
-                  <span>Songs</span>
+                  <span>{language.title === "nl" ? "Liedjes" : "Songs"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  8
+                  6
                 </Typography>
               </Box>
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary">
                   <Image src={PRICEIMAGE} width={30} height={30} />
-                  <span>Price</span>
+                  <span>{language.title === "nl" ? "Prijs" : "Price"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  $400
+                  $300
                 </Typography>
               </Box>
             </Box>
@@ -158,7 +158,7 @@ const SubscriptionsPage = () => {
               size="small"
               onClick={handleOpen}
             >
-              Avail
+              {language.title === "nl" ? "Beschikbaar" : "Avail"}
             </Button>
           </CardActions>
         </Card>
@@ -178,7 +178,7 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary">
                   <Image src={ALBUMIMAGE} width={30} height={30} />
-                  <span>Albums</span>
+                  <span>{language.title === "nl" ? "Albums" : "Albums"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   3
@@ -187,19 +187,19 @@ const SubscriptionsPage = () => {
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary" my="1rem">
                   <Image src={MELODYIMAGE} width={28} height={28} />
-                  <span>Songs</span>
+                  <span>{language.title === "nl" ? "Liedjes" : "Songs"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  12
+                  8
                 </Typography>
               </Box>
               <Box className={styles.text}>
                 <Typography variant="body2" color="text.secondary">
                   <Image src={PRICEIMAGE} width={30} height={30} />
-                  <span>Price</span>
+                  <span>{language.title === "nl" ? "Prijs" : "Price"}</span>
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  $600
+                  $400
                 </Typography>
               </Box>
             </Box>
@@ -210,7 +210,7 @@ const SubscriptionsPage = () => {
               size="small"
               onClick={handleOpen}
             >
-              Avail
+              {language.title === "nl" ? "Beschikbaar" : "Avail"}
             </Button>
           </CardActions>
         </Card>
@@ -226,7 +226,9 @@ const SubscriptionsPage = () => {
         >
           <Box sx={style} className={styles.pay_pal_container}>
             <Typography variant="h5" color="#000000" textAlign="center" mb={2}>
-              Payment via PayPal
+              {language.title === "nl"
+                ? "Betaling via PayPal"
+                : "Payment via PayPal"}
             </Typography>
             <form action="http://localhost:5000/api/paypal" method="post">
               <Button type="submit">

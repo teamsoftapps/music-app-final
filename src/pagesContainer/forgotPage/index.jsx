@@ -59,7 +59,10 @@ const ForgotPage = () => {
   return (
     <form onSubmit={handleSubmit} className={classes.auth}>
       <Head>
-        <title>Mulder Music Streaming | </title>
+        <title>
+          Mulder Music Streaming |{" "}
+          {language.title === "nl" ? "Wachtwoord Vergeten" : "Forgot Password"}
+        </title>
       </Head>
 
       <h1>
@@ -81,7 +84,9 @@ const ForgotPage = () => {
           type="email"
           required
           placeholder={
-            language.title === "nl" ? "Uw emailadres" : "Your Email Address"
+            language.title === "nl"
+              ? "Vul email adres in"
+              : "Enter Email Address"
           }
         />
       </div>

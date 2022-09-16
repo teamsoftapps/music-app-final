@@ -69,9 +69,12 @@ const SignupPage = () => {
     }
   };
 
+  const signupTextEng = "Sign Up";
+  const signupTextNl = "Aanmelden";
+
   const codePromiseText =
     language.title === "nl"
-      ? "Ik ben de exclusieve gebruiker van deze account en beloof de muziek niet te delen met derden."
+      ? "Ik beloof dat dit account alleen door mij zal worden gebruikt en niet om de inhoud met anderen te delen."
       : "I promise this account will only be used by me, and not to share any of the content with others.";
 
   return (
@@ -79,24 +82,26 @@ const SignupPage = () => {
       <Head>
         <title>
           Mulder Music Streaming |{" "}
-          {language.title === "nl" ? "Maak uw account aan" : "Sign Up"}
+          {language.title === "nl" ? signupTextNl : signupTextEng}
         </title>
       </Head>
 
-      <h1>{language.title === "nl" ? "Maak uw account aan" : "Sign Up"}</h1>
+      <h1>{language.title === "nl" ? signupTextNl : signupTextEng}</h1>
 
       {loading && <h3>Loading..</h3>}
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={styles.input}>
-        <label>Email</label>
+        <label>{language.title === "nl" ? "E-mail" : "Email"}</label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
           required
           placeholder={
-            language.title === "nl" ? "Uw emailadres" : "Your Email Address"
+            language.title === "nl"
+              ? "Vul email adres in"
+              : "Enter Email Address"
           }
         />
       </div>
@@ -115,7 +120,9 @@ const SignupPage = () => {
           required
           minLength={6}
           maxLength={36}
-          placeholder={language.title === "nl" ? "Wachtwoord" : "Your Password"}
+          placeholder={
+            language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
+          }
         />
       </div>
 
@@ -134,7 +141,7 @@ const SignupPage = () => {
       />
 
       <Button type="submit" variant="contained">
-        {language.title === "nl" ? "Maak uw account aan" : "Sign Up"}
+        {language.title === "nl" ? signupTextNl : signupTextEng}
       </Button>
 
       <br />
@@ -147,16 +154,11 @@ const SignupPage = () => {
         </span>
       </p>
       <br />
-      {language.title === "nl" ? (
-        <a target="_blank" href="https://janmulder.us/store/?album=Streaming">
-          Door u aan te melden gaat u akkoord met onze terms & conditions.
-        </a>
-      ) : (
-        <a target="_blank" href="https://janmulder.us/store/?album=Streaming">
-          By Signing up, you are agree to follow our{" "}
-          <span>Terms & conditions.</span>
-        </a>
-      )}
+      <a target="_blank" href="https://janmulder.us/store/?album=Streaming">
+        {language.title === "nl"
+          ? "Door je aan te melden, ga je akkoord met onze algemene voorwaarden."
+          : "By Signing up, you are agree to follow our terms & conditions."}
+      </a>
     </form>
   );
 };
@@ -169,12 +171,12 @@ export default SignupPage;
 // 4) Sign up form: Please link the Terms & Conditions (both English & Dutch
 
 // I thought to already provide the Dutch translation for the text labels in the Sign up and Login screens. I hope the following format is OK (first the English, then the Dutch equivalent)
-// "Sign Up", "Maak uw account aan"
+// "Sign Up", "Aanmelden"
 // "Email", "Email"
 // "Your email address", "Uw emailadres"
 // "Password", "Wachtwoord"
 // "Access Code", "Toegangscode"
 // "Already have an account", "Heeft u al een account?" Inloggen."
 // "By signing up, you are agree to follow our Terms and Conditions.", "Door u aan te melden gaat u akkoord met onze terms & conditions."
-// "Login", "Inloggen"
+// "Login", "Log in"
 // "Create your account", "Account aanmaken"

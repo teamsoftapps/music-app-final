@@ -8,7 +8,7 @@ import classes from "./VerifyUserPage.module.css";
 
 const postSelector = (state) => state.music;
 
-const index = () => {
+const VerifyUserPage = () => {
   const router = useRouter();
 
   const { language, tokenObj, user } = useSelector(postSelector, shallowEqual);
@@ -65,11 +65,15 @@ const index = () => {
     }
   };
 
+  const accessCodeTextEng = "Access Code";
+  const accessCodeTextNl = "Toegangscode";
+
   return (
     <>
       <Head>
         <title>
-          Mulder Music Streaming | {language.title === "nl" ? "" : ""}{" "}
+          Mulder Music Streaming |{" "}
+          {language.title === "nl" ? accessCodeTextNl : accessCodeTextEng}
         </title>
       </Head>
 
@@ -78,14 +82,16 @@ const index = () => {
         className={classes.auth}
         style={{ height: "60vh" }}
       >
-        <h1>{language.title === "nl" ? "Toegangscode" : "Access Code"}</h1>
+        <h1>
+          {language.title === "nl" ? accessCodeTextNl : accessCodeTextEng}
+        </h1>
 
         {loading && <h3>Loading..</h3>}
         {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
         <div className={classes.input}>
           <label htmlFor="">
-            {language.title === "nl" ? "Toegangscode" : "Access Code"}
+            {language.title === "nl" ? accessCodeTextNl : accessCodeTextEng}
           </label>
           <input
             value={accessCode}
@@ -95,7 +101,9 @@ const index = () => {
             }}
             required
             placeholder={
-              language.title === "nl" ? "Toegangscode" : "Enter Access Code"
+              language.title === "nl"
+                ? `Voer ${accessCodeTextNl}`
+                : `Enter ${accessCodeTextEng}`
             }
           />
         </div>
@@ -111,4 +119,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default VerifyUserPage;
