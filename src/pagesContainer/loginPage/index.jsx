@@ -88,7 +88,9 @@ const LoginPage = () => {
           type="email"
           required
           placeholder={
-            language.title === "nl" ? "Uw emailadres" : "Your Email Address"
+            language.title === "nl"
+              ? "Vul email adres in"
+              : "Enter Email Address"
           }
         />
       </div>
@@ -108,7 +110,9 @@ const LoginPage = () => {
           required
           minLength={6}
           maxLength={36}
-          placeholder={language.title === "nl" ? "Wachtwoord" : "Your Password"}
+          placeholder={
+            language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
+          }
         />
       </div>
       <div className={classes.login_btn_div}>
@@ -127,7 +131,7 @@ const LoginPage = () => {
             }}
           >
             {language.title === "nl"
-              ? "Een Abonnement Kopen"
+              ? "Koop een abonnement"
               : "Buy a Subscription"}
           </span>
           <span
@@ -136,8 +140,9 @@ const LoginPage = () => {
             }}
           >
             {language.title === "nl"
-              ? "Wachtwoord vergeten?"
-              : "Forgot Password?"}
+              ? "Wachtwoord vergeten"
+              : "Forgot Password"}
+            ?
           </span>
         </p>
       </div>
@@ -164,12 +169,12 @@ export default LoginPage;
 // 4) Sign up form: Please link the Terms & Conditions (both English & Dutch
 
 // I thought to already provide the Dutch translation for the text labels in the Sign up and Login screens. I hope the following format is OK (first the English, then the Dutch equivalent)
-// "Sign Up", "Maak uw account aan"
+// "Sign Up", "Aanmelden"
 // "Email", "Email"
 // "Your email address", "Uw emailadres"
 // "Password", "Wachtwoord"
 // "Access Code", "Toegangscode"
 // "Already have an account", "Heeft u al een account?" Inloggen."
 // "By signing up, you are agree to follow our Terms and Conditions.", "Door u aan te melden gaat u akkoord met onze terms & conditions."
-// "Login", "Inloggen"
+// "Login", "Log in"
 // "Create your account", "Account aanmaken"

@@ -31,6 +31,7 @@ const HomePage = ({ albums }) => {
   const { language, user } = useSelector(postSelector, shallowEqual);
   const [albumsOrder, setAlbumsOrder] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const route = useRouter();
   const dispatch = useDispatch();
@@ -59,8 +60,9 @@ const HomePage = ({ albums }) => {
         // tempArr.push(data?.favourites)
         dispatch(setFavourites(data?.favourites));
         // console.log("get favourites", data.favourites);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.error("err >>>>>>>>>>", err);
+        // setError(err.response.data);
       }
     };
     fetchFavourites();
@@ -147,6 +149,9 @@ const HomePage = ({ albums }) => {
 
   return (
     <div className={classes.homePage}>
+      {loading && <h3>Loading..</h3>}
+      {error && <h3 style={{ color: "red" }}>{error}</h3>}
+
       <br />
       <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
       {/* Code for Advertisement (start) */}

@@ -13,7 +13,7 @@ import classes from "./Footer.module.css";
 
 const postSelector = (state) => state.music;
 
-function Footer() {
+const Footer = () => {
   const { user, language } = useSelector(postSelector, shallowEqual);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -73,7 +73,11 @@ function Footer() {
     <footer className={classes.footer}>
       <div className={classes.footerTop}>
         <Image priority src="/images/logo.svg" alt="" width={200} height={50} />
-        <p>Copyright © 1992 - 2021 Miller Music</p>
+        <p>
+          {language.title === "nl" ? "Auteursrechten" : "Copyright"} &copy; 1992
+          - {new Date().getFullYear()}{" "}
+          {language.title === "nl" ? "Miller Muziek" : "Miller Music"}
+        </p>
         <nav className={classes.menu}>
           <ol className={classes.languageWrapper}>
             {languages.map((lan, index) => (
@@ -107,11 +111,13 @@ function Footer() {
         </nav>
       </div>
       <p className={classes.footerBottom}>
-        Copyright © 1992 - 2021 Miller Music
+        {language.title === "nl" ? "Auteursrechten" : "Copyright"} &copy; 1992 -{" "}
+        {new Date().getFullYear()}{" "}
+        {language.title === "nl" ? "Miller Muziek" : "Miller Music"}
       </p>
     </footer>
   );
-}
+};
 
 export default Footer;
 
