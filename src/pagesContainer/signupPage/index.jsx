@@ -57,12 +57,15 @@ const SignupPage = () => {
       }
     } catch (err) {
       setLoading(false);
-      console.error({ err });
-      setError(err?.response?.data);
+      // console.error(
+      //   "err.response.data.message >>>>>>>>>>",
+      //   err.response.data.message
+      // );
+      setError(err.response.data.message);
 
       setTimeout(() => {
         setError("");
-      }, 3000);
+      }, 5000);
     }
   };
 

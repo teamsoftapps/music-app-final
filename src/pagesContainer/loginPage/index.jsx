@@ -48,12 +48,15 @@ const LoginPage = () => {
       router.push("/");
     } catch (err) {
       setLoading(false);
-      console.log({ err });
-      setError(err?.response?.data);
+      // console.error(
+      //   "err.response.data.message >>>>>>>>>>",
+      //   err.response.data.message
+      // );
+      setError(err.response.data.message);
 
       setTimeout(() => {
         setError("");
-      }, 3000);
+      }, 5000);
     }
   };
 
