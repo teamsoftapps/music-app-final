@@ -45,15 +45,29 @@ export async function getStaticPaths() {
   const albumIds = [
     "Love-Divine-7",
     "Love-Divine-6",
+    "The-Omnipotent",
     "Love-Divine-5",
+    "Ocean-of-Dreams-2",
     "Love-Divine-4",
     "Love-Divine-3",
     "Love-Divine-2",
+    "Christmas",
     "Love-Divine-1",
-    "The-Omnipotent",
+    "The-Piano-Dreamer",
+    "Ian-Mulder's-Favourite-Hymns",
+    "Sounds-of-Silence",
+    "Ian-Mulder-in-Concert",
+    "Coming-to-America",
+    "Ocean-of-Dreams",
+    "Grandezza",
+    "Ecossaise-Christmas",
+    "Ecossaise-2",
+    "Ecossaise-1",
   ];
 
-  const pathWithParams = albumIds.map((id) => ({ params: { albumId: id } }));
+  const pathWithParams = albumIds.map((obj) => ({
+    params: { albumId: obj.Album_Name },
+  }));
   // if you provide all possible ids so "next" will pre-generate all pages in advance of these ids so the use { fallback:false } otherwise use { fallback:true }.
   return {
     paths: pathWithParams,
