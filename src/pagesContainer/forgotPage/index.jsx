@@ -9,7 +9,7 @@ import classes from "./ForgotPage.module.css";
 
 const postSelector = (state) => state.music;
 
-const ForgotPage = (async) => {
+const ForgotPage = () => {
   console.log("Auth ForgotPage >>>>>>>>");
 
   const { language } = useSelector(postSelector, shallowEqual);
@@ -43,7 +43,16 @@ const ForgotPage = (async) => {
         setLoading(false);
       }
     } catch (err) {
-      console.log(err);
+      setLoading(false);
+      // console.error(
+      //   "err.response.data.message >>>>>>>>>>",
+      //   err.response.data.message
+      // );
+      setError(err.response.data.message);
+
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
   };
 

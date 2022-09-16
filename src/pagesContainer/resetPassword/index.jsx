@@ -22,7 +22,6 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   // console.log({ email, resetPasswordVerificationCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
@@ -61,8 +60,16 @@ const ResetPassword = () => {
         router.push("/auth/success");
       }
     } catch (error) {
-      console.error("error >>>>>>", error);
-      setError(error);
+      setLoading(false);
+      // console.error(
+      //   "err.response.data.message >>>>>>>>>>",
+      //   err.response.data.message
+      // );
+      setError(err.response.data.message);
+
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
 
     // const payload = { email, password, code: resetPasswordVerificationCode };

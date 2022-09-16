@@ -52,8 +52,16 @@ const index = () => {
         router.push("/auth/success");
       }
     } catch (err) {
-      setError(err);
-      console.error(err);
+      setLoading(false);
+      // console.error(
+      //   "err.response.data.message >>>>>>>>>>",
+      //   err.response.data.message
+      // );
+      setError(err.response.data.message);
+
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
   };
 
