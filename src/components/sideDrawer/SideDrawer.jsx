@@ -117,6 +117,7 @@ function TemporaryDrawer() {
 
     setState({ ...state, [anchor]: open });
   };
+
   function handleClick(album, index) {
     // console.log(album, index);
     dispatch(setFavouriteId(album?._id));
@@ -126,7 +127,7 @@ function TemporaryDrawer() {
       route.replace("/auth/login");
       return;
     }
-    route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
+    route.push(`/album/${album?.Album_Name}`);
   }
 
   const list = (anchor) => (

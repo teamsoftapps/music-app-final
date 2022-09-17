@@ -149,7 +149,7 @@ const HomePage = ({ albums }) => {
 
   return (
     <div className={classes.homePage}>
-      {loading && <h3>Loading..</h3>}
+      {/* {loading && <h3>Loading..</h3>} */}
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <br />
