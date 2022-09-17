@@ -59,7 +59,7 @@ const ResetPassword = () => {
 
         router.push("/auth/success");
       }
-    } catch (error) {
+    } catch (err) {
       setLoading(false);
       // console.error(
       //   "err.response.data.message >>>>>>>>>>",
