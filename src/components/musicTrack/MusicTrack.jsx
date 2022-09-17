@@ -28,12 +28,10 @@ const MusicTracker = ({
   setSongArray,
   setSingleSong,
 }) => {
-  const {
-    song,
-    user: { expiresIn },
-    favourites,
-    favouriteId,
-  } = useSelector(postSelector, shallowEqual);
+  const { song, user, favourites, favouriteId } = useSelector(
+    postSelector,
+    shallowEqual
+  );
 
   // console.log("favourites >>>>>>>", favourites);
 
@@ -177,7 +175,7 @@ const MusicTracker = ({
           <IconButton className={classes.songTune}>
             <MusicNote />
           </IconButton>
-          {!locked && !expiresIn && (
+          {!locked && (
             <IconButton
               className={classes.songTune}
               onClick={() => handleLike(albumSong?._id)}
