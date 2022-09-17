@@ -181,6 +181,9 @@ const AlbumPage = ({ songs, album }) => {
 
     if (!songs?.length) return route.replace("/");
 
+    // console.log("album page album >>>>>>>>>>>>>>", album);
+    // console.log("album page songs >>>>>>>>>>>>>>", songs);
+
     dispatch(setSongs(songs));
     dispatch(setAlbum(album));
 

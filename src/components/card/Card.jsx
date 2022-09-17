@@ -33,17 +33,17 @@ const Card = forwardRef(
       if (disableFetch) return;
       if (user?.hasOwnProperty("expiresIn")) {
         index === 0
-          ? route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`)
+          ? route.push(`/album/${album?.Album_Name}`)
           : handleExpireAlert();
       } else {
-        route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
+        route.push(`/album/${album?.Album_Name}`);
       }
 
       // try {
       // const { data } = await axios.get(`${process.env.base_url}/songs/${album?.Album_Name}`);
       // dispatch(setSongs(data));
       // dispatch(setSong(data[0]));
-      // route.push(`/album/${album?.Album_Name.replaceAll(" ", "-")}`);
+      // route.push(`/album/${album?.Album_Name}`);
       // } catch (err) {
       //     console.log({ err });
       // }

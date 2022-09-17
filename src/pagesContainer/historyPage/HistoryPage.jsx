@@ -53,7 +53,7 @@ const HistoryPage = ({ userEmail }) => {
                   className={`${classes.musicTrack}`}
                   key={index}
                   onClick={() => {
-                    route.push(`/album/${item.albumName.replaceAll(" ", "-")}`);
+                    route.push(`/album/${item.albumName}`);
                   }}
                 >
                   <div className={classes.musicTrackLeft}>
