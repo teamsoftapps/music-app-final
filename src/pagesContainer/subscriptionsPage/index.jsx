@@ -16,6 +16,8 @@ import ALBUMIMAGE from "./../../../public/images/album.png";
 import MELODYIMAGE from "./../../../public/images/melody.png";
 import PAYPALIMAGE from "./../../../public/images/pay_pal.svg";
 import PRICEIMAGE from "./../../../public/images/price.png";
+import api from "./../../../services/api";
+import Cliploader from "react-spinners/ClipLoader";
 import styles from "./Subscriptions.module.css";
 
 const postSelector = (state) => state.music;
@@ -45,6 +47,43 @@ const SubscriptionsPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [price, setPrice] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [sandBoxURL, setSandBoxURL] = useState("");
+
+  const handleClick = async (price) => {
+    setLoading(true);
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      localStorage.removeItem("offerType");
+    }
+
+    setOpen(true);
+    setPrice(price);
+
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      localStorage.setItem("offerType", price);
+    }
+
+    try {
+      const { data } = await api.get(`/pay?price=${price}`);
+      console.log("data >>>>>>>>>>>", data);
+
+      if (data) {
+        setSandBoxURL(data.link);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error("err >>>>>>>>>>>", err);
+    }
+  };
+
+  const handleSubmit = () => {
+    setLoader(true);
+  };
 
   return (
     <div className={styles.card_container}>
@@ -104,7 +143,7 @@ const SubscriptionsPage = () => {
             <Button
               className={styles.avail_btn}
               size="small"
-              onClick={handleOpen}
+              onClick={() => handleClick(200)}
             >
               {language.title === "nl" ? "Beschikbaar" : "Avail"}
             </Button>
@@ -156,7 +195,7 @@ const SubscriptionsPage = () => {
             <Button
               className={styles.avail_btn}
               size="small"
-              onClick={handleOpen}
+              onClick={() => handleClick(300)}
             >
               {language.title === "nl" ? "Beschikbaar" : "Avail"}
             </Button>
@@ -208,7 +247,7 @@ const SubscriptionsPage = () => {
             <Button
               className={styles.avail_btn}
               size="small"
-              onClick={handleOpen}
+              onClick={() => handleClick(400)}
             >
               {language.title === "nl" ? "Beschikbaar" : "Avail"}
             </Button>
@@ -224,19 +263,36 @@ const SubscriptionsPage = () => {
           aria-labelledby="keep-mounted-modal-title"
           aria-describedby="keep-mounted-modal-description"
         >
-          <Box sx={style} className={styles.pay_pal_container}>
-            <Typography variant="h5" color="#000000" textAlign="center" mb={2}>
-              {language.title === "nl"
-                ? "Betaling via PayPal"
-                : "Payment via PayPal"}
-            </Typography>
-            <form action="http://localhost:5000/api/paypal" method="post">
-              <Button type="submit">
-                <Image src={PAYPALIMAGE} width="100%" height="30px" />
-              </Button>
-            </form>
-            {/* <input type="submit" value="Buy" /> */}
-          </Box>
+          {loading ? (
+            <div className={styles.loading_div}>
+              <h1>Loading...</h1>
+            </div>
+          ) : (
+            <Box sx={style} className={styles.modal_container}>
+              <Typography
+                variant="h5"
+                color="#000000"
+                textAlign="center"
+                mb={2}
+              >
+                {language.title === "nl"
+                  ? "Betaling via PayPal"
+                  : "Payment via PayPal"}
+              </Typography>
+              <form action={sandBoxURL} method="post" onSubmit={handleSubmit}>
+                <Button type="submit">
+                  <Image src={PAYPALIMAGE} width="100%" height="30px" />
+                </Button>
+              </form>
+              {/* <input type="submit" value="Buy" /> */}
+            </Box>
+          )}
+
+          {/* {loader && (
+            <div className={styles.loading_div}>
+              <Cliploader />
+            </div>
+          )} */}
         </Modal>
       </div>
     </div>
