@@ -99,11 +99,10 @@ const SignupPage = () => {
       }
     } catch (err) {
       setLoading(false);
-      // console.error(
-      //   "err.response.data.message >>>>>>>>>>",
-      //   err.response.data.message
-      // );
-      setError(err.response.data.message);
+
+      // console.error("err.response.data.message >>>>>>>>>>", err.response.data);
+
+      setError(err.response.data);
 
       setTimeout(() => {
         setError("");
