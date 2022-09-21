@@ -131,8 +131,8 @@ const SubscriptionsPage = () => {
         my={"1rem"}
         color="#ffffff"
         gutterBottom
-        variant="h1"
-        component="div"
+        variant="h2"
+        component="h1"
       >
         Coming Soon...
       </Typography>
