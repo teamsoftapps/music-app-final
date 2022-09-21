@@ -19,7 +19,7 @@ const SignupPage = () => {
 
   const dispatch = useDispatch();
 
-  let payerEmail = "";
+  /* let payerEmail = "";
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -28,14 +28,29 @@ const SignupPage = () => {
     }
   }, []);
 
-  const [email, setEmail] = useState(payerEmail !== "" ? payerEmail : null);
+  const [email, setEmail] = useState(payerEmail !== "" ? payerEmail : null); */
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [code, setCode] = useState("LDTRIAL");
+  const [isPremiumCodeButtonClicked, setIsPremiumCodeButtonClicked] =
+    useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [checkBox, setCheckBox] = useState(false);
 
   // console.log({ email, accessCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
+
+  const handleClick = () => {
+    setIsPremiumCodeButtonClicked(true);
+    setCode("");
+  };
+
+  const handleCancelClick = () => {
+    setIsPremiumCodeButtonClicked(false);
+    setCode("LDTRIAL");
+  };
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -59,7 +74,7 @@ const SignupPage = () => {
       //     },
       //   };
       // } else {
-      let payload = { email, password };
+      let payload = { email, password, code };
       // }
 
       // console.log("payload >>>>>>>>>", payload);
@@ -84,11 +99,10 @@ const SignupPage = () => {
       }
     } catch (err) {
       setLoading(false);
-      // console.error(
-      //   "err.response.data.message >>>>>>>>>>",
-      //   err.response.data.message
-      // );
-      setError(err.response.data.message);
+
+      // console.error("err.response.data.message >>>>>>>>>>", err.response.data);
+
+      setError(err.response.data);
 
       setTimeout(() => {
         setError("");
@@ -124,7 +138,7 @@ const SignupPage = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
-          disabled={payerEmail !== "" ? true : false}
+          // disabled={payerEmail !== "" ? true : false}
           required
           placeholder={
             language.title === "nl"
@@ -152,6 +166,37 @@ const SignupPage = () => {
             language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
           }
         />
+      </div>
+
+      <div className={styles.input2}>
+        <div>
+          <label>
+            {language.title === "nl" ? "Toegangscode" : "Access Code"}
+          </label>
+          <input
+            value={code}
+            type="text"
+            disabled={!isPremiumCodeButtonClicked ? true : false}
+            onChange={(e) => {
+              setCode(e.target.value);
+            }}
+            required
+            placeholder={
+              language.title === "nl"
+                ? "Voer toegangscode in"
+                : "Enter Access Code"
+            }
+          />
+        </div>
+        {!isPremiumCodeButtonClicked ? (
+          <button type="button" onClick={() => handleClick()}>
+            You have premium code ?
+          </button>
+        ) : (
+          <button type="button" onClick={() => handleCancelClick()}>
+            I don't have !
+          </button>
+        )}
       </div>
 
       <br />

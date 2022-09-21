@@ -24,13 +24,45 @@
   margin: 1rem 0;
 }
 
-.input label {
+.input2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.input2 > div,
+.input2 > button {
+  width: 50% !important;
+}
+
+.input2 > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.input2 > button {
+  margin: unset;
+  margin-top: 3.5rem !important;
+  margin-bottom: 0 !important;
+  padding: 1.4rem !important;
+  border: none;
+  outline: none;
+}
+
+.input2 > button:hover {
+  cursor: pointer;
+}
+
+.input label,
+.input2 label {
   align-self: flex-start;
   margin: 1rem 0;
   font-size: 1.2rem;
 }
 
-.input input {
+.input input,
+.input2 input {
   border-radius: 10px;
   padding: 1.4rem;
   border: none;
@@ -42,7 +74,8 @@
   transition: 0.3s ease;
 }
 
-.input input:focus {
+.input input:focus,
+.input2 input:focus {
   outline: 2px solid #382b11;
 }
 
