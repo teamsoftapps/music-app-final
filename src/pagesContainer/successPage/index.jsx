@@ -16,7 +16,7 @@ const SuccessPage = () => {
 
   const router = useRouter();
 
-  // console.log("router.query >>>>>>>>>>>>>", router.query);
+  console.log("router.query >>>>>>>>>>>>>", router.query);
 
   const { paymentId, PayerID } = router.query;
 

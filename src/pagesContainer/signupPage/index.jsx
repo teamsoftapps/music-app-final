@@ -2,7 +2,7 @@ import { Button, FormControlLabel } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/musicReducer";
 import api from "./../../../services/api";
@@ -19,7 +19,16 @@ const SignupPage = () => {
 
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
+  let payerEmail = "";
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      localStorage.setItem("payer_email", payerEmail);
+    }
+  }, []);
+
+  const [email, setEmail] = useState(payerEmail !== "" ? payerEmail : null);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,7 +42,25 @@ const SignupPage = () => {
     e.preventDefault();
 
     try {
-      const payload = { email, password };
+      // let payload;
+      // if (payerEmail !== "") {
+      //   let endDate;
+
+      //   if (price === "200.0") endDate = new Date.now() * 1000;
+
+      //   payload = {
+      //     email,
+      //     password,
+      //     subscriptionPlan: {
+      //       code: "LDTRIAL1",
+      //       type: "Offer 1",
+      //       price: "200.0",
+      //       endDate,
+      //     },
+      //   };
+      // } else {
+      let payload = { email, password };
+      // }
 
       // console.log("payload >>>>>>>>>", payload);
 
@@ -53,7 +80,7 @@ const SignupPage = () => {
 
         setLoading(false);
 
-        router.push("/auth/success");
+        router.push("/");
       }
     } catch (err) {
       setLoading(false);
@@ -97,6 +124,7 @@ const SignupPage = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
+          disabled={payerEmail !== "" ? true : false}
           required
           placeholder={
             language.title === "nl"
