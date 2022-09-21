@@ -10,7 +10,7 @@ import {
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ALBUMIMAGE from "./../../../public/images/album.png";
 import MELODYIMAGE from "./../../../public/images/melody.png";
@@ -49,7 +49,6 @@ const SubscriptionsPage = () => {
   const handleClose = () => setOpen(false);
   const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loader, setLoader] = useState(false);
   const [sandBoxURL, setSandBoxURL] = useState("");
 
   const handleClick = async (price) => {
@@ -81,9 +80,41 @@ const SubscriptionsPage = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setLoader(true);
+  /* const stopWatch = () => {
+    let future = Date.parse("sep 25, 2022 00:00:00");
+    let now = new Date();
+    let diff = future - now;
+
+    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    let hours = Math.floor(diff / (1000 * 60 * 60));
+    let mins = Math.floor(diff / (1000 * 60));
+    let secs = Math.floor(diff / 1000);
+
+    let d = days;
+    let h = hours - days * 24;
+    let m = mins - hours * 60;
+    let s = secs - mins * 60;
+
+    document.getElementById("timer").innerHTML =
+      "<div>" +
+      d +
+      "<span>Days</span></div>" +
+      "<div>" +
+      h +
+      "<span>Hours</span></div>" +
+      "<div>" +
+      m +
+      "<span>Minutes</span></div>" +
+      "<div>" +
+      s +
+      "<span>Seconds</span></div>";
   };
+
+  useEffect(() => {
+    setInterval(() => {
+      stopWatch();
+    }, 1000);
+  }, []); */
 
   return (
     <div className={styles.card_container}>
@@ -94,9 +125,21 @@ const SubscriptionsPage = () => {
         </title>
       </Head>
 
-      <h1>{language.title === "nl" ? "Abonnement" : "Subscription"}</h1>
+      {/* <h1>{language.title === "nl" ? "Abonnement" : "Subscription"}</h1> */}
 
-      <div className={styles.card}>
+      <Typography
+        my={"1rem"}
+        color="#ffffff"
+        gutterBottom
+        variant="h1"
+        component="div"
+      >
+        Coming Soon...
+      </Typography>
+
+      {/* <div id="timer"></div> */}
+
+      {/* <div className={styles.card}>
         <Card
           sx={{ width: "15rem", marginTop: "2rem", backgroundColor: "#CCB488" }}
         >
@@ -284,17 +327,10 @@ const SubscriptionsPage = () => {
                   <Image src={PAYPALIMAGE} width="100%" height="30px" />
                 </Button>
               </form>
-              {/* <input type="submit" value="Buy" /> */}
             </Box>
           )}
-
-          {/* {loader && (
-            <div className={styles.loading_div}>
-              <Cliploader />
-            </div>
-          )} */}
         </Modal>
-      </div>
+      </div> */}
     </div>
   );
 };
