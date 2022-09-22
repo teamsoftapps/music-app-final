@@ -308,16 +308,18 @@ const AlbumPage = ({ songs, album }) => {
           <p className={style.Album_Name}>{albumName}</p>
           {/* <br></br> */}
           <p>{songName}</p>
-          <p
-            style={{
-              fontSize: "12px",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-            onClick={() => setOpen(true)}
-          >
-            Show Lyrics
-          </p>
+          {lyrics !== "" && (
+            <p
+              style={{
+                fontSize: "12px",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+              onClick={() => setOpen(true)}
+            >
+              Show Lyrics
+            </p>
+          )}
         </div>
         <div className={style.trash}></div>
         <div className={style.trash}></div>
