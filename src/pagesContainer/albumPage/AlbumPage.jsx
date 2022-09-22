@@ -107,6 +107,7 @@ const AlbumPage = ({ songs, album }) => {
 
     setAlbumName(songArray[currentSongIndex]?.Album_Name);
     setSongName(songArray[currentSongIndex]?.Song_Name);
+    setLyrics(songArray[currentSongIndex]?.Song_Lyrics);
     setPic(
       `${process.env.media_url}/`.concat(
         songArray[currentSongIndex]?.Album_Image
@@ -288,7 +289,6 @@ const AlbumPage = ({ songs, album }) => {
                   order={i}
                   songs={songs}
                   setSongName={setSongName}
-                  setLyrics={setLyrics}
                   trial={user?.hasOwnProperty("expiresIn")}
                   setSongArray={setSongArray}
                   setSingleSong={setSingleSong}

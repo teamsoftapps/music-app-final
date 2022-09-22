@@ -24,7 +24,6 @@ const MusicTracker = ({
   setCurrentTime,
   trial,
   setSongName,
-  setLyrics,
   setSongArray,
   setSingleSong,
 }) => {
@@ -97,6 +96,8 @@ const MusicTracker = ({
   }
 
   function songJump() {
+    // console.log("songJump >>>>>>>>>>>>>");
+
     if (locked) return;
 
     let songArray;
@@ -115,23 +116,29 @@ const MusicTracker = ({
     const arr2 = songArray.slice(0, index);
     songArray = [...arr1, ...arr2];
 
+    // console.log("songArray >>>>>>>>>>>>", songArray);
+
     if (typeof window !== "undefined") {
       // Perform localStorage action
       localStorage.setItem("currentSongIndex", 0);
       localStorage.setItem("songArray", JSON.stringify(songArray));
     }
 
+    // console.log("songArray[0] >>>>>>>>>>>>>", songArray[0]);
+
     setSingleSong(songArray[0]);
     setSongArray(songArray);
   }
 
+  const handleChangeSong = () => {};
+
   const handleLike = async (id) => {
     setOpen(true);
 
-    console.log(
-      `localStorage.getItem("music-app-credentials") >>>>>>>>>>>>>>>>`,
-      localStorage.getItem("music-app-credentials")
-    );
+    // console.log(
+    //   `localStorage.getItem("music-app-credentials") >>>>>>>>>>>>>>>>`,
+    //   localStorage.getItem("music-app-credentials")
+    // );
 
     let token;
 
@@ -160,12 +167,11 @@ const MusicTracker = ({
   };
 
   return (
-    <div>
+    <div onClick={() => handleChangeSong()}>
       <div
         ref={albumSong?._id === song?._id ? trackRef : null}
         // onClick={isMobile ? songJump : songHandler}
         // onClick={isMobile ? songJump : songJump}
-
         className={`${classes.musicTrack} ${
           albumSong?._id === song?._id ? classes.musicTrackActive : null
         }`}
@@ -189,10 +195,10 @@ const MusicTracker = ({
             </IconButton>
           )}
           {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
-                    <marquee behavior="scroll" direction="left" scrollamount="8">
-                    {albumSong?.Song_Lyrics}
-                    </marquee>
-                ) : ( */}
+              <marquee behavior="scroll" direction="left" scrollamount="8">
+              {albumSong?.Song_Lyrics}
+              </marquee>
+          ) : ( */}
           <h4>{albumSong?.Song_Name}</h4>
           {/* )} */}
         </div>
