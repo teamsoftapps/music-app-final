@@ -37,7 +37,7 @@ const SuccessPage = () => {
         }
 
         setTimeout(() => {
-          router.push("/auth/signup");
+          router.push("/signup");
         }, 5000);
       }
     } catch (err) {

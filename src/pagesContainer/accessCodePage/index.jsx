@@ -106,7 +106,7 @@ const AccessCodePage = () => {
                 <span
                     onClick={() => {
                         setPassword("");
-                        router.push("/auth/forgot");
+                        router.push("/forgot");
                     }}
                 >
                     {language.title === "nl" ? "Wachtwoord vergeten?" : "Back to Login"}

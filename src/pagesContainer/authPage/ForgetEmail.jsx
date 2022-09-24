@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/musicReducer";
-import classes from "./AuthPage.module.css";
+import classes from ".Page.module.css";
 
 const postSelector = (state) => state.music;
 

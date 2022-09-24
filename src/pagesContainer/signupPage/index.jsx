@@ -220,7 +220,7 @@ const SignupPage = () => {
       <br />
 
       <p>
-        <span onClick={() => router.push("/auth/login")}>
+        <span onClick={() => router.push("/login")}>
           {language.title === "nl"
             ? "Heb je al een account? Nu inloggen"
             : "Already have an account? Now Login"}

@@ -124,7 +124,7 @@ function TemporaryDrawer() {
 
     // dispatch(setFavouriteIndex(index))
     if (!user) {
-      route.replace("/auth/login");
+      route.replace("/login");
       return;
     }
     route.push(`/album/${album?.Album_Name}`);

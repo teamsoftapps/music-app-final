@@ -27,7 +27,7 @@ const Card = forwardRef(
     function handleClick() {
       setLoading(true);
       if (!user) {
-        route.replace("/auth/login");
+        route.replace("/login");
         return;
       }
       if (disableFetch) return;

@@ -136,7 +136,7 @@ const LoginPage = () => {
           </span>
           <span
             onClick={() => {
-              router.push("/auth/forgot");
+              router.push("/forgot");
             }}
           >
             {language.title === "nl"
@@ -149,7 +149,7 @@ const LoginPage = () => {
       <p>
         <span
           onClick={() => {
-            router.push("/auth/signup");
+            router.push("/signup");
           }}
         >
           {language.title === "nl"

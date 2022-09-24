@@ -19,7 +19,7 @@ const ProtectedRoute = (WrappedComponent) => {
         if (authenticated) {
           Router.replace("/");
         } else {
-          Router.replace("/auth");
+          Router.replace("");
         }
         // setLoading(false);
         loading = false;

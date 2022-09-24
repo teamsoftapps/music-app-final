@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import Footer from "./../../../src/components/footer";
-import styles from "./../../../src/pagesContainer/loginPage/LoginPage.module.css";
+import Footer from "./../../src/components/footer";
+import styles from "./../../src/pagesContainer/loginPage/LoginPage.module.css";
 
 const index = () => {
   const router = useRouter();
@@ -17,9 +17,9 @@ const index = () => {
   useEffect(() => {
     setTimeout(() => {
       type === "signup"
-        ? router.push("/auth/verify")
+        ? router.push("/verify")
         : type === "verify" || type === "reset"
-        ? router.push("/auth/login")
+        ? router.push("/login")
         : null;
 
       if (typeof window !== "undefined") {

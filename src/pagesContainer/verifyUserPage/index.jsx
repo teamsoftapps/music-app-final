@@ -49,7 +49,7 @@ const VerifyUserPage = () => {
           localStorage.setItem("type", "verify");
         }
 
-        router.push("/auth/success");
+        router.push("/success");
       }
     } catch (err) {
       setLoading(false);

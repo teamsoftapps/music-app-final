@@ -95,7 +95,7 @@ const ForgotPage = () => {
         type="submit"
         variant="contained"
         onClick={() => {
-          router.push("/auth/reset-password");
+          router.push("/reset-password");
         }}
       >
         <div
@@ -139,7 +139,7 @@ const ForgotPage = () => {
         <span className={classes.linkBoxWrapper}>
           <span
             onClick={() => {
-              router.push("/auth/login");
+              router.push("/login");
             }}
           >
             {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
