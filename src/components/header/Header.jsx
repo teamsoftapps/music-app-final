@@ -278,7 +278,7 @@ const nav = [
   // },
   // {
   //     title: "LOGIN",
-  //     route: "/auth",
+  //     route: "",
   // },
 ];
 

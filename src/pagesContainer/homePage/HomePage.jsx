@@ -41,7 +41,7 @@ const HomePage = ({ albums }) => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("music-app-credentials"));
 
-    if (!user) return route.replace("/auth/login");
+    if (!user) return route.replace("/login");
 
     let token;
 

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/musicReducer";
-import classes from "./AuthPage.module.css";
+import classes from ".Page.module.css";
 
 const postSelector = (state) => state.music;
 
@@ -236,7 +236,7 @@ const AuthPage = ({ isSignIn }) => {
       <br />
       <p>
         {!isSignIn ? (
-          <span onClick={() => router.push("/auth/login")}>
+          <span onClick={() => router.push("/login")}>
             {language.title === "nl"
               ? "Heeft u al een account? Inloggen."
               : "Already have an account"}
