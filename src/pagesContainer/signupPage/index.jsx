@@ -32,25 +32,13 @@ const SignupPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [code, setCode] = useState("LDTRIAL");
-  const [isPremiumCodeButtonClicked, setIsPremiumCodeButtonClicked] =
-    useState(false);
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [checkBox, setCheckBox] = useState(false);
 
   // console.log({ email, accessCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
-
-  const handleClick = () => {
-    setIsPremiumCodeButtonClicked(true);
-    setCode("");
-  };
-
-  const handleCancelClick = () => {
-    setIsPremiumCodeButtonClicked(false);
-    setCode("LDTRIAL");
-  };
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -168,35 +156,23 @@ const SignupPage = () => {
         />
       </div>
 
-      <div className={styles.input2}>
-        <div>
-          <label>
-            {language.title === "nl" ? "Toegangscode" : "Access Code"}
-          </label>
-          <input
-            value={code}
-            type="text"
-            disabled={!isPremiumCodeButtonClicked ? true : false}
-            onChange={(e) => {
-              setCode(e.target.value);
-            }}
-            required
-            placeholder={
-              language.title === "nl"
-                ? "Voer toegangscode in"
-                : "Enter Access Code"
-            }
-          />
-        </div>
-        {!isPremiumCodeButtonClicked ? (
-          <button type="button" onClick={() => handleClick()}>
-            You have premium code ?
-          </button>
-        ) : (
-          <button type="button" onClick={() => handleCancelClick()}>
-            I don't have !
-          </button>
-        )}
+      <div className={styles.input}>
+        <label>
+          {language.title === "nl" ? "Toegangscode" : "Access Code"}
+        </label>
+        <input
+          value={code}
+          type="text"
+          onChange={(e) => {
+            setCode(e.target.value);
+          }}
+          required
+          placeholder={
+            language.title === "nl"
+              ? "Voer toegangscode in"
+              : "Enter Access Code"
+          }
+        />
       </div>
 
       <br />
