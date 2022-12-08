@@ -331,6 +331,7 @@ const AlbumPage = ({ songs, album }) => {
           progressJumpStep={3000}
           src={singleSong}
           onEnded={(e) => onEndSong()}
+          autoPlay={true}
         />
       </div>
 
