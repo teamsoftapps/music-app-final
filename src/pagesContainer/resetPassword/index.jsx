@@ -113,6 +113,11 @@ const ResetPassword = () => {
 
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
+      <p>
+        You just received a code via email. Please enter it below and set your
+        desired password.
+      </p>
+
       <div className={classes.input}>
         <label htmlFor="">
           {language.title === "nl" ? "Verificatie code" : "Verification Code"}

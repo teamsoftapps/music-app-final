@@ -19,6 +19,10 @@ const SignupPage = () => {
 
   const dispatch = useDispatch();
 
+  // console.log("router.query", router.query);
+
+  const { email: userEmail, access_code } = router.query;
+
   /* let payerEmail = "";
 
   useEffect(() => {
@@ -39,6 +43,11 @@ const SignupPage = () => {
 
   // console.log({ email, accessCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
+
+  useEffect(() => {
+    setEmail(userEmail !== "" ? userEmail : "");
+    setCode(access_code !== "" ? access_code : "");
+  }, [userEmail, access_code]);
 
   const handleSubmit = async (e) => {
     setLoading(true);
