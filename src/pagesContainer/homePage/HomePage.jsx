@@ -44,7 +44,7 @@ const HomePage = ({ albums }) => {
 
   const fetchSubscription = async () => {
     try {
-      const { data } = await adminApi.get(
+      const { data } = await api.get(
         `/admin/subscriptions/${user?.subscriptionID}`
       );
 

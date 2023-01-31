@@ -39,7 +39,7 @@ const SubscriptionsPage = () => {
 
   const fetchSubscriptions = async () => {
     try {
-      const { data } = await adminApi.get("/admin/subscriptions");
+      const { data } = await api.get("/admin/subscriptions");
 
       if (data) {
         const allSubscriptionsExceptOne = data?.data?.subscriptions.filter(
