@@ -92,7 +92,7 @@ const SubscriptionsPage = () => {
       }
 
       try {
-        const { data } = await api.get(`/pay?price=${price}`);
+        const { data } = await api.get(`/api/pay?price=${price}`);
 
         if (data) {
           setPaypalURL(data.link);

@@ -85,7 +85,7 @@ const HomePage = ({ albums }) => {
         token = JSON.parse(localStorage.getItem("music-app-credentials"));
       }
 
-      const { data } = await api.get(`/getFavourites`, {
+      const { data } = await api.get(`/api/getFavourites`, {
         headers: {
           authorization: `Bearer ${token?.token}`,
         },

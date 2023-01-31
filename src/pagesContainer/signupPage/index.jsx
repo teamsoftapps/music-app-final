@@ -55,7 +55,7 @@ const SignupPage = () => {
         code: verificationCode.toUpperCase(),
       };
 
-      const { data } = await api.post("/signup", payload);
+      const { data } = await api.post("/api/signup", payload);
 
       if (data) {
         if (typeof window !== "undefined") {

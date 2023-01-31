@@ -21,7 +21,7 @@ const HistoryPage = ({ userEmail }) => {
   useEffect(async () => {
     if (userEmail !== undefined) {
       const { data } = await axios.get(
-        `${process.env.base_url}/history/${userEmail.replace(/-/g, " ")}`
+        `${process.env.base_url}/api/history/${userEmail.replace(/-/g, " ")}`
       );
       setHistory(data[0]);
     }

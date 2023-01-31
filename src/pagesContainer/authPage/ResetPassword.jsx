@@ -73,7 +73,8 @@ const ResetPassword = ({ isSignIn }) => {
         ? { email, password, code: accessCode }
         : { email, password, code: accessCode };
 
-    const url = process.env.base_url + (!isSignIn ? "/signup" : "/signin");
+    const url =
+      process.env.base_url + (!isSignIn ? "/api/signup" : "/api/signin");
 
     try {
       const { data } = await axios.post(url, payload);

@@ -21,7 +21,7 @@ const SuccessPage = () => {
   const apiRequest = async () => {
     try {
       const { data } = await api.get(
-        `/success?paymentId=${paymentId}&PayerID=${PayerID}`
+        `/api/success?paymentId=${paymentId}&PayerID=${PayerID}`
       );
 
       if (data) {

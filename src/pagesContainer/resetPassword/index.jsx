@@ -39,7 +39,7 @@ const ResetPassword = () => {
         userID = localStorage.getItem("userID");
       }
 
-      let res = await api.patch(`/reset-password/${userID}`, body);
+      let res = await api.patch(`/api/reset-password/${userID}`, body);
 
       // console.log("reset password>>>>>>>>>>>>>", res);
 

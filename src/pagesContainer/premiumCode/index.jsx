@@ -27,7 +27,7 @@ const PremiumCode = () => {
     e.preventDefault();
 
     try {
-      let { data } = await api.get(`/find-account/${email}`);
+      let { data } = await api.get(`/api/find-account/${email}`);
 
       // console.log("api response data >>>>>>>>>>>", data);
       // console.log("api response data?.data >>>>>>>>>>>", data?.data);

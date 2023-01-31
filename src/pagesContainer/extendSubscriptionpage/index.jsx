@@ -76,7 +76,7 @@ const ExtendSubscription = () => {
         code,
       };
 
-      let { data } = await api.patch(`/extend-subscription/${email}`, body);
+      let { data } = await api.patch(`/api/extend-subscription/${email}`, body);
 
       // console.log("data >>>>>>>>>>>>>", data);
 

@@ -54,7 +54,7 @@ const Footer = () => {
   }
 
   function handleHistory() {
-    router.push(`/history/${user.email}`);
+    router.push(`/api/history/${user.email}`);
   }
 
   useEffect(() => {

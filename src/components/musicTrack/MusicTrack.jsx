@@ -202,7 +202,7 @@ const MusicTracker = ({
     } else setLiked(!liked);
 
     try {
-      const { data } = await api.get(`/favourites/${id}`, {
+      const { data } = await api.get(`/api/favourites/${id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },

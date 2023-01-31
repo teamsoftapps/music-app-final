@@ -31,7 +31,7 @@ const ForgotPage = () => {
         email,
       };
 
-      let { data } = await api.post(`/forgot-password`, body);
+      let { data } = await api.post(`/api/forgot-password`, body);
 
       if (data) {
         if (typeof window !== "undefined") {

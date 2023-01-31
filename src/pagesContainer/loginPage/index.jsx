@@ -65,7 +65,7 @@ const LoginPage = () => {
     try {
       const payload = { email, password };
 
-      const { data } = await api.post("/signin", payload);
+      const { data } = await api.post("/api/signin", payload);
 
       if (typeof window !== "undefined") {
         // Perform localStorage action

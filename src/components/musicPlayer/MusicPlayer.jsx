@@ -121,7 +121,7 @@ function MusicPlayer({
   useEffect(() => {
     if (initialRef.current > 1) {
       try {
-        let url = process.env.base_url + "/history/add";
+        let url = process.env.base_url + "/api/history/add";
         let data = {
           songName: song.Song_Name,
           albumName: song.Album_Name,

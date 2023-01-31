@@ -47,7 +47,7 @@ function Header() {
 
   const fetchExpiringDays = async () => {
     try {
-      const { data } = await api.get(`/expiring-days/${user.email}`);
+      const { data } = await api.get(`/api/expiring-days/${user.email}`);
 
       if (data) {
         // console.log("API ExpiringDays Data >>>>>>>>", data);
