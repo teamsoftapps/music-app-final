@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 export const adminApi = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: process.env.base_url_admin,
 });
 
 export default api;
