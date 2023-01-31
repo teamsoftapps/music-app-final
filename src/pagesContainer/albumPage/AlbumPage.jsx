@@ -8,6 +8,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import style from "../../../styles/global.module.scss";
 import Card from "../../components/card/Card";
+import Card1 from "./../../components/card1/Card1";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import {
@@ -45,6 +46,8 @@ const AlbumPage = ({ songs, album }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [loadingForAlbum, setLoadingForAlbum] = useState(false);
+  const [songPlay, setSongPlay] = useState(false);
+  const [lockedSongs, setLockedSongs] = useState(false);
 
   // seperate each song file
   // console.log(pic)
@@ -145,6 +148,7 @@ const AlbumPage = ({ songs, album }) => {
           return ele;
         }
       });
+
       let stringifyArray = JSON.stringify(tempArr);
 
       if (typeof window !== "undefined") {
@@ -269,7 +273,7 @@ const AlbumPage = ({ songs, album }) => {
         lyrics={lyrics}
       />
       <div className={classes.albumsMain}>
-        <Card
+        <Card1
           title={song?.Album_Name}
           url={`${process.env.media_url}/${
             language.title === "eng"

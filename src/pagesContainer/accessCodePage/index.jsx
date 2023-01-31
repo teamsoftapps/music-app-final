@@ -4,26 +4,24 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/musicReducer";
+import { setUser } from "./../../store/musicReducer";
 import classes from "./AccessCodePage.module.css";
 
 const postSelector = (state) => state.music;
 
 const AccessCodePage = () => {
-  console.log("Auth LoginPage >>>>>>>>");
+  // console.log("Auth LoginPage >>>>>>>>");
+
+  const router = useRouter();
 
   const { language } = useSelector(postSelector, shallowEqual);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // console.log({ email, accessCode });
-  // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -35,8 +33,6 @@ const AccessCodePage = () => {
 
     try {
       const { data } = await axios.post(url, payload);
-
-      // console.log(data);
 
       setLoading(false);
 
@@ -50,7 +46,9 @@ const AccessCodePage = () => {
       router.push("/");
     } catch (err) {
       setLoading(false);
-      console.log({ err });
+
+      console.error(err?.response?.data);
+
       setError(err?.response?.data);
 
       setTimeout(() => {
@@ -63,11 +61,13 @@ const AccessCodePage = () => {
   const loginTextNl = "Submit";
 
   return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
+    <form autoComplete="off" onSubmit={handleSubmit} className={classes.auth}>
       <Head>
         <title>
-          Mulder Music Streaming |{" "}
-          {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
+          {language.title === "nl"
+            ? "Mulder muziekstreaming"
+            : "Mulder Music Streaming"}{" "}
+          | {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
         </title>
       </Head>
 

@@ -1,21 +1,21 @@
-import { Button, FormControlLabel } from "@material-ui/core";
-import Checkbox from "@mui/material/Checkbox";
-import React, { useEffect, useState } from "react";
 import classes from ".Page.module.css";
+import { Button } from "@material-ui/core";
 import axios from "axios";
-import { useRouter } from "next/router";
-import { setUser } from "../../store/musicReducer";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { setUser } from "./../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
 const ResetPassword = ({ isSignIn }) => {
-  console.log("ResetPassword >>>>>>>>");
+  // console.log("ResetPassword >>>>>>>>");
+
+  const router = useRouter();
 
   const { language } = useSelector(postSelector, shallowEqual);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -26,11 +26,9 @@ const ResetPassword = ({ isSignIn }) => {
   const [checkBox, setCheckBox] = useState(false);
   const [isForget, setIsForget] = useState(false);
 
-  // console.log({ email, accessCode });
-  // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
-
   useEffect(() => {
     let user;
+
     if (typeof window !== "undefined") {
       // Perform localStorage action
       user = JSON.parse(localStorage.getItem("music-app-credentials"));
@@ -39,6 +37,7 @@ const ResetPassword = ({ isSignIn }) => {
     if (user?.token.length > 30) router.replace("/");
 
     let pageName = router.asPath.slice(1, 7);
+
     if (pageName === "signup") {
       try {
         let query = router.asPath.slice(8).split("&");
@@ -52,7 +51,7 @@ const ResetPassword = ({ isSignIn }) => {
         setAccessCode(access_code);
       } catch (e) {
         // Do nothing
-        console.log(e);
+        console.error(e);
       }
     }
   }, []);
@@ -91,7 +90,9 @@ const ResetPassword = ({ isSignIn }) => {
       router.push("/");
     } catch (err) {
       setLoading(false);
-      console.log({ err });
+
+      console.error(err?.response?.data);
+
       setError(err?.response?.data);
 
       setTimeout(() => {
@@ -108,11 +109,13 @@ const ResetPassword = ({ isSignIn }) => {
       : "I promise this account will only be used by me, and not to share any of the content with others.";
 
   return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
+    <form autoComplete="off" onSubmit={handleSubmit} className={classes.auth}>
       <Head>
         <title>
-          Mulder Music Streaming |{" "}
-          {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
+          {language.title === "nl"
+            ? "Mulder muziekstreaming"
+            : "Mulder Music Streaming"}{" "}
+          | {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
         </title>
       </Head>
 

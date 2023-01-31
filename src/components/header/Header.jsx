@@ -1,23 +1,154 @@
 import { Drawer, List, ListItem } from "@material-ui/core";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SideDrawer from "../sideDrawer/SideDrawer";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import api from "./../../../services/api";
+import {
+  setLanguageMode,
+  setSong,
+  setSongs,
+  setUser,
+} from "./../../store/musicReducer";
+import SideDrawer from "./../sideDrawer/SideDrawer";
 import classes from "./Header.module.css";
 
 const postSelector = (state) => state.music;
 
 function Header() {
+  const router = useRouter();
+
   const { user, language } = useSelector(postSelector, shallowEqual);
+
+  const dispatch = useDispatch();
+
+  const [userInfo, setUserInfo] = useState(user);
+  const [expireDays, setExpireDays] = useState(null);
+  const [error, setError] = useState("");
+
+  const getLocationInfo = async () => {
+    const { data } = await axios.get("https://api.db-ip.com/v2/free/self");
+
+    if (data.countryCode === "NL") {
+      dispatch(
+        setLanguageMode({
+          title: "nl",
+          src: "nl-2.jpg",
+        })
+      );
+
+      router.push(`${router.route}?lang=nl`);
+    } else {
+      router.push(router.route);
+    }
+  };
+
+  const fetchExpiringDays = async () => {
+    try {
+      const { data } = await api.get(`/expiring-days/${user.email}`);
+
+      if (data) {
+        // console.log("API ExpiringDays Data >>>>>>>>", data);
+        setExpireDays(data);
+        localStorage.setItem("Expiring-Days-Api", JSON.stringify(data));
+      }
+
+      if (user) {
+        setUserInfo({ ...user, expiringDays: data?.data?.days });
+      }
+    } catch (err) {
+      console.error(
+        "err?.response?.data?.message >>>>>>>>>>",
+        err?.response?.data?.message
+      );
+
+      if (
+        err?.response?.data?.message === "Your trial period has been expired!"
+      ) {
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.removeItem("songArray");
+          localStorage.removeItem("Expiring-Days-Api");
+          localStorage.removeItem("subscriptionSongDetails");
+          localStorage.removeItem("music-app-credentials");
+
+          dispatch(setSong({}));
+          dispatch(setSongs([]));
+          dispatch(setUser(null));
+
+          const trialObj = {
+            expired: true,
+            message: err?.response?.data?.message,
+            email: err?.response?.data?.data?.user,
+          };
+
+          localStorage.setItem("trial-info", JSON.stringify(trialObj));
+
+          router.replace("/extend-subscription");
+        }
+      } else {
+        setError(err?.response?.data?.message);
+
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      }
+
+      /* if (typeof window !== "undefined") {
+        // Perform localStorage action
+
+        if (localStorage.getItem("trial-info")) {
+          localStorage.removeItem("songArray");
+          localStorage.removeItem("Expiring-Days-Api");
+          localStorage.removeItem("subscriptionSongDetails");
+          localStorage.removeItem("music-app-credentials");
+
+          dispatch(setSong({}));
+          dispatch(setSongs([]));
+          dispatch(setUser(null));
+        } else {
+          const trialObj = {
+            expired: true,
+            message: err?.response?.data?.message,
+            email: err?.response?.data?.data?.user,
+          };
+
+          if (typeof window !== "undefined") {
+            // Perform localStorage action
+            localStorage.setItem("trial-info", JSON.stringify(trialObj));
+          }
+        }
+
+        router.replace("/extend-subscription");
+      }
+
+      setError(err?.response?.data?.message);
+
+      setTimeout(() => {
+        setError("");
+      }, 3000); */
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchExpiringDays();
+    }
+  }, [user]);
+
   const [open, setOpen] = useState(false);
   const [sideBar, setShowSidebar] = useState(false);
   const [checkCredentials, setCheckCredentials] = useState(null);
 
   useEffect(() => {
+    getLocationInfo();
+
     if (window.innerWidth < 992) {
       setShowSidebar(true);
     }
+
     window.addEventListener("resize", () => {
       setOpen(false);
       if (window.innerWidth < 992) {
@@ -31,8 +162,9 @@ function Header() {
       window.removeEventListener("resize", () => {});
     };
   }, []);
+
   useEffect(() => {
-    if (user?.expiresIn || user?.expiresIn === 0) {
+    if (userInfo?.expiresIn || userInfo?.expiresIn === 0) {
       window.onbeforeunload = function () {
         if (typeof window !== "undefined") {
           // Perform localStorage action
@@ -43,7 +175,7 @@ function Header() {
       };
     }
 
-    var credentialsExist;
+    let credentialsExist;
 
     if (typeof window !== "undefined") {
       // Perform localStorage action
@@ -108,6 +240,7 @@ function Header() {
     //     console.log(res)
     // }
     // catch(err){
+    // console.error(err);
     // }
   };
 
@@ -120,16 +253,14 @@ function Header() {
                             <Menu />
                         </IconButton> */}
 
-            {user?.expiresIn == undefined ? (
+            {userInfo?.expiresIn === undefined ? (
               <div
                 className={classes.playlistMobile}
-                onClick={() => console.log("clicked")}
+                // onClick={() => console.log("clicked")}
               >
                 <SideDrawer />
               </div>
-            ) : (
-              ""
-            )}
+            ) : null}
 
             <Link href="/">
               <a>
@@ -144,17 +275,34 @@ function Header() {
                 />
               </a>
             </Link>
-            {user?.expiresIn >= 0 ? (
-              <div className={classes.timer}>
-                <p>
-                  Your Trial Period Expires{" "}
-                  {user?.expiresIn === 0
-                    ? "Today"
-                    : `In ${user?.expiresIn} Days`}{" "}
-                </p>
-              </div>
-            ) : (
-              ""
+            {user && (
+              <>
+                {
+                  // userInfo?.expiresIn &&
+                  userInfo?.expiresIn >= 0 ? (
+                    <div className={classes.timer}>
+                      <p>
+                        Your Trial Period Expires{" "}
+                        {userInfo?.expiresIn === 0
+                          ? "Today"
+                          : `In ${userInfo?.expiresIn} Days`}{" "}
+                      </p>
+                    </div>
+                  ) : (
+                    // userInfo?.expiringDays &&
+                    userInfo?.expiringDays >= 0 && (
+                      <div className={classes.timer}>
+                        <p>
+                          Your Trial Period Expires{" "}
+                          {userInfo?.expiringDays === 0
+                            ? "Today"
+                            : `In ${userInfo?.expiringDays} Days`}{" "}
+                        </p>
+                      </div>
+                    )
+                  )
+                }
+              </>
             )}
           </div>
         )}
@@ -194,12 +342,10 @@ function Header() {
             {/* <div onClick={() => handleSubscription()} style={{ position: "fixed", left: "30px" }}>
                             Subscription
                         </div> */}
-            {user?.expiresIn === undefined ? (
+            {userInfo?.expiresIn === undefined && (
               <div className={classes.playlistDesktop}>
                 {checkCredentials !== null && <SideDrawer />}
               </div>
-            ) : (
-              ""
             )}
             <Link href="/">
               <a>
@@ -214,17 +360,48 @@ function Header() {
                 />
               </a>
             </Link>
-            {user?.expiresIn >= 0 ? (
-              <div className={classes.timer}>
-                <p>Your Trial Period Expires. </p>
-                <p>
-                  {user?.expiresIn === 0
-                    ? "Today"
-                    : `In ${user?.expiresIn}  Days`}{" "}
-                </p>
-              </div>
-            ) : (
-              ""
+            {user && (
+              <>
+                {
+                  // userInfo?.expiresIn &&
+                  userInfo?.expiresIn >= 0 ? (
+                    <div className={classes.timer}>
+                      <p>
+                        {language.title === "nl"
+                          ? "Uw proefperiode verloopt."
+                          : "Your Trial Period Expires."}{" "}
+                      </p>
+                      <p>
+                        {user?.expiresIn === 0
+                          ? language.title === "nl"
+                            ? "Vandaag"
+                            : "Today"
+                          : `In ${user?.expiresIn} ${
+                              language.title === "nl" ? "Dagen" : "Days"
+                            }`}{" "}
+                      </p>
+                    </div>
+                  ) : (
+                    // userInfo?.expiringDays &&
+                    userInfo?.expiringDays >= 0 && (
+                      <div className={classes.timer}>
+                        <p>
+                          {language.title === "nl"
+                            ? "Uw proefperiode verloopt"
+                            : "Your Trial Period Expires"}{" "}
+                          {userInfo?.expiringDays === 0
+                            ? language.title === "nl"
+                              ? "Vandaag"
+                              : "Today"
+                            : `In ${userInfo?.expiringDays} ${
+                                language.title === "nl" ? "Dagen" : "Days"
+                              }`}{" "}
+                        </p>
+                      </div>
+                    )
+                  )
+                }
+              </>
             )}
           </div>
           <nav className={classes.headerNavigation}>
@@ -282,13 +459,13 @@ const nav = [
   // },
 ];
 
-const languages = [
-  {
-    title: "nl",
-    src: "nl.jpg",
-  },
-  {
-    title: "eng",
-    src: "usa.jpg",
-  },
-];
+// const languages = [
+//   {
+//     title: "nl",
+//     src: "nl.jpg",
+//   },
+//   {
+//     title: "eng",
+//     src: "usa.jpg",
+//   },
+// ];

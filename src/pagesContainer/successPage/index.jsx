@@ -8,25 +8,21 @@ import styles from "./../signupPage/Signup.module.css";
 const postSelector = (state) => state.music;
 
 const SuccessPage = () => {
-  console.log("Auth SuccessPage >>>>>>>>");
-
-  const { language } = useSelector(postSelector, shallowEqual);
-
-  const [error, setError] = useState("");
+  // console.log("Auth SuccessPage >>>>>>>>");
 
   const router = useRouter();
 
-  console.log("router.query >>>>>>>>>>>>>", router.query);
-
   const { paymentId, PayerID } = router.query;
+
+  const { language, user } = useSelector(postSelector, shallowEqual);
+
+  const [error, setError] = useState("");
 
   const apiRequest = async () => {
     try {
       const { data } = await api.get(
         `/success?paymentId=${paymentId}&PayerID=${PayerID}`
       );
-
-      // console.log("data >>>>>>>>>>>>>", data);
 
       if (data) {
         const { email } = data.payer.payer_info;
@@ -43,7 +39,7 @@ const SuccessPage = () => {
     } catch (err) {
       setError(err?.response?.data);
 
-      // console.log("err?.response?.data >>>>>>>>>>>", err?.response?.data);
+      console.error("err?.response?.data >>>>>>>>>>>", err?.response?.data);
 
       setTimeout(() => {
         setError("");
@@ -54,6 +50,14 @@ const SuccessPage = () => {
   useEffect(() => {
     apiRequest();
   }, []);
+
+  // useEffect(()=>{
+  //     if (user) {
+  //       router.replace("/");
+  //     } else {
+  //       router.replace("/success");
+  //     }
+  // },[user])
 
   return (
     <div

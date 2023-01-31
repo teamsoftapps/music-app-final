@@ -1,19 +1,20 @@
+import classes from ".Page.module.css";
 import { Button } from "@material-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/musicReducer";
-import classes from ".Page.module.css";
+import { setUser } from "./../../store/musicReducer";
 
 const postSelector = (state) => state.music;
 
 const ForgetEmail = ({ isSignIn }) => {
-  console.log("ForgetEmail >>>>>>>>");
+  // console.log("ForgetEmail >>>>>>>>");
+
+  const router = useRouter();
 
   const { language } = useSelector(postSelector, shallowEqual);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -25,9 +26,6 @@ const ForgetEmail = ({ isSignIn }) => {
   const [isForget, setIsForget] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
 
-  // console.log({ email, accessCode });
-  // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
-
   useEffect(() => {
     let user;
     if (typeof window !== "undefined") {
@@ -38,6 +36,7 @@ const ForgetEmail = ({ isSignIn }) => {
     if (user?.token.length > 30) router.replace("/");
 
     let pageName = router.asPath.slice(1, 7);
+
     if (pageName === "signup") {
       try {
         let query = router.asPath.slice(8).split("&");
@@ -51,7 +50,7 @@ const ForgetEmail = ({ isSignIn }) => {
         setAccessCode(access_code);
       } catch (e) {
         // Do nothing
-        console.log(e);
+        console.error(e);
       }
     }
   }, []);
@@ -90,7 +89,9 @@ const ForgetEmail = ({ isSignIn }) => {
       router.push("/");
     } catch (err) {
       setLoading(false);
-      console.log({ err });
+
+      console.error(err);
+
       setError(err?.response?.data);
 
       setTimeout(() => {
@@ -106,7 +107,7 @@ const ForgetEmail = ({ isSignIn }) => {
       : "I promise this account will only be used by me, and not to share any of the content with others.";
 
   return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
+    <form autoComplete="off" onSubmit={handleSubmit} className={classes.auth}>
       {/* <Head>
                 <title>Mulder Music Streaming | {language.title === "nl" ? loginTextNl : loginTextEng} </title>
             </Head> */}

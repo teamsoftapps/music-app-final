@@ -3,107 +3,84 @@ import Checkbox from "@mui/material/Checkbox";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/musicReducer";
+import { shallowEqual, useSelector } from "react-redux";
 import api from "./../../../services/api";
 import styles from "./Signup.module.css";
 
 const postSelector = (state) => state.music;
 
 const SignupPage = () => {
-  console.log("Auth SignupPage >>>>>>>>");
-
-  const { language } = useSelector(postSelector, shallowEqual);
+  // console.log("Auth SignupPage >>>>>>>>");
 
   const router = useRouter();
 
-  const dispatch = useDispatch();
-
-  // console.log("router.query", router.query);
-
   const { email: userEmail, access_code } = router.query;
-
-  /* let payerEmail = "";
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Perform localStorage action
-      localStorage.setItem("payer_email", payerEmail);
-    }
-  }, []);
-
-  const [email, setEmail] = useState(payerEmail !== "" ? payerEmail : null); */
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [code, setCode] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [checkBox, setCheckBox] = useState(false);
 
-  // console.log({ email, accessCode });
-  // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
+  const { language, user } = useSelector(postSelector, shallowEqual);
 
   useEffect(() => {
     setEmail(userEmail !== "" ? userEmail : "");
-    setCode(access_code !== "" ? access_code : "");
+    setVerificationCode(access_code !== "" ? access_code : "");
   }, [userEmail, access_code]);
 
+  // useEffect(() => {
+  //   if (user) {
+  //     router.replace("/");
+  //   } else {
+  //     router.replace("/signup");
+  //   }
+
+  //   // if(!user){
+  //   //   router.replace(`/signup?email=${email}&&access_code=${access_code}`)
+  //   // }
+
+  // }, [user]);
+
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
 
+    setLoading(true);
+
     try {
-      // let payload;
-      // if (payerEmail !== "") {
-      //   let endDate;
-
-      //   if (price === "200.0") endDate = new Date.now() * 1000;
-
-      //   payload = {
-      //     email,
-      //     password,
-      //     subscriptionPlan: {
-      //       code: "LDTRIAL1",
-      //       type: "Offer 1",
-      //       price: "200.0",
-      //       endDate,
-      //     },
-      //   };
-      // } else {
-      let payload = { email, password, code };
-      // }
-
-      // console.log("payload >>>>>>>>>", payload);
+      let payload = {
+        email: email.toLowerCase(),
+        password,
+        code: verificationCode.toUpperCase(),
+      };
 
       const { data } = await api.post("/signup", payload);
-
-      // console.log("data >>>>>>>>", data);
 
       if (data) {
         if (typeof window !== "undefined") {
           // Perform localStorage action
-          localStorage.setItem("music-app-credentials", JSON.stringify(data));
 
-          localStorage.setItem("type", "signup");
+          localStorage.setItem("success", data?.message);
         }
-
-        dispatch(setUser(data));
 
         setLoading(false);
 
-        router.push("/");
+        router.push("/login");
       }
     } catch (err) {
       setLoading(false);
 
-      // console.error("err.response.data.message >>>>>>>>>>", err.response.data);
+      console.error(
+        "err?.response?.data?.message >>>>>>>>>>",
+        err?.response?.data?.message
+      );
 
-      setError(err.response.data);
+      setError(err?.response?.data?.message);
 
       setTimeout(() => {
         setError("");
-      }, 5000);
+      }, 3000);
     }
   };
 
@@ -112,15 +89,21 @@ const SignupPage = () => {
 
   const codePromiseText =
     language.title === "nl"
-      ? "Ik beloof dat dit account alleen door mij zal worden gebruikt en niet om de inhoud met anderen te delen."
-      : "I promise this account will only be used by me, and not to share any of the content with others.";
+      ? " Ik beloof dat dit account alleen door mij zal worden gebruikt en niet om de inhoud met anderen te delen."
+      : " I promise this account will only be used by me, and not to share any of the content with others.";
 
   return (
-    <form onSubmit={handleSubmit} className={styles.auth}>
+    <form
+      autoComplete="off"
+      onSubmit={(e) => handleSubmit(e)}
+      className={styles.auth}
+    >
       <Head>
         <title>
-          Mulder Music Streaming |{" "}
-          {language.title === "nl" ? signupTextNl : signupTextEng}
+          {language.title === "nl"
+            ? "Mulder muziekstreaming"
+            : "Mulder Music Streaming"}{" "}
+          | {language.title === "nl" ? signupTextNl : signupTextEng}
         </title>
       </Head>
 
@@ -135,7 +118,6 @@ const SignupPage = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="email"
-          // disabled={payerEmail !== "" ? true : false}
           required
           placeholder={
             language.title === "nl"
@@ -170,12 +152,14 @@ const SignupPage = () => {
           {language.title === "nl" ? "Toegangscode" : "Access Code"}
         </label>
         <input
-          value={code}
+          value={verificationCode}
           type="text"
           onChange={(e) => {
-            setCode(e.target.value);
+            setVerificationCode(e.target.value);
           }}
           required
+          minLength={6}
+          maxLength={36}
           placeholder={
             language.title === "nl"
               ? "Voer toegangscode in"

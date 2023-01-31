@@ -8,27 +8,45 @@ import {
   setSong,
   setSongs,
   setUser,
-} from "../../store/musicReducer";
+} from "./../../store/musicReducer";
 import classes from "./Footer.module.css";
 
 const postSelector = (state) => state.music;
 
+const languages = [
+  {
+    title: "nl",
+    src: "nl-2.jpg",
+  },
+  {
+    title: "eng",
+    src: "usa-2.jpg",
+  },
+];
+
 const Footer = () => {
-  const { user, language } = useSelector(postSelector, shallowEqual);
   const router = useRouter();
+
+  const { user, language } = useSelector(postSelector, shallowEqual);
+
   const dispatch = useDispatch();
 
   function handleLogout() {
     if (typeof window !== "undefined") {
       // Perform localStorage action
+      localStorage.removeItem("songArray");
+      localStorage.removeItem("Expiring-Days-Api");
+      localStorage.removeItem("subscriptionSongDetails");
       localStorage.removeItem("music-app-credentials");
     }
 
     dispatch(setSong({}));
     dispatch(setSongs([]));
     dispatch(setUser(null));
+
     router.push(`/login`);
   }
+
   function handleLanguage(lan) {
     const { route } = router;
     router.push(`${route}?lang=${lan.title}`);
@@ -56,7 +74,8 @@ const Footer = () => {
         }
       }
     } catch (e) {
-      console.log(e, "- Footer");
+      // console.log(e, "- Footer");
+      console.error(e);
     }
   }, []);
 
@@ -101,10 +120,10 @@ const Footer = () => {
           {user && (
             <span className={classes.btnWrapper}>
               <Button className={classes.logoutBtn} onClick={handleLogout}>
-                Logout
+                {language.title === "nl" ? "Uitloggen" : "Logout"}
               </Button>
               <Button className={classes.logoutBtn} onClick={handleHistory}>
-                History
+                {language.title === "nl" ? "Geschiedenis" : "History"}
               </Button>
             </span>
           )}
@@ -120,14 +139,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-const languages = [
-  {
-    title: "nl",
-    src: "nl-2.jpg",
-  },
-  {
-    title: "eng",
-    src: "usa-2.jpg",
-  },
-];

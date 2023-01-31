@@ -5,18 +5,19 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../store/musicReducer";
+import { setUser } from "./../../store/musicReducer";
 import classes from ".Page.module.css";
 
 const postSelector = (state) => state.music;
 
 const AuthPage = ({ isSignIn }) => {
-  console.log("AuthPage >>>>>>>>");
-  console.log("isSignIn >>>>>>>>>>>>", isSignIn);
+  // console.log("AuthPage >>>>>>>>");
+  // console.log("isSignIn >>>>>>>>>>>>", isSignIn);
+
+  const router = useRouter();
 
   const { language } = useSelector(postSelector, shallowEqual);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -26,9 +27,6 @@ const AuthPage = ({ isSignIn }) => {
   const [accessCode, setAccessCode] = useState("");
   const [checkBox, setCheckBox] = useState(false);
   const [isForget, setIsForget] = useState(false);
-
-  // console.log({ email, accessCode });
-  // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
   useEffect(() => {
     let user;
@@ -41,6 +39,7 @@ const AuthPage = ({ isSignIn }) => {
     if (user?.token.length > 30) router.replace("/");
 
     let pageName = router.asPath.slice(1, 7);
+
     if (pageName === "signup") {
       try {
         let query = router.asPath.slice(8).split("&");
@@ -54,7 +53,7 @@ const AuthPage = ({ isSignIn }) => {
         setAccessCode(access_code);
       } catch (e) {
         // Do nothing
-        console.log(e);
+        console.error(e);
       }
     }
   }, []);
@@ -93,7 +92,9 @@ const AuthPage = ({ isSignIn }) => {
       router.push("/");
     } catch (err) {
       setLoading(false);
-      console.log({ err });
+
+      console.error(err?.response?.data);
+
       setError(err?.response?.data);
 
       setTimeout(() => {
@@ -110,11 +111,13 @@ const AuthPage = ({ isSignIn }) => {
       : "I promise this account will only be used by me, and not to share any of the content with others.";
 
   return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
+    <form autoComplete="off" onSubmit={handleSubmit} className={classes.auth}>
       <Head>
         <title>
-          Mulder Music Streaming |{" "}
-          {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
+          {language.title === "nl"
+            ? "Mulder muziekstreaming"
+            : "Mulder Music Streaming"}{" "}
+          | {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
         </title>
       </Head>
 

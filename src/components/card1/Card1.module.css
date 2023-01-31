@@ -1,4 +1,4 @@
-.card {
+.card1 {
   display: flex;
   flex-direction: column;
   margin: 1.5rem;
@@ -6,13 +6,13 @@
   position: relative;
 }
 
-.card[disabled] {
+.card1[disabled] {
   pointer-events: none;
   opacity: 0.5;
   cursor: no-drop;
 }
 
-.card .alert {
+.card1 .alert {
   position: absolute;
   z-index: 1;
   width: 100%;
@@ -20,7 +20,7 @@
   color: #fff;
 }
 
-.card .locked {
+.card1 .locked {
   position: absolute;
   right: 10px;
   top: 10px;
@@ -33,7 +33,7 @@
   color: rgb(255, 255, 255);
 }
 
-.card .locked span {
+.card1 .locked span {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +46,7 @@
   overflow: hidden;
 }
 
-.card h3 {
+.card1 h3 {
   font-weight: 500;
   color: var(--primary-color);
   margin-top: 1rem;

@@ -3,70 +3,124 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import FlipMove from "react-flip-move";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ClipLoader from "react-spinners/ClipLoader";
-import downarrow from "../../../public/images/downarrownew.png";
-import uparrow from "../../../public/images/uparrownew.png";
-import Advertisement from "../../components/advertisment/Advertisment";
-import Card from "../../components/card/Card";
-import Footer from "../../components/footer";
-import { setFavourites } from "../../store/musicReducer";
-import api from "./../../../services/api";
+import downarrow from "./../../../public/images/downarrownew.png";
+import uparrow from "./../../../public/images/uparrownew.png";
+import api, { adminApi } from "./../../../services/api";
+import Advertisement from "./../../components/advertisment/Advertisment";
+import Card from "./../../components/card/Card";
+import Footer from "./../../components/footer";
+import { setFavourites } from "./../../store/musicReducer";
 import classes from "./HomePage.module.css";
 
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
-  console.log("HomePage >>>>>>>>>>>>>>");
+  // console.log("HomePage >>>>>>>>>>>>>>");
+
+  const route = useRouter();
+
+  const { language, user } = useSelector(postSelector, shallowEqual);
+
+  console.log("user==>", user);
+
+  const dispatch = useDispatch();
+
+  const [openAdd, setOpenAdd] = useState(false);
+  const [albumsOrder, setAlbumsOrder] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [subsData, setSubsData] = useState(null);
+  const [subscriptionAlbum, setSubscriptionAlbum] = useState(null);
 
   let albumArray = [];
 
   albums?.forEach((element) => {
+    // console.log(element)
     let { index } = element;
     albumArray[index - 1] = element;
   });
 
   // console.log(albumArray)
 
-  const [openAdd, setOpenAdd] = useState(false);
-  const { language, user } = useSelector(postSelector, shallowEqual);
-  const [albumsOrder, setAlbumsOrder] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const fetchSubscription = async () => {
+    try {
+      const { data } = await adminApi.get(
+        `/admin/subscriptions/${user?.subscriptionID}`
+      );
 
-  const route = useRouter();
-  const dispatch = useDispatch();
+      console.log("subscription-details", { data });
 
-  // console.log(user)
+      if (data) {
+        setSubsData(data);
+        console.log("subsdata==>", data);
+        localStorage.setItem(
+          "subscriptionSongDetails",
+          JSON.stringify(data?.data?.subscription?.songDetail)
+        );
+
+        setSubscriptionAlbum(data?.data?.subscription?.songDetail);
+        console.log("subs album==>", data?.data?.subscription?.songDetail);
+      }
+    } catch (err) {
+      console.error(
+        "err?.response?.data?.message >>>>>>>>>>",
+        err?.response?.data?.message
+      );
+
+      setError("error");
+
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+  };
+
+  const fetchFavourites = async () => {
+    try {
+      let token;
+
+      if (typeof window !== "undefined") {
+        // Perform localStorage action
+        // ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
+        token = JSON.parse(localStorage.getItem("music-app-credentials"));
+      }
+
+      const { data } = await api.get(`/getFavourites`, {
+        headers: {
+          authorization: `Bearer ${token?.token}`,
+        },
+      });
+
+      // tempArr.push(data?.favourites)
+
+      dispatch(setFavourites(data?.favourites));
+
+      // console.log("get favourites", data.favourites);
+    } catch (err) {
+      console.error("err?.response?.data >>>>>>>>>>", err?.response?.data);
+
+      setError(err?.response?.data);
+
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+  };
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("music-app-credentials"));
+    let abortController = new AbortController();
 
-    if (!user) return route.replace("/login");
-
-    let token;
-
-    if (typeof window !== "undefined") {
-      // Perform localStorage action
-      ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
-    }
-
-    const fetchFavourites = async () => {
-      try {
-        const { data } = await api.get(`/getFavourites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        // tempArr.push(data?.favourites)
-        dispatch(setFavourites(data?.favourites));
-        // console.log("get favourites", data.favourites);
-      } catch (err) {
-        console.error("err >>>>>>>>>>", err);
-        // setError(err.response.data);
-      }
-    };
+    // if (!user) {
+    //   route.replace("/login");
+    // } else {
+    fetchSubscription();
     fetchFavourites();
-  }, []);
+    // }
+
+    return () => {
+      abortController.abort();
+    };
+  }, [user]);
 
   const handleAdd = () => {
     if (!openAdd) {
@@ -77,9 +131,20 @@ const HomePage = ({ albums }) => {
     // console.log(openAdd);
   };
 
-  const theOrder = [];
+  let theOrder = [];
 
-  albumArray.map((data) => {
+  albumArray.map((data, ind) => {
+    //  console.log(data.index)
+    // ind=ind+1;
+    // console.log(ind)
+    // if(data.index===ind){
+    //   for(let i=0; i<=data.length;i++){
+    //     // theOrder[i]=data;
+    //     theOrder.push(data)
+    //     // console.log(data)
+    //   }
+    //   console.log(theOrder);
+    // }
     if (data.Album_Name === "Love Divine 1") {
       theOrder[0] = data;
     }
@@ -142,18 +207,24 @@ const HomePage = ({ albums }) => {
     }
   });
 
+  // console.log(albumsOrder)
+
   useEffect(() => {
     setAlbumsOrder(theOrder);
-    // console.log(albumsOrder);
   }, []);
+
+  // console.log("albumsOrder >>>>>>>>>", albumsOrder);
 
   return (
     <div className={classes.homePage}>
       {/* {loading && <h3>Loading..</h3>} */}
+
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <br />
-      <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
+      <h4 style={{ color: "white", textAlign: "center" }}>
+        {language.title === "nl" ? "STREAMEN" : "STREAMING"}
+      </h4>
       {/* Code for Advertisement (start) */}
 
       <div className={classes.addcontainer}>
@@ -190,7 +261,6 @@ const HomePage = ({ albums }) => {
           </div>
         )}
       </div>
-
       {/* Code for Advertisement (end) */}
       <div
         style={{
@@ -198,7 +268,6 @@ const HomePage = ({ albums }) => {
           top: "50%",
           right: "44vw",
           left: "44vw",
-
           // left: 0,
           // width: "100%",
           // height: "100%",
@@ -208,11 +277,16 @@ const HomePage = ({ albums }) => {
           zIndex: 100,
         }}
       >
-        <ClipLoader color="red" loading={loading} size={"10vw"} />
+        {/* <ClipLoader color="red" loading={loading} size={"10vw"} /> */}
+        {loading && (
+          <div className={classes.loading}>
+            <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+          </div>
+        )}
       </div>
 
       <FlipMove className={classes.cards}>
-        {albumsOrder.length > 0 &&
+        {albumsOrder?.length > 0 &&
           albumsOrder?.map((album, index) => {
             const url = `${process.env.media_url}/${
               language.title === "eng"
@@ -228,10 +302,23 @@ const HomePage = ({ albums }) => {
                 index={index}
                 trial={user?.hasOwnProperty("expiresIn")}
                 setLoading={setLoading}
+                subscriptionAlbum={subscriptionAlbum}
               />
             );
           })}
       </FlipMove>
+
+      {/* *********** MY WORK ************* */}
+      {/* <FlipMove className={classes.cards}>
+        {albumsOrder.length > 0 && (
+          <Card
+            albumsOrder={albumsOrder}
+            setLoading={setLoading}
+            trial={user?.hasOwnProperty("expiresIn")}
+          />
+        )}
+      </FlipMove> */}
+
       {/* https://githubmemory.com/repo/joshwcomeau/react-flip-move/issues/256 */}
       {/* Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. */}
       <Footer />

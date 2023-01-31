@@ -12,14 +12,12 @@ import axios from "axios";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { setIsPlaying, setNextSong } from "../../store/musicReducer";
+import { setIsPlaying, setNextSong } from "./../../store/musicReducer";
 import classes from "./MusicPlayer.module.css";
 
 import { isMobile } from "react-device-detect";
 
 const postSelector = (state) => state.music;
-
-// let initialRef = 0;
 
 function MusicPlayer({
   currentTime,
@@ -36,7 +34,13 @@ function MusicPlayer({
     shallowEqual
   );
   // console.log(favouriteId)
+
   const dispatch = useDispatch();
+
+  const audioPlayer = useRef();
+  const animationRef = useRef();
+  const volumePreState = useRef();
+  const initialRef = useRef(0);
 
   // const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(1);
@@ -49,11 +53,6 @@ function MusicPlayer({
   const handleIsLyrics = (event, newValue) => {
     setIsLyrics(newValue);
   };
-
-  const audioPlayer = useRef();
-  const animationRef = useRef();
-  const volumePreState = useRef();
-  const initialRef = useRef(0);
 
   // auto change song name while playing..
   useEffect(() => {
@@ -132,6 +131,7 @@ function MusicPlayer({
         axios.post(url, data);
       } catch (e) {
         // Nothing
+        console.error(e);
       }
       defaultHandler(true);
     }
@@ -368,7 +368,7 @@ function MusicPlayer({
               max={songDuration(audioPlayer.current?.duration)}
             />
             <p>
-              {song && song?.Song_Length}
+              {song?.Song_Length}
               {/* {!calculateTime(audioPlayer.current?.duration) ? "00:00" : calculateTime(audioPlayer.current?.duration)} */}
             </p>
           </div>
@@ -409,26 +409,26 @@ function MusicPlayer({
       {showDetails && (
         <div className={classes.albumsMusicDetails}>
           {/* <Box sx={{ width: "100%" }}>
-                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                            <Tabs
-                                value={isLyrics}
-                                onChange={handleIsLyrics}
-                                aria-label="basic tabs example"
-                                textColor="inherit"
-                                indicatorColor="primary"
-                                centered
-                            >
-                                <Tab label="Song Lyrics" style={{ marginRight: "10px", padding: "10px" }} {...a11yProps(1)} />
-                                <Tab label="Album Details" style={{ padding: "10px" }} {...a11yProps(0)} />
-                            </Tabs>
-                        </Box>
-                        <TabPanel value={isLyrics} index={0}>
-                            <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span>
-                        </TabPanel>
-                        <TabPanel value={isLyrics} index={1}>
-                            <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span>
-                        </TabPanel>
-                    </Box> */}
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Tabs
+                      value={isLyrics}
+                      onChange={handleIsLyrics}
+                      aria-label="basic tabs example"
+                      textColor="inherit"
+                      indicatorColor="primary"
+                      centered
+                  >
+                      <Tab label="Song Lyrics" style={{ marginRight: "10px", padding: "10px" }} {...a11yProps(1)} />
+                      <Tab label="Album Details" style={{ padding: "10px" }} {...a11yProps(0)} />
+                  </Tabs>
+              </Box>
+              <TabPanel value={isLyrics} index={0}>
+                  <span className={classes.lyricsText}>{song?.Song_Lyrics}</span>
+              </TabPanel>
+              <TabPanel value={isLyrics} index={1}>
+                  <span className={classes.lyricsText}>{album?.Song_Desc}</span>
+              </TabPanel>
+          </Box> */}
           <div className={classes.tabsWrapper}>
             <div
               className={`${classes.tab} ${
@@ -452,8 +452,8 @@ function MusicPlayer({
             </div>
           </div>
           <div className={classes.tabsContentWrapper}>
-            {/* {isLyrics === 0 ? <span className={classes.lyricsText}>{song.Song_Lyrics && song.Song_Lyrics}</span> : ""}
-                        {isLyrics === 1 ? <span className={classes.lyricsText}>{album.Song_Desc && album.Song_Desc}</span> : ""} */}
+            {/* {isLyrics === 0 ? <span className={classes.lyricsText}>{song?.Song_Lyrics}</span> : ""}
+                        {isLyrics === 1 ? <span className={classes.lyricsText}>{album?.Song_Desc}</span> : ""} */}
             {isLyrics === 0 ? (
               <span className={classes.lyricsText}>
                 {lyrics ? lyrics : "No Lyrics Available"}
@@ -462,9 +462,7 @@ function MusicPlayer({
               ""
             )}
             {isLyrics === 1 ? (
-              <span className={classes.lyricsText}>
-                {album.Song_Desc && album.Song_Desc}
-              </span>
+              <span className={classes.lyricsText}>{album?.Song_Desc}</span>
             ) : (
               ""
             )}

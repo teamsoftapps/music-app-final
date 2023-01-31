@@ -1,62 +1,115 @@
 import { Button } from "@material-ui/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../store/musicReducer";
+import ExtendSubscription from "../extendSubscriptionpage";
 import api from "./../../../services/api";
 import classes from "./LoginPage.module.css";
 
 const postSelector = (state) => state.music;
 
 const LoginPage = () => {
-  console.log("Auth LoginPage >>>>>>>>");
+  // console.log("LoginPage >>>>>>>>");
+
+  const router = useRouter();
 
   const { language } = useSelector(postSelector, shallowEqual);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+
+      setMessage(localStorage.getItem("success"));
+
+      localStorage.removeItem("userEmail");
+
+      setTimeout(() => {
+        localStorage.removeItem("success");
+
+        setMessage("");
+      }, 3000);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      if (localStorage.getItem("music-app-credentials")) {
+        router.replace("/");
+      }
+
+      if (localStorage.getItem("trial-info")) {
+        router.replace("/extend-subscription");
+      }
+    }
+  }, []);
 
   // console.log({ email, accessCode });
   // console.log(router.query.email ? router.query.email : "", router.query.access_code ? router.query.access_code : "");
 
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
 
-    const payload = { email, password };
+    setLoading(true);
 
     try {
+      const payload = { email, password };
+
       const { data } = await api.post("/signin", payload);
-
-      // console.log("data >>>>>>>>>>>", data);
-
-      setLoading(false);
 
       if (typeof window !== "undefined") {
         // Perform localStorage action
-        localStorage.setItem("music-app-credentials", JSON.stringify(data));
-
-        dispatch(setUser(data));
+        localStorage.setItem(
+          "music-app-credentials",
+          JSON.stringify(data?.data?.user)
+        );
       }
 
-      router.push("/");
+      dispatch(setUser(data?.data?.user));
+
+      setLoading(false);
+
+      router.replace("/");
     } catch (err) {
       setLoading(false);
-      // console.error(
-      //   "err.response.data.message >>>>>>>>>>",
-      //   err.response.data.message
-      // );
-      setError(err.response.data.message);
 
-      setTimeout(() => {
-        setError("");
-      }, 5000);
+      console.error(
+        "err?.response?.data?.message >>>>>>>>>>",
+        err?.response?.data?.message
+      );
+
+      if (
+        err?.response?.data?.message === "Your trial period has been expired!"
+      ) {
+        const trialObj = {
+          expired: true,
+          message: err?.response?.data?.message,
+          email: err?.response?.data?.data?.user,
+        };
+
+        if (typeof window !== "undefined") {
+          // Perform localStorage action
+          localStorage.setItem("trial-info", JSON.stringify(trialObj));
+        }
+
+        router.push("/extend-subscription");
+      } else {
+        setError(err?.response?.data?.message);
+
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      }
     }
   };
 
@@ -64,13 +117,25 @@ const LoginPage = () => {
   const loginTextNl = "Log in";
 
   return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
+    <form
+      autoComplete="off"
+      onSubmit={(e) => handleSubmit(e)}
+      className={classes.auth}
+    >
       <Head>
         <title>
-          Mulder Music Streaming |{" "}
-          {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
+          {language.title === "nl"
+            ? "Mulder muziekstreaming"
+            : "Mulder Music Streaming"}{" "}
+          | {language.title === "nl" ? loginTextNl : loginTextEng}{" "}
         </title>
       </Head>
+
+      {message && (
+        <h1 style={{ color: "white", fontSize: "30px", margin: "20px 0" }}>
+          {message}
+        </h1>
+      )}
 
       <h1>{language.title === "nl" ? loginTextNl : loginTextEng}</h1>
 
@@ -116,16 +181,24 @@ const LoginPage = () => {
         />
       </div>
       <div className={classes.login_btn_div}>
-        <Button
-          // disabled={!isSignIn && !checkBox}
-          type="submit"
-          variant="contained"
-        >
-          {language.title === "nl" ? loginTextNl : loginTextEng}
-        </Button>
+        {loading ? (
+          <Button
+            // disabled={!isSignIn && !checkBox}
+            disabled={true}
+            type="submit"
+            // variant="contained"
+            // style={{ opacity: "0.9" }}
+          >
+            Loading...
+          </Button>
+        ) : (
+          <Button type="submit" variant="contained">
+            {language.title === "nl" ? loginTextNl : loginTextEng}
+          </Button>
+        )}
         <br />
         <p className={classes.forgot_p_tag}>
-          <span
+          {/* <span
             onClick={() => {
               router.push("/subscriptions");
             }}
@@ -134,6 +207,27 @@ const LoginPage = () => {
               ? "Koop een abonnement"
               : "Buy a Subscription"}
           </span>
+          <span
+            onClick={() => {
+              router.push("/premium-code");
+            }}
+          >
+            {language.title === "nl"
+              ? "Ik Heb Premium Code"
+              : "I've Premium Code"}
+          </span> */}
+          {/* <span
+            onClick={() => {
+              router.push("/signup?email=asdasd&access_code=87asd6");
+            }}
+          >
+            {language.title === "nl" ? "Aanmelden" : "Signup"}
+          </span> */}
+          {/* <span onClick={() => extendSubscription()}>
+            {language.title === "nl"
+              ? "Abonnement verlengen"
+              : "Extend Subscription"}
+          </span> */}
           <span
             onClick={() => {
               router.push("/forgot");
@@ -146,7 +240,7 @@ const LoginPage = () => {
           </span>
         </p>
       </div>
-      <p>
+      {/* <p>
         <span
           onClick={() => {
             router.push("/signup");
@@ -156,7 +250,7 @@ const LoginPage = () => {
             ? "Geen account! Nieuwe aanmaken"
             : "No Account! Create new one"}
         </span>
-      </p>
+      </p> */}
     </form>
   );
 };

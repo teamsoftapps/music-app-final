@@ -1,54 +1,60 @@
 import { Button } from "@material-ui/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 import api from "./../../../services/api";
-import classes from "./ResetPassword.module.css";
+import classes from "./VerifyPremiumCode.module.css";
 
 const postSelector = (state) => state.music;
 
-const ResetPassword = () => {
-  // console.log("ResetPassword >>>>>>>>");
-
-  const { language } = useSelector(postSelector, shallowEqual);
+const VerifyPremiumCode = () => {
+  // console.log("VerifyPremiumCode >>>>>>>>");
 
   const router = useRouter();
 
-  const [resetPasswordVerificationCode, setResetPasswordVerificationCode] =
-    useState("");
-  const [password, setPassword] = useState("");
+  const { language } = useSelector(postSelector, shallowEqual);
+
+  const [email, setEmail] = useState("");
+  const [premiumCode, setPremiumCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      setEmail(localStorage.getItem("verifyUserEmail"));
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     setLoading(true);
+
     e.preventDefault();
 
     try {
+      // add next day base on duration day
+      const endDate = new Date();
+
+      endDate.setDate(new Date().getDate() + 365);
+
+      // console.log("endDate >>>>>>>>", endDate.toISOString());
+
       const body = {
-        resetPasswordVerificationCode,
-        password,
+        code: premiumCode,
+        subscriptionID: "635bd8fdcb397b3a044d9867",
+        subscriptionEndDate: endDate.toISOString(),
       };
 
-      let userID;
+      let { data } = await api.patch(`/premium-code/${email}`, body);
 
-      if (typeof window !== "undefined") {
-        // Perform localStorage action
-        userID = localStorage.getItem("userID");
-      }
-
-      let res = await api.patch(`/reset-password/${userID}`, body);
-
-      // console.log("reset password>>>>>>>>>>>>>", res);
-
-      if (res) {
+      if (data) {
         if (typeof window !== "undefined") {
           // Perform localStorage action
-          localStorage.removeItem("userID");
+          localStorage.removeItem("verifyUserEmail");
 
-          localStorage.setItem("type", "reset");
+          localStorage.setItem("type", "premium-subscription");
         }
 
         setLoading(false);
@@ -82,11 +88,7 @@ const ResetPassword = () => {
         </title>
       </Head>
 
-      <h1>
-        {language.title === "nl"
-          ? "Wachtwoord opnieuw instellen"
-          : "Reset Password"}
-      </h1>
+      <h1>{language.title === "nl" ? "Premium-code" : "Premium Code"}</h1>
 
       {/* {loading && <h3>Loading..</h3>} */}
 
@@ -98,53 +100,27 @@ const ResetPassword = () => {
 
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
-      <p>
-        {language.title === "nl"
-          ? "Je hebt zojuist een code per e-mail ontvangen. Voer het hieronder in en stel het gewenste wachtwoord in."
-          : "You just received a code via email. Please enter it below and set your desired password."}
-      </p>
-
       <div className={classes.input}>
         <label htmlFor="">
-          {language.title === "nl" ? "Verificatie code" : "Verification Code"}
+          {language.title === "nl" ? "Premium-code" : "Premium Code"}
         </label>
         <input
           // disabled={!isSignIn ? true : false}
           type="text"
           onChange={(e) => {
-            setResetPasswordVerificationCode(e.target.value);
+            setPremiumCode(e.target.value);
           }}
-          value={resetPasswordVerificationCode}
+          value={premiumCode}
           required
           minLength={7}
           maxLength={10}
           placeholder={
-            language.title === "nl" ? "Verificatie code" : "Verification Code"
-          }
-        />
-      </div>
-
-      <div className={classes.input}>
-        <label htmlFor="">
-          {language.title === "nl" ? "Nieuw Paswoord" : "New Password"}
-        </label>
-        <input
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          value={password}
-          required
-          minLength={6}
-          maxLength={36}
-          placeholder={
             language.title === "nl"
-              ? "Uw Nieuwe Wachtwoord"
-              : "Your New Password"
+              ? "Voer Premium-code in"
+              : "Enter Premium Code"
           }
         />
       </div>
-
       <Button type="submit" variant="contained">
         {language.title === "nl" ? "Indienen" : "Submit"}
       </Button>
@@ -155,7 +131,6 @@ const ResetPassword = () => {
           top: "50%",
           right: "44vw",
           left: "44vw",
-
           // left: 0,
           // width: "100%",
           // height: "100%",
@@ -172,4 +147,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default VerifyPremiumCode;

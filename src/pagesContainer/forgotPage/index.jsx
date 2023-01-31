@@ -1,20 +1,20 @@
 import { Button } from "@material-ui/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ClipLoader from "react-spinners/ClipLoader";
 import api from "./../../../services/api";
 import classes from "./ForgotPage.module.css";
 
 const postSelector = (state) => state.music;
 
 const ForgotPage = () => {
-  console.log("Auth ForgotPage >>>>>>>>");
-
-  const { language } = useSelector(postSelector, shallowEqual);
+  // console.log("Auth ForgotPage >>>>>>>>");
 
   const router = useRouter();
+
+  const { language, user } = useSelector(postSelector, shallowEqual);
+
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -23,53 +23,79 @@ const ForgotPage = () => {
 
   const handleSubmit = async (e) => {
     setLoading(true);
+
     e.preventDefault();
 
-    // const payload = { email };
     try {
       const body = {
         email,
       };
 
-      let res = await api.post(`/forgot-password`, body);
+      let { data } = await api.post(`/forgot-password`, body);
 
-      // console.log("api response >>>>>>>>>>>", res);
-
-      if (res) {
+      if (data) {
         if (typeof window !== "undefined") {
           // Perform localStorage action
-          localStorage.setItem("userID", res.data.data.id);
+          localStorage.setItem("userID", data?.data?.id);
         }
+
         setLoading(false);
+
+        router.push("/reset-password");
       }
     } catch (err) {
       setLoading(false);
-      // console.error(
-      //   "err.response.data.message >>>>>>>>>>",
-      //   err.response.data.message
-      // );
-      setError(err.response.data.message);
+
+      console.error(
+        "err?.response?.data?.message >>>>>>>>>>",
+        err?.response?.data?.message
+      );
+
+      setError(err?.response?.data?.message);
 
       setTimeout(() => {
         setError("");
-      }, 5000);
+      }, 3000);
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      router.replace("/");
+    } else {
+      router.replace("/forgot");
+    }
+  }, [user]);
+
   return (
-    <form onSubmit={handleSubmit} className={classes.auth}>
+    <form
+      autoComplete="off"
+      onSubmit={(e) => handleSubmit(e)}
+      className={classes.auth}
+    >
       <Head>
         <title>
-          Mulder Music Streaming |{" "}
+          {language.title === "nl"
+            ? "Mulder muziekstreaming"
+            : "Mulder Music Streaming"}{" "}
+          |{" "}
           {language.title === "nl" ? "Wachtwoord Vergeten" : "Forgot Password"}
         </title>
       </Head>
 
       <h1>
-        {language.title === "nl" ? "Vind Je Account" : "Find Your Account"}
+        {language.title === "nl"
+          ? "Wachtwoord opnieuw instellen"
+          : "Reset Password"}
       </h1>
 
-      {loading && <h3>Loading..</h3>}
+      {/* {loading && <h3>Loading..</h3>} */}
+
+      {loading && (
+        <div className={classes.loading}>
+          <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+        </div>
+      )}
 
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
@@ -91,29 +117,10 @@ const ForgotPage = () => {
         />
       </div>
 
-      <Button
-        type="submit"
-        variant="contained"
-        onClick={() => {
-          router.push("/reset-password");
-        }}
-      >
-        <div
-          style={{
-            position: "fixed",
-            top: "50%",
-            right: "44vw",
-            left: "44vw",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 100,
-          }}
-        >
-          <ClipLoader color="red" loading={loading} size={"10vw"} />
-        </div>
-        {language.title === "nl" ? "Indienen" : "Submit"}
+      <Button type="submit" variant="contained">
+        {language.title === "nl" ? "Doorgaan" : "Continue"}
       </Button>
+
       {/* <div
         style={{
           position: "fixed",
