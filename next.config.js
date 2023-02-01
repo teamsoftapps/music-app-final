@@ -13,7 +13,7 @@ module.exports = (phase) => {
         ],
       },
       env: {
-        base_url: "http://localhost:5000/api",
+        base_url: "http://localhost:5000",
         media_url:
           "https://musicfilesforheroku.s3.us-west-1.amazonaws.com/uploads",
       },

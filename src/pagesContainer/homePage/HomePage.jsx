@@ -110,12 +110,12 @@ const HomePage = ({ albums }) => {
   useEffect(() => {
     let abortController = new AbortController();
 
-    // if (!user) {
-    //   route.replace("/login");
-    // } else {
-    fetchSubscription();
-    fetchFavourites();
-    // }
+    if (!user) {
+      route.replace("/login");
+    } else {
+      fetchSubscription();
+      fetchFavourites();
+    }
 
     return () => {
       abortController.abort();
