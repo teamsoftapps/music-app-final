@@ -132,13 +132,13 @@ const ExtendSubscription = () => {
 
   const currencyHandler = () => {
     if (countryCode === "US") {
-      return "$22.15";
-    } else if (countryCode === "UK") {
-      return "£19.38";
+      return "$23.99";
+    } else if (countryCode === "GB") {
+      return "£23.99";
     } else if (countryCode === "CA" || countryCode === "CN") {
       return "$32.30";
     } else {
-      return "€22.15";
+      return "€23.99";
     }
   };
 
@@ -163,7 +163,9 @@ const ExtendSubscription = () => {
           {language.title === "nl"
             ? "U kunt een nieuwe toegangscode aanschaffen via"
             : "You can purchase a new access code on"}{" "}
-          <a href="https://janmulder.us">www.janmulder.us</a>
+          <a href="https://store.ianmulder.us/eur/magento/Streaming.php">
+            here{"  "}
+          </a>
           {language.title === "nl"
             ? " en weer 12 maanden genieten."
             : "and use it to extend your subscription 12 months."}

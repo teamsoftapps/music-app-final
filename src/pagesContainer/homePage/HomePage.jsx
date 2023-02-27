@@ -5,7 +5,7 @@ import FlipMove from "react-flip-move";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import downarrow from "./../../../public/images/downarrownew.png";
 import uparrow from "./../../../public/images/uparrownew.png";
-import api, { adminApi } from "./../../../services/api";
+import api from "./../../../services/api";
 import Advertisement from "./../../components/advertisment/Advertisment";
 import Card from "./../../components/card/Card";
 import Footer from "./../../components/footer";
@@ -20,8 +20,6 @@ const HomePage = ({ albums }) => {
   const route = useRouter();
 
   const { language, user } = useSelector(postSelector, shallowEqual);
-
-  console.log("user==>", user);
 
   const dispatch = useDispatch();
 
@@ -45,21 +43,18 @@ const HomePage = ({ albums }) => {
   const fetchSubscription = async () => {
     try {
       const { data } = await api.get(
-        `/admin/subscriptions/${user?.subscriptionID}`
+        `/admin/subscriptions/${user.subscriptionID}`
       );
-
-      console.log("subscription-details", { data });
 
       if (data) {
         setSubsData(data);
-        console.log("subsdata==>", data);
+
         localStorage.setItem(
           "subscriptionSongDetails",
           JSON.stringify(data?.data?.subscription?.songDetail)
         );
 
         setSubscriptionAlbum(data?.data?.subscription?.songDetail);
-        console.log("subs album==>", data?.data?.subscription?.songDetail);
       }
     } catch (err) {
       console.error(
@@ -67,7 +62,7 @@ const HomePage = ({ albums }) => {
         err?.response?.data?.message
       );
 
-      setError("error");
+      // setError("error");
 
       setTimeout(() => {
         setError("");
@@ -219,7 +214,7 @@ const HomePage = ({ albums }) => {
     <div className={classes.homePage}>
       {/* {loading && <h3>Loading..</h3>} */}
 
-      {error && <h3 style={{ color: "red" }}>{error}</h3>}
+      {/* {error && <h3 style={{ color: "red" }}>{error}</h3>} */}
 
       <br />
       <h4 style={{ color: "white", textAlign: "center" }}>

@@ -65,7 +65,7 @@ function Header() {
       );
 
       if (
-        err?.response?.data?.message === "Your trial period has been expired!"
+        err?.response?.data?.message === "Your Subscription has been expired!"
       ) {
         if (typeof window !== "undefined") {
           // Perform localStorage action
@@ -282,7 +282,7 @@ function Header() {
                   userInfo?.expiresIn >= 0 ? (
                     <div className={classes.timer}>
                       <p>
-                        Your Trial Period Expires{" "}
+                        Your Subscription Expires{" "}
                         {userInfo?.expiresIn === 0
                           ? "Today"
                           : `In ${userInfo?.expiresIn} Days`}{" "}
@@ -293,7 +293,7 @@ function Header() {
                     userInfo?.expiringDays >= 0 && (
                       <div className={classes.timer}>
                         <p>
-                          Your Trial Period Expires{" "}
+                          Your Subscription Expires{" "}
                           {userInfo?.expiringDays === 0
                             ? "Today"
                             : `In ${userInfo?.expiringDays} Days`}{" "}
@@ -369,7 +369,7 @@ function Header() {
                       <p>
                         {language.title === "nl"
                           ? "Uw proefperiode verloopt."
-                          : "Your Trial Period Expires."}{" "}
+                          : "Your Subscription Expires."}{" "}
                       </p>
                       <p>
                         {user?.expiresIn === 0
@@ -383,12 +383,13 @@ function Header() {
                     </div>
                   ) : (
                     // userInfo?.expiringDays &&
-                    userInfo?.expiringDays >= 0 && (
+                    userInfo?.expiringDays >= 0 &&
+                    userInfo?.expiringDays < 15 && (
                       <div className={classes.timer}>
                         <p>
                           {language.title === "nl"
                             ? "Uw proefperiode verloopt"
-                            : "Your Trial Period Expires"}{" "}
+                            : "Your Subscription Expires"}{" "}
                           {userInfo?.expiringDays === 0
                             ? language.title === "nl"
                               ? "Vandaag"
