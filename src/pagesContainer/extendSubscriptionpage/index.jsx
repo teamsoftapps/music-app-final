@@ -25,27 +25,27 @@ const ExtendSubscription = () => {
   const [currency, setCurrency] = useState();
 
   useEffect(() => {
-    // console.log("user >>>>>>>>", user);
+    console.log("user >>>>>>>>", user);
 
-    // if (typeof window !== "undefined") {
-    //   // Perform localStorage action
-    //   if (user) {
-    //     router.replace("/");
-    //   } else if (!localStorage.getItem("trial-info")) {
-    //     router.replace("/");
-    //   } else if (!user && !localStorage.getItem("trial-info")) {
-    //     dispatch(setSong({}));
-    //     dispatch(setSongs([]));
-    //     dispatch(setUser(null));
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      if (user) {
+        router.replace("/");
+      } else if (!localStorage.getItem("trial-info")) {
+        router.replace("/");
+      } else if (!user && !localStorage.getItem("trial-info")) {
+        dispatch(setSong({}));
+        dispatch(setSongs([]));
+        dispatch(setUser(null));
 
-    //     localStorage.removeItem("songArray");
-    //     localStorage.removeItem("Expiring-Days-Api");
-    //     localStorage.removeItem("subscriptionSongDetails");
-    //     localStorage.removeItem("music-app-credentials");
+        localStorage.removeItem("songArray");
+        localStorage.removeItem("Expiring-Days-Api");
+        localStorage.removeItem("subscriptionSongDetails");
+        localStorage.removeItem("music-app-credentials");
 
-    //     router.replace("/login");
-    //   }
-    // }
+        router.replace("/login");
+      }
+    }
 
     let trialInfo = {};
 
@@ -136,7 +136,7 @@ const ExtendSubscription = () => {
     } else if (countryCode === "GB") {
       return "£23.99";
     } else if (countryCode === "CA" || countryCode === "CN") {
-      return "$32.30";
+      return "$23.99";
     } else {
       return "€23.99";
     }
