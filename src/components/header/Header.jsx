@@ -290,14 +290,11 @@ function Header() {
                     </div>
                   ) : (
                     // userInfo?.expiringDays &&
-                    userInfo?.expiringDays >= 0 && (
+                    (userInfo?.expiringDays < 0 ||
+                      userInfo?.expiringDays == null ||
+                      userInfo?.expiringDays == undefined) && (
                       <div className={classes.timer}>
-                        <p>
-                          Your Subscription Expires{" "}
-                          {userInfo?.expiringDays === 0
-                            ? "Today"
-                            : `In ${userInfo?.expiringDays} Days`}{" "}
-                        </p>
+                        <p>Your Subscription has been Expired! </p>
                       </div>
                     )
                   )
@@ -369,7 +366,7 @@ function Header() {
                       <p>
                         {language.title === "nl"
                           ? "Uw proefperiode verloopt."
-                          : "Your Subscription Expires."}{" "}
+                          : "Your Subscriptions Expires."}{" "}
                       </p>
                       <p>
                         {user?.expiresIn === 0
@@ -378,7 +375,7 @@ function Header() {
                             : "Today"
                           : `In ${user?.expiresIn} ${
                               language.title === "nl" ? "Dagen" : "Days"
-                            }`}{" "}
+                            }`}
                       </p>
                     </div>
                   ) : (
