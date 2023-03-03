@@ -107,7 +107,7 @@ const HomePage = ({ albums }) => {
   useEffect(() => {
     let abortController = new AbortController();
 
-    if (!user || user == null) {
+    if (!user) {
       route.replace("/login");
     } else {
       fetchSubscription();
