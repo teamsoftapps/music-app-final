@@ -102,10 +102,12 @@ const HomePage = ({ albums }) => {
     }
   };
 
+  console.log("user", user);
+
   useEffect(() => {
     let abortController = new AbortController();
 
-    if (!user) {
+    if (!user || user == null) {
       route.replace("/login");
     } else {
       fetchSubscription();
