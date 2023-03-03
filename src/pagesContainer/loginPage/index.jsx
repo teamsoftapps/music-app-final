@@ -89,7 +89,7 @@ const LoginPage = () => {
       );
 
       if (
-        err?.response?.data?.message === "Your trial period has been expired!"
+        err?.response?.data?.message === "Your subscription has been expired!"
       ) {
         const trialObj = {
           expired: true,
