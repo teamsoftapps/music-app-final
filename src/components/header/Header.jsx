@@ -159,7 +159,7 @@ function Header() {
       }
     });
     return () => {
-      window.removeEventListener("resize", () => {});
+      window.removeEventListener("resize", () => { });
     };
   }, []);
 
@@ -205,9 +205,8 @@ function Header() {
         >
           <Image
             priority
-            src={`/images/${
-              language.title === "nl" ? "logo_dutch" : "logo"
-            }.svg`}
+            src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"
+              }.svg`}
             alt=""
             width={250}
             height={50}
@@ -256,7 +255,7 @@ function Header() {
             {userInfo?.expiresIn === undefined ? (
               <div
                 className={classes.playlistMobile}
-                // onClick={() => console.log("clicked")}
+              // onClick={() => console.log("clicked")}
               >
                 <SideDrawer />
               </div>
@@ -265,9 +264,8 @@ function Header() {
             <Link href="/">
               <a>
                 <Image
-                  src={`/images/${
-                    language.title === "nl" ? "logo_dutch" : "logo"
-                  }.svg`}
+                  src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"
+                    }.svg`}
                   alt={language.title}
                   width={200}
                   height={50}
@@ -347,9 +345,8 @@ function Header() {
             <Link href="/">
               <a>
                 <Image
-                  src={`/images/${
-                    language.title === "nl" ? "logo_dutch" : "logo"
-                  }.svg`}
+                  src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"
+                    }.svg`}
                   alt=""
                   width={550}
                   height={150}
@@ -373,9 +370,8 @@ function Header() {
                           ? language.title === "nl"
                             ? "Vandaag"
                             : "Today"
-                          : `In ${user?.expiresIn} ${
-                              language.title === "nl" ? "Dagen" : "Days"
-                            }`}
+                          : `In ${userInfo?.expiresIn} ${language.title === "nl" ? "Dagen" : "Days"
+                          }`}
                       </p>
                     </div>
                   ) : (
@@ -391,9 +387,8 @@ function Header() {
                             ? language.title === "nl"
                               ? "Vandaag"
                               : "Today"
-                            : `In ${userInfo?.expiringDays} ${
-                                language.title === "nl" ? "Dagen" : "Days"
-                              }`}{" "}
+                            : `In ${userInfo?.expiringDays} ${language.title === "nl" ? "Dagen" : "Days"
+                            }`}{" "}
                         </p>
                       </div>
                     )
