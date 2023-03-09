@@ -6,11 +6,16 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import api from "./../../../services/api";
 import styles from "./Signup.module.css";
+import { codes } from '../../data/data';
 
 const postSelector = (state) => state.music;
 
 const SignupPage = () => {
   // console.log("Auth SignupPage >>>>>>>>");
+
+
+
+
 
   const router = useRouter();
 
@@ -22,6 +27,8 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [checkBox, setCheckBox] = useState(false);
+  const [premiumAccessCode, setPremiumAccessCode] = useState('');
+
 
   const { language, user } = useSelector(postSelector, shallowEqual);
 
@@ -29,6 +36,31 @@ const SignupPage = () => {
     setEmail(userEmail !== "" ? userEmail : "");
     setVerificationCode(access_code !== "" ? access_code : "");
   }, [userEmail, access_code]);
+
+  // console.log("Codes==>", codes)
+
+
+
+
+  useEffect(() => {
+    if (codes.includes(verificationCode)) {
+      setPremiumAccessCode('PREMIUM')
+      return
+    } else if (verificationCode == 'premium' || verificationCode == 'PREMIUM' || verificationCode == 'Premium') {
+      setPremiumAccessCode('PREMIUM')
+      return
+    } else if (verificationCode == 'ldtrial' || verificationCode == 'LDTRIAL' || verificationCode == 'Ldtrial') {
+      setPremiumAccessCode('LDTRIAL')
+      return
+    } else {
+      setPremiumAccessCode(verificationCode)
+      return
+    }
+
+  }, [verificationCode])
+
+
+
 
   // useEffect(() => {
   //   if (user) {
@@ -52,7 +84,7 @@ const SignupPage = () => {
       let payload = {
         email: email.toLowerCase(),
         password,
-        code: verificationCode.toUpperCase(),
+        code: premiumAccessCode.toUpperCase(),
       };
 
       const { data } = await api.post("/api/signup", payload);
