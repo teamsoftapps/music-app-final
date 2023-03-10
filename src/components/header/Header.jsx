@@ -22,20 +22,16 @@ function Header() {
 
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState(user);
   const [sideBar, setShowSidebar] = useState(false);
-  const [expireDays, setExpireDays] = useState(null);
+  const [expireDays, setExpireDays] = useState(0);
   const [checkCredentials, setCheckCredentials] = useState(null);
   const { user, language } = useSelector(postSelector, shallowEqual);
-
-
+  const [userInfo, setUserInfo] = useState(user);
 
   const dispatch = useDispatch();
 
-
   const getLocationInfo = async () => {
     const { data } = await axios.get("https://api.db-ip.com/v2/free/self");
-
     if (data.countryCode === "NL") {
       dispatch(
         setLanguageMode({
@@ -43,7 +39,6 @@ function Header() {
           src: "nl-2.jpg",
         })
       );
-
       router.push(`${router.route}?lang=nl`);
     } else {
       router.push(router.route);
@@ -56,8 +51,12 @@ function Header() {
 
       if (data) {
         // console.log("API ExpiringDays Data >>>>>>>>", data);
+        console.log("expiring api =====>", data?.data?.days)
         setExpireDays(data);
         localStorage.setItem("Expiring-Days-Api", JSON.stringify(data));
+        if (data?.data?.days === null) {
+          router.push('/extend-subscription')
+        }
       }
 
       if (user) {
@@ -161,46 +160,6 @@ function Header() {
     setOpen((preSrate) => !preSrate);
   }
 
-  const drawer = (
-    <Drawer open={open} onClose={handleToggle}>
-      <List
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        className={classes.drawerList}
-      >
-        <div
-          style={{ cursor: "pointer" }}
-          className={classes.headerMainImage}
-          onClick={handleToggle}
-        >
-          <Image
-            priority
-            src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"
-              }.svg`}
-            alt=""
-            width={250}
-            height={50}
-            layout="responsive"
-          />
-        </div>
-        <ul>
-          {nav.map(({ route, title }, i) =>
-            user && title === "LOGIN" ? null : (
-              <ListItem
-                key={i}
-                button
-                component="li"
-                className={classes.drawerListItem}
-              >
-                <Link href={route}>{title}</Link>
-              </ListItem>
-            )
-          )}
-        </ul>
-      </List>
-    </Drawer>
-  );
-
   const handleSubscription = () => {
     // let body = {
     // }
@@ -218,9 +177,7 @@ function Header() {
       <div className={classes.headerTop}>
         {sideBar && (
           <div className={classes.headerLogo}>
-            {/* <IconButton onClick={handleToggle}>
-                            <Menu />
-                        </IconButton> */}
+
 
             {userInfo?.expiresIn === undefined ? (
               <div
@@ -271,35 +228,7 @@ function Header() {
             )}
           </div>
         )}
-        {/* <div className={classes.search}>
-                    <IconButton>
-                        <Search />
-                    </IconButton>
-                    <input type="text" placeholder="Search for the songs, albums etc.." />
-                </div> */}
-        {/* <nav className={classes.menu}>
-                    <ol>
-                        <li className={classes.menuItem}>
-                            <div className={classes.DropDown_Main}>
-                                <Image alt="" src={`/images/${language.src}`} width={35} height={25} />
-                            </div>
-                            <ol className={classes.subMenu}>
-                                {languages.map((lan, index) => (
-                                    <li key={index} className={classes.menuItem} onClick={() => handleLanguage(lan)}>
-                                        <Image alt="" src={`/images/${lan.src}`} width={35} height={25} />
-                                    </li>
-                                ))}
-                            </ol>
-                        </li>
-                    </ol>
-                    <div className={classes.headerActions}>
-                        {user && (
-                            <IconButton onClick={handleLogout}>
-                                <Image src="/images/logout-white.png" alt="" width={30} height={25} />
-                            </IconButton>
-                        )}
-                    </div>
-                </nav> */}
+
       </div>
       {!sideBar && (
         <div className={classes.headerMain}>
