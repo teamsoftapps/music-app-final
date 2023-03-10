@@ -20,13 +20,18 @@ const postSelector = (state) => state.music;
 function Header() {
   const router = useRouter();
 
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState(user);
+  const [sideBar, setShowSidebar] = useState(false);
+  const [expireDays, setExpireDays] = useState(null);
+  const [checkCredentials, setCheckCredentials] = useState(null);
   const { user, language } = useSelector(postSelector, shallowEqual);
+
+
 
   const dispatch = useDispatch();
 
-  const [userInfo, setUserInfo] = useState(user);
-  const [expireDays, setExpireDays] = useState(null);
-  const [error, setError] = useState("");
 
   const getLocationInfo = async () => {
     const { data } = await axios.get("https://api.db-ip.com/v2/free/self");
@@ -96,39 +101,6 @@ function Header() {
         }, 3000);
       }
 
-      /* if (typeof window !== "undefined") {
-        // Perform localStorage action
-
-        if (localStorage.getItem("trial-info")) {
-          localStorage.removeItem("songArray");
-          localStorage.removeItem("Expiring-Days-Api");
-          localStorage.removeItem("subscriptionSongDetails");
-          localStorage.removeItem("music-app-credentials");
-
-          dispatch(setSong({}));
-          dispatch(setSongs([]));
-          dispatch(setUser(null));
-        } else {
-          const trialObj = {
-            expired: true,
-            message: err?.response?.data?.message,
-            email: err?.response?.data?.data?.user,
-          };
-
-          if (typeof window !== "undefined") {
-            // Perform localStorage action
-            localStorage.setItem("trial-info", JSON.stringify(trialObj));
-          }
-        }
-
-        router.replace("/extend-subscription");
-      }
-
-      setError(err?.response?.data?.message);
-
-      setTimeout(() => {
-        setError("");
-      }, 3000); */
     }
   };
 
@@ -138,9 +110,7 @@ function Header() {
     }
   }, [user]);
 
-  const [open, setOpen] = useState(false);
-  const [sideBar, setShowSidebar] = useState(false);
-  const [checkCredentials, setCheckCredentials] = useState(null);
+
 
   useEffect(() => {
     getLocationInfo();
@@ -370,7 +340,7 @@ function Header() {
                           ? language.title === "nl"
                             ? "Vandaag"
                             : "Today"
-                          : `In ${userInfo?.expiresIn} ${language.title === "nl" ? "Dagen" : "Days"
+                          : `In ${user?.expiresIn} ${language.title === "nl" ? "Dagen" : "Days"
                           }`}
                       </p>
                     </div>
