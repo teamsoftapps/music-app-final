@@ -36,7 +36,8 @@ module.exports = (phase) => {
     },
     // images: { domains: ["localhost", "musicfilesforheroku.s3.us-west-1.amazonaws.com"] },
     env: {
-      base_url: "https://music-app-backend-alpha.vercel.app",
+      // base_url: "https://music-app-backend-alpha.vercel.app",
+      base_url: "https://music-app-backend-mu.vercel.app",
       media_url:
         "https://musicfilesforheroku.s3.us-west-1.amazonaws.com/uploads",
       // base_url: "https://music-appps.herokuapp.com/api",
