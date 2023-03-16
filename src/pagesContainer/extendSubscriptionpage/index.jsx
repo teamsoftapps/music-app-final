@@ -5,6 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setSong, setSongs, setUser } from "../../store/musicReducer";
 import api from "./../../../services/api";
 import styles from "./ExtendSubscription.module.css";
+import { codes } from '../../data/data'
 
 const postSelector = (state) => state.music;
 
@@ -23,6 +24,24 @@ const ExtendSubscription = () => {
   const [error, setError] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [currency, setCurrency] = useState();
+  const [premiumAccessCode, setPremiumAccessCode] = useState('');
+
+  useEffect(() => {
+    if (codes.includes(code)) {
+      setPremiumAccessCode('PREMIUM')
+      return
+    } else if (code == 'premium' || code == 'PREMIUM' || code == 'Premium') {
+      setPremiumAccessCode('PREMIUM')
+      return
+    } else if (code == 'ldtrial' || code == 'LDTRIAL' || code == 'Ldtrial') {
+      setPremiumAccessCode('LDTRIAL')
+      return
+    } else {
+      setPremiumAccessCode(code)
+      return
+    }
+
+  }, [code])
 
   useEffect(() => {
     console.log("user >>>>>>>>", user);
@@ -51,7 +70,7 @@ const ExtendSubscription = () => {
 
     if (typeof window !== "undefined") {
       // Perform localStorage action
-      trialInfo = JSON.parse(localStorage.getItem("trial-info"));
+      trialInfo = JSON.parse(localStorage.getItem("music-app-credentials"));
 
       setEmail(trialInfo?.email);
 
@@ -73,7 +92,7 @@ const ExtendSubscription = () => {
 
     try {
       const body = {
-        code,
+        code: premiumAccessCode,
       };
 
       let { data } = await api.patch(`/api/extend-subscription/${email}`, body);
@@ -123,7 +142,7 @@ const ExtendSubscription = () => {
         console.log("api data=============>", data);
         setCountryCode(data?.country);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
