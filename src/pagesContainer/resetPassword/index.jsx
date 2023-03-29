@@ -96,7 +96,7 @@ const ResetPassword = () => {
         </div>
       )}
 
-      {error && <h3 style={{ color: "red" }}>{error}</h3>}
+      {error && <h3 style={{ color: "red" }}>{error?.message}</h3>}
 
       <p>
         {language.title === "nl"

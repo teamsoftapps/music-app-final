@@ -129,6 +129,7 @@ const ExtendSubscription = () => {
 
   const handleNavigation = () => {
     localStorage.removeItem("trial-info");
+    localStorage.clear()
     router.push("/login");
   };
 
@@ -223,7 +224,7 @@ const ExtendSubscription = () => {
         <p style={{ margin: "1rem 0", fontSize: "1rem" }}>
           <span
             style={{ textDecoration: "underline", cursor: "pointer" }}
-            onClick={() => handleNavigation()}
+            onClick={handleNavigation}
           >
             {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
           </span>

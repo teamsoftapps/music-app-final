@@ -44,6 +44,7 @@ const Footer = () => {
     dispatch(setSongs([]));
     dispatch(setUser(null));
 
+    localStorage.clear()
     router.push(`/login`);
   }
 
@@ -102,9 +103,8 @@ const Footer = () => {
             {languages.map((lan, index) => (
               <li
                 key={index}
-                className={`${classes.menuItem} ${
-                  language.title === lan.title ? classes.activeLanguage : ""
-                }`}
+                className={`${classes.menuItem} ${language.title === lan.title ? classes.activeLanguage : ""
+                  }`}
                 onClick={() => handleLanguage(lan)}
               >
                 <Image
