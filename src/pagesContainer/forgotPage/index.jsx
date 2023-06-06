@@ -32,20 +32,21 @@ const ForgotPage = () => {
       };
 
       let { data } = await api.post(`/api/forgot-password`, body);
+      console.log("forgot data==>", data?.data?.id);
 
       if (data) {
-        if (typeof window !== "undefined") {
-          // Perform localStorage action
-          localStorage.setItem("userID", data?.data?.id);
-        }
-
-        setLoading(false);
-
-        router.push("/reset-password");
+        // if (typeof window !== "undefined") {
+        //   // Perform localStorage action
+        localStorage.setItem("userID", data?.data?.id);
       }
+
+      setLoading(false);
+
+      router.push("/reset-password");
+      // }
     } catch (err) {
       setLoading(false);
-      router.push("/reset-password");
+      // router.push("/reset-password");
       console.error(
         "err?.response?.data?.message >>>>>>>>>>",
         err?.response?.data?.message
