@@ -45,11 +45,13 @@ const ForgotPage = () => {
       }
     } catch (err) {
       setLoading(false);
-
+      router.push("/reset-password");
       console.error(
         "err?.response?.data?.message >>>>>>>>>>",
         err?.response?.data?.message
       );
+
+
 
       setError(err?.response?.data?.message);
 
