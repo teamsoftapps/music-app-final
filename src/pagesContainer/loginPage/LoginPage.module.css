@@ -31,15 +31,20 @@
 }
 
 .input input {
-  border-radius: 10px;
+  border-radius: 30px;
   padding: 1.4rem;
   border: none;
   outline: 2px solid transparent;
   font-size: 1.1rem;
   /* background: rgba(29, 35, 35, 1); */
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--primary-color);
+  background: #fff;
+  color: #000;
   transition: 0.3s ease;
+  margin: 0;
+  flex: 1;
+  width: 100%;
+  color: #000;
+  padding-left: 4.5rem;
 }
 
 .input input:focus {
@@ -49,13 +54,14 @@
 .auth button,
 .auth button:hover {
   padding: 1rem;
-  margin-top: 2rem;
-  width: 100%;
+  margin-top: 0.2rem;
+  width: 98%;
   text-transform: capitalize;
   font-size: 1.1rem;
-  border-radius: 10px;
+  margin-left: 0.4rem;
+  border-radius: 30px;
   background: var(--button-color);
-  color: var(--primary-color);
+  /* color: var(--button-color); */
 }
 
 .auth p span {
@@ -76,15 +82,16 @@
 
 .auth .login_btn_div {
   margin-bottom: 2rem;
+  border-radius: 30px;
 }
 
 .auth span {
   cursor: pointer;
-  color: var(--secondary-color);
-  text-decoration: underline;
+  color: #000;
+  /* text-decoration: underline; */
 }
 
-.auth > span {
+.auth>span {
   display: block;
   margin: 1rem;
 }

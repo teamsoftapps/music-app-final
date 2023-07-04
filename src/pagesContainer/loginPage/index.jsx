@@ -7,6 +7,7 @@ import { setUser } from "../../store/musicReducer";
 import ExtendSubscription from "../extendSubscriptionpage";
 import api from "./../../../services/api";
 import classes from "./LoginPage.module.css";
+import Image from "next/image";
 
 const postSelector = (state) => state.music;
 
@@ -143,42 +144,60 @@ const LoginPage = () => {
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={classes.input}>
-        <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
-        <input
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          // disabled={!isSignIn ? true : false}
-          type="email"
-          required
-          placeholder={
-            language.title === "nl"
-              ? "Vul email adres in"
-              : "Enter Email Address"
-          }
-        />
+        {/* <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label> */}
+
+        <div style={{ display: "flex", alignItems: "center" }}>
+
+          <div>
+            <Image src='/images/email2.png' alt="email" width={100} height={100} />
+          </div>
+          <div style={{ flex: 1, marginLeft: -80 }}>
+            <input
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              // disabled={!isSignIn ? true : false}
+              type="email"
+              required
+              placeholder={
+                language.title === "nl"
+                  ? "Vul email adres in"
+                  : "Enter Email Address"
+              }
+            />
+          </div>
+        </div>
       </div>
       {/* Email */}
       {/* Disable conditions on the basis of /signup and /signup?uduiwe */}
 
       <div className={classes.input}>
-        <label htmlFor="">
+        {/* <label htmlFor="">
           {language.title === "nl" ? "Wachtwoord" : "Password"}
-        </label>
-        <input
-          value={password}
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          required
-          minLength={6}
-          maxLength={36}
-          placeholder={
-            language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
-          }
-        />
+        </label> */}
+        <div style={{ display: "flex", alignItems: "center" }}>
+
+          <div>
+            <Image src='/images/password2.png' alt="email" width={100} height={100} />
+          </div>
+          <div style={{ flex: 1, marginLeft: -80 }}>
+            <input
+              value={password}
+              style={{ flex: 1 }}
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+              minLength={6}
+              maxLength={36}
+              placeholder={
+                language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
+              }
+            />
+          </div>
+        </div>
       </div>
       <div className={classes.login_btn_div}>
         {loading ? (
@@ -186,8 +205,9 @@ const LoginPage = () => {
             // disabled={!isSignIn && !checkBox}
             disabled={true}
             type="submit"
-            // variant="contained"
-            // style={{ opacity: "0.9" }}
+
+          // variant="contained"
+          // style={{ opacity: "0.9" }}
           >
             Loading...
           </Button>
@@ -229,6 +249,7 @@ const LoginPage = () => {
               : "Extend Subscription"}
           </span> */}
           <span
+            style={{ color: '#CCAA6B' }}
             onClick={() => {
               router.push("/forgot");
             }}
@@ -251,7 +272,7 @@ const LoginPage = () => {
             : "No Account! Create new one"}
         </span>
       </p> */}
-    </form>
+    </form >
   );
 };
 

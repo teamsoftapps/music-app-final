@@ -1,4 +1,4 @@
-import { Button, FormControlLabel } from "@material-ui/core";
+import { Button, FormControlLabel, Typography } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import api from "./../../../services/api";
 import styles from "./Signup.module.css";
 import { codes } from '../../data/data';
+import Image from "next/image";
 
 const postSelector = (state) => state.music;
 
@@ -44,20 +45,20 @@ const SignupPage = () => {
 
   useEffect(() => {
     if (codes.includes(verificationCode)) {
-      setPremiumAccessCode('PREMIUM')
-      return
+      setPremiumAccessCode('PREMIUM');
+      return;
     } else if (verificationCode == 'premium' || verificationCode == 'PREMIUM' || verificationCode == 'Premium') {
-      setPremiumAccessCode('PREMIUM')
-      return
+      setPremiumAccessCode('PREMIUM');
+      return;
     } else if (verificationCode == 'ldtrial' || verificationCode == 'LDTRIAL' || verificationCode == 'Ldtrial') {
-      setPremiumAccessCode('LDTRIAL')
-      return
+      setPremiumAccessCode('LDTRIAL');
+      return;
     } else {
-      setPremiumAccessCode(verificationCode)
-      return
+      setPremiumAccessCode(verificationCode);
+      return;
     }
 
-  }, [verificationCode])
+  }, [verificationCode]);
 
 
 
@@ -145,73 +146,97 @@ const SignupPage = () => {
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={styles.input}>
-        <label>{language.title === "nl" ? "E-mail" : "Email"}</label>
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          required
-          placeholder={
-            language.title === "nl"
-              ? "Vul email adres in"
-              : "Enter Email Address"
-          }
-        />
+        <div style={{ display: "flex", alignItems: "center" }}>
+
+          <div>
+            <Image src='/images/email2.png' alt="email" width={100} height={100} />
+          </div>
+          <div style={{ flex: 1, marginLeft: -80 }}>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              required
+              placeholder={
+                language.title === "nl"
+                  ? "Vul email adres in"
+                  : "Enter Email Address"
+              }
+            />
+          </div>
+        </div>
       </div>
 
       {/* Email */}
       {/* Disable conditions on the basis of /signup and /signup?uduiwe */}
 
       <div className={styles.input}>
-        <label>{language.title === "nl" ? "Wachtwoord" : "Password"}</label>
-        <input
-          value={password}
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          required
-          minLength={6}
-          maxLength={36}
-          placeholder={
-            language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
-          }
-        />
+
+        <div style={{ display: "flex", alignItems: "center" }}>
+
+          <div>
+            <Image src='/images/password2.png' alt="email" width={100} height={100} />
+          </div>
+          <div style={{ flex: 1, marginLeft: -80 }}>
+            <input
+              value={password}
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+              minLength={6}
+              maxLength={36}
+              placeholder={
+                language.title === "nl" ? "Voer wachtwoord in" : "Enter Password"
+              }
+            />
+          </div>
+        </div>
       </div>
 
       <div className={styles.input}>
-        <label>
-          {language.title === "nl" ? "Toegangscode" : "Access Code"}
-        </label>
-        <input
-          value={verificationCode}
-          type="text"
-          onChange={(e) => {
-            setVerificationCode(e.target.value);
-          }}
-          required
-          minLength={6}
-          maxLength={36}
-          placeholder={
-            language.title === "nl"
-              ? "Voer toegangscode in"
-              : "Enter Access Code"
-          }
-        />
+
+
+        <div style={{ display: "flex", alignItems: "center" }}>
+
+          <div>
+            <Image src='/images/person2.png' alt="email" width={100} height={100} />
+          </div>
+          <div style={{ flex: 1, marginLeft: -80 }}>
+            <input
+              value={verificationCode}
+              type="text"
+              onChange={(e) => {
+                setVerificationCode(e.target.value);
+              }}
+              required
+              minLength={6}
+              maxLength={36}
+              placeholder={
+                language.title === "nl"
+                  ? "Voer toegangscode in"
+                  : "Enter Access Code"
+              }
+            />
+          </div>
+        </div>
       </div>
 
       <br />
 
       <FormControlLabel
-        style={{ display: "block" }}
+        style={{ display: "flex", color: '#fff', justifyContent: "center", alignItems: "center" }}
+        color="#fff"
         control={
           <Checkbox
             color="default"
             value={checkBox}
             onClick={() => setCheckBox(!checkBox)}
+            style={{ marginTop: -25 }}
           />
         }
-        label={codePromiseText}
+        label={<Typography style={{ color: "#fff" }}>{codePromiseText}</Typography>}
       />
 
       <Button type="submit" variant="contained">
@@ -220,8 +245,8 @@ const SignupPage = () => {
 
       <br />
 
-      <p>
-        <span onClick={() => router.push("/login")}>
+      <p style={{ color: '#fff' }}>
+        <span style={{ color: '#fff' }} onClick={() => router.push("/login")}>
           {language.title === "nl"
             ? "Heb je al een account? Nu inloggen"
             : "Already have an account? Now Login"}

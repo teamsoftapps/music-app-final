@@ -36,8 +36,8 @@
   outline: 2px solid transparent;
   font-size: 1.1rem;
   /* background: rgba(29, 35, 35, 1); */
-  background: rgba(255, 255, 255, 0.15);
-  color: var(--primary-color);
+  background: #fff;
+  color: #000;
   transition: 0.3s ease;
 }
 
@@ -71,7 +71,7 @@
   text-decoration: underline;
 }
 
-.auth > span {
+.auth>span {
   display: block;
   margin: 1rem;
 }

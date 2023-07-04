@@ -17,12 +17,12 @@
   margin: 3rem auto 4rem;
 }
 
-.auth > h1 {
+.auth>h1 {
   font-size: 2.3rem;
   margin-bottom: 0.8rem;
 }
 
-.auth > span {
+.auth>span {
   display: block;
   font-size: 0.9rem;
   font-weight: bold;
@@ -30,7 +30,7 @@
   /* padding: 30px 0; */
 }
 
-.auth > p {
+.auth>p {
   font-size: 0.9rem;
   margin: 1rem 0;
 }
@@ -39,7 +39,7 @@
   text-decoration: underline;
 }
 
-.auth > .inputContainer {
+.auth>.inputContainer {
   /* border: 1px solid red; */
   display: flex;
   justify-content: center;
@@ -48,19 +48,20 @@
   margin: 2rem 0;
 }
 
-.inputContainer > input {
-  background-color: #2b2927;
+.inputContainer>input {
+  background-color: #fff;
+  color: #000;
   border: 3px solid transparent;
   outline: none;
   padding: 12px;
   border-radius: 5px;
 }
 
-.inputContainer > input:focus {
+.inputContainer>input:focus {
   border: 3px solid #382b11;
 }
 
-.inputContainer > button {
+.inputContainer>button {
   background-color: #72510e;
   border: 3px solid transparent;
   color: #ffffff;
@@ -69,20 +70,20 @@
   cursor: pointer;
 }
 
-.auth > hr {
+.auth>hr {
   border: none;
   height: 1px;
   background-color: #fff;
   margin: 1rem 0;
 }
 
-.auth > strong {
+.auth>strong {
   margin: 0.7rem 0;
   /* border: 1px solid red; */
   display: block;
 }
 
-.auth > button {
+.auth>button {
   padding: 10px 20px;
   background-color: #dda128;
   border-radius: 6px;
@@ -90,17 +91,17 @@
   font-size: 1.2rem;
 }
 
-.auth > button > i {
+.auth>button>i {
   color: #003087;
   font-weight: bold;
 }
 
-.auth > button > span {
+.auth>button>span {
   color: #009cde;
   font-weight: bold;
 }
 
-.auth > .error {
+.auth>.error {
   color: red;
   margin: 1.5rem 0;
 }

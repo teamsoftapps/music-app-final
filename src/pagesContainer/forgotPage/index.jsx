@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import api from "./../../../services/api";
 import classes from "./ForgotPage.module.css";
+import Image from "next/image";
 
 const postSelector = (state) => state.music;
 
@@ -103,21 +104,29 @@ const ForgotPage = () => {
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={classes.input}>
-        <label htmlFor="">{language.title === "nl" ? "E-mail" : "Email"}</label>
-        <input
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          // disabled={loading ? true : false}
-          type="email"
-          required
-          placeholder={
-            language.title === "nl"
-              ? "Vul email adres in"
-              : "Enter Email Address"
-          }
-        />
+
+        <div style={{ display: "flex", alignItems: "center" }}>
+
+          <div>
+            <Image src='/images/email2.png' alt="email" width={100} height={100} />
+          </div>
+          <div style={{ flex: 1, marginLeft: -80 }}>
+            <input
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              // disabled={loading ? true : false}
+              type="email"
+              required
+              placeholder={
+                language.title === "nl"
+                  ? "Vul email adres in"
+                  : "Enter Email Address"
+              }
+            />
+          </div>
+        </div>
       </div>
 
       <Button type="submit" variant="contained">
@@ -148,6 +157,7 @@ const ForgotPage = () => {
       <p>
         <span className={classes.linkBoxWrapper}>
           <span
+            style={{ color: "#fff", textDecoration: "underline" }}
             onClick={() => {
               router.push("/login");
             }}
