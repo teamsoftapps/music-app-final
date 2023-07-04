@@ -115,13 +115,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(2),
     margin: theme.spacing(0),
     backgroundColor: "#ccaa6b",
-    width: 350,
-    height: 300,
+
+    width: 550,
+    height: 350,
     overflow: "auto",
 
     "&::-webkit-scrollbar": {
       width: 12,
       backgroundColor: "black",
+
     },
     "&::-webkit-scrollbar-track": {
       WebkitBoxShadow: "inset 0 0 6px rgba(0, 0, 0, 0.3)",
@@ -135,10 +137,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
     "&::-webkit-scrollbar-thumb:hover": {
       backgroundColor: "#555",
+      borderRadius: "100px"
+
     },
   },
   "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
+    borderRadius: "100px"
+
   },
 }));
 
@@ -170,10 +176,10 @@ const BootstrapDialogTitle = (props) => {
           aria-label="close"
           onClick={onClose}
           sx={{
-            color: "unset",
+            // color: "black",
           }}
         >
-          <CloseIcon />
+          <CloseIcon color="#000000" />
         </IconButton>
       )}
     </DialogTitle>
@@ -207,7 +213,7 @@ const LyricsDialogs = ({ setOpen, open, handleClose, handleOpen, lyrics }) => {
 
   return (
     <div className={classes.lyrics_dialog}>
-      <BootstrapDialog aria-labelledby="customized-dialog-title" open={open}>
+      <BootstrapDialog aria-labelledby="customized-dialog-title" open={open} style={{ borderRadius: "100px" }}>
         <BootstrapDialogTitle
           id="customized-dialog-title"
           onClose={handleClose}

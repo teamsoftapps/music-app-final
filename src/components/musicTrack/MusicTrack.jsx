@@ -239,12 +239,11 @@ const MusicTracker = ({
         ref={albumSong?._id === song?._id ? trackRef : null}
         // onClick={isMobile ? songJump : songHandler}
         // onClick={isMobile ? songJump : songJump}
-        className={`${classes.musicTrack} ${
-          albumSong?._id === song?._id ? classes.musicTrackActive : null
-        } ${!lockedSongs ? classes.showCursor : null}`}
+        className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null
+          } ${!lockedSongs ? classes.showCursor : null}`}
         style={{ cursor: locked && "not-allowed" }}
-        // disabled={lockedSongs}
-        // disabled={(trial && index === 0) || !lockedSongs}
+      // disabled={lockedSongs}
+      // disabled={(trial && index === 0) || !lockedSongs}
       >
         <div className={classes.musicTrackLeft}>
           <IconButton className={classes.songTune}>

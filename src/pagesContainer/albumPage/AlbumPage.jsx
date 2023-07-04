@@ -275,11 +275,10 @@ const AlbumPage = ({ songs, album }) => {
       <div className={classes.albumsMain}>
         <Card1
           title={song?.Album_Name}
-          url={`${process.env.media_url}/${
-            language.title === "eng"
-              ? song?.Album_Image
-              : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
-          }`}
+          url={`${process.env.media_url}/${language.title === "eng"
+            ? song?.Album_Image
+            : song?.Album_Image && song?.Album_Image.replace("eng", "nl")
+            }`}
           disableFetch
         />
         <div className={classes.albumsMainPlaylist}>

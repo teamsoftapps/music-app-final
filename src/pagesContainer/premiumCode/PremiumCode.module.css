@@ -49,9 +49,12 @@
   outline: 2px solid transparent;
   font-size: 1.1rem;
   /* background: rgba(29, 35, 35, 1); */
-  background: rgb#fff);
+  background: #fff;
   color: #000;
   transition: 0.3s ease;
+  width: 100%;
+  padding-left: 4.5rem;
+  flex: 1
 }
 
 .input input:focus {
@@ -61,13 +64,13 @@
 .auth button,
 .auth button:hover {
   padding: 1rem;
-  margin: 3rem 0;
+  margin: 1rem 0;
   width: 100%;
   text-transform: capitalize;
   font-size: 1.1rem;
-  border-radius: 10px;
+  border-radius: 30px;
   background: var(--button-color);
-  color: var(--primary-color);
+  color: #000;
 }
 
 .auth p span {
@@ -80,8 +83,7 @@
 
 .auth span {
   cursor: pointer;
-  color: var(--secondary-color);
-  text-decoration: underline;
+  color: #000;
 }
 
 .auth>span {

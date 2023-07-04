@@ -1,5 +1,4 @@
-.lyrics_dialog {
-}
+.lyrics_dialog {}
 
 .cross_sign {
   color: black;
@@ -14,4 +13,8 @@
 .cross_sign:hover {
   cursor: pointer;
   transform: translateY(-3px);
+}
+
+.close_color {
+  color: "black"
 }
