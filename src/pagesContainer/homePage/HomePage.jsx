@@ -258,6 +258,41 @@ const HomePage = ({ albums }) => {
           </div>
         )}
       </div>
+
+      <hr className={classes.separationLine}></hr>
+      <div className={classes.playlistsMain}>
+        <div className={classes.homePagePlaylistsText} >
+          <p><b>Playlists</b></p>
+        </div>
+        <div className={classes.playlistsList}>
+          <div className={classes.playlistBoxes}>
+            <div className={classes.playlistItem}>
+              <div className={classes.playlistItemImage}><Image priority src="/images/Icons-01.png" alt="" width={70} height={70} /></div>
+              <div className={classes.playlistItemText}>Your Favorites</div>
+            </div>
+          </div>
+          <div className={classes.playlistBoxes}>
+            <div className={classes.playlistItem}>
+              <div className={classes.playlistItemImage}><Image priority src="/images/Icons-02.png" alt="" width={70} height={70} /></div>
+              <div className={classes.playlistItemText}>Inspirational Music</div>
+            </div>
+          </div>
+          <div className={classes.playlistBoxes}>
+            <div className={classes.playlistItem}>
+              <div className={classes.playlistItemImage}><Image priority src="/images/Icons-03.png" alt="" width={70} height={70} /></div>
+              <div className={classes.playlistItemText}>Mulder's Originals</div>
+            </div>
+          </div>
+          <div className={classes.playlistBoxes}>
+            <div className={classes.playlistItem}>
+              <div className={classes.playlistItemImage}><Image priority src="/images/Icons-04.png" alt="" width={70} height={70} /></div>
+              <div className={classes.playlistItemText}>Calm/Studying Music</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr className={classes.separationLine}></hr>
+
       {/* Code for Advertisement (end) */}
       <div
         style={{
@@ -285,11 +320,10 @@ const HomePage = ({ albums }) => {
       <FlipMove className={classes.cards}>
         {albumsOrder?.length > 0 &&
           albumsOrder?.map((album, index) => {
-            const url = `${process.env.media_url}/${
-              language.title === "eng"
-                ? album?.Album_Image
-                : album?.Album_Image.replace("eng", "nl")
-            }`;
+            const url = `${process.env.media_url}/${language.title === "eng"
+              ? album?.Album_Image
+              : album?.Album_Image.replace("eng", "nl")
+              }`;
 
             return (
               <Card
@@ -303,7 +337,7 @@ const HomePage = ({ albums }) => {
               />
             );
           })}
-      </FlipMove>
+      </FlipMove>;
 
       {/* *********** MY WORK ************* */}
       {/* <FlipMove className={classes.cards}>
@@ -319,7 +353,7 @@ const HomePage = ({ albums }) => {
       {/* https://githubmemory.com/repo/joshwcomeau/react-flip-move/issues/256 */}
       {/* Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. */}
       <Footer />
-    </div>
+    </div >
   );
 };
 
