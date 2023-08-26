@@ -11,11 +11,20 @@
   margin-top: 2rem;
 }
 
+.albums h3 {
+  color: var(--primary-color);
+  text-align: center;
+}
+
 .albumsMain {
-  margin: 5rem calc(5vw);
+  margin: 1rem calc(5vw);
   display: flex;
   flex: 1;
   margin-bottom: 10rem;
+}
+
+.albumsMain.isOn {
+  margin-bottom: 0;
 }
 
 .albumsMainPlaylist {
@@ -105,11 +114,149 @@
     margin-top: 2rem;
   }
 
-  .albumsMain > div:nth-child(1) {
+  .albumsMain>div:nth-child(1) {
     display: none !important;
   }
 
   .albumsMainPlaylist {
     padding: 0;
   }
+}
+
+.lyricsToggleButtonContainer {
+  margin: 1rem calc(6vw);
+  /* margin-left: calc(6vw); */
+  /* margin-right: 5rem calc(5vw); */
+  display: flex;
+  flex: 1;
+  /* margin-bottom: 10rem; */
+}
+
+.redTextColor {
+  color: red;
+}
+
+.lyricsModeParagraph {
+  margin-left: 10px;
+}
+
+.lyricsToggleButtonMain {
+  display: flex;
+  align-items: center;
+}
+
+.lyricsToggleButtonLabel {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 30px;
+  border-radius: 30px;
+  border: 2px solid #ccc;
+}
+
+.lyricsToggleButtonInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.lyricsToggleButtonBackground {
+  position: absolute;
+  cursor: pointer;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  transition: 0.4s;
+  border-radius: 30px;
+  border: 2px solid #ccc;
+  background-color: white;
+}
+
+.lyricsToggleButtonBackground.isOn {
+  background-color: #2196F3;
+}
+
+.lyricsToggleButtonText {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 2px;
+  right: 30px;
+  bottom: 4px;
+  font-size: bold;
+  font-size: 13px;
+  flex-direction: row;
+  font-weight: bold;
+  left: 25px;
+  color: #ccc;
+}
+
+.lyricsToggleButtonText.isOn {
+  left: 5px;
+  color: white;
+}
+
+.lyricsToggleButtonPointer {
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 50%;
+  border-radius: white;
+  transform: translateX(0);
+}
+
+.lyricsToggleButtonPointer.isOn {
+  transform: translateX(39px);
+}
+
+.lyricsViewMain {
+  display: flex;
+  flex: 1;
+  margin-left: 10px;
+  flex-direction: column;
+  height: 100%;
+  min-height: 600px;
+
+}
+
+.lyricsViewTextContainer {
+  flex: 1;
+  /* padding-left: 2rem; */
+  /* overflow-y: scroll;
+    height: clamp(550px, 550px, 600px); */
+  /* scrollbar-width: none;
+  -ms-overflow-style: none; */
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-top: 1px solid white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+  background-color: transparent;
+  flex: 1;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+
+}
+
+.lyricsViewCloseButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
 }

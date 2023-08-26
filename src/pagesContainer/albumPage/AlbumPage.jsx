@@ -11,6 +11,7 @@ import Card from "../../components/card/Card";
 import Card1 from "./../../components/card1/Card1";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
+import { Typography } from "@mui/material";
 import {
   setAlbum,
   setFavouriteId,
@@ -18,6 +19,7 @@ import {
   setSongs,
 } from "../../store/musicReducer";
 import classes from "./AlbumPage.module.css";
+import { Height } from "@material-ui/icons";
 const postSelector = (state) => state.music;
 
 const AlbumPage = ({ songs, album }) => {
@@ -48,7 +50,17 @@ const AlbumPage = ({ songs, album }) => {
   const [loadingForAlbum, setLoadingForAlbum] = useState(false);
   const [songPlay, setSongPlay] = useState(false);
   const [lockedSongs, setLockedSongs] = useState(false);
+  const [isOn, setIsOn] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const [screenRefresh, setScreenRefresh] = useState(false);
+  const [songHr, setSongHr] = useState(0);
+  const [songMin, setSongMin] = useState(0);
+  const [songHrShow, setSongHrShow] = useState(false);
+  const [songPlaying, setSongPlaying] = useState(false);
 
+  const toggleSwitch = () => {
+    setIsOn(prevState => !prevState);
+  };
   // seperate each song file
   // console.log(pic)
 
@@ -59,7 +71,12 @@ const AlbumPage = ({ songs, album }) => {
       length: ele.Song_Length,
     };
   });
-
+  const onPauseSong = () => {
+    setSongPlaying(false);
+  };
+  const onPlaySong = () => {
+    setSongPlaying(true);
+  };
   const onEndSong = () => {
     let currentSongIndex;
 
@@ -96,6 +113,29 @@ const AlbumPage = ({ songs, album }) => {
   };
 
   useEffect(() => {
+    console.log(song?.Song_Length);
+    setScreenRefresh(true);
+
+    if (song && song.Song_Length) {
+      const timeComponents = song.Song_Length.split(":");
+
+      if (timeComponents.length === 2) {
+        // Format: MM:SS
+        setSongHrShow(false);
+        const [minutes, seconds] = timeComponents;
+        setSongMin(parseInt(minutes, 10));
+      } else if (timeComponents.length === 3) {
+        // Format: HH:MM:SS
+        setSongHrShow(true);
+        const [hours, minutes, seconds] = timeComponents;
+        setSongHr(parseInt(hours, 10));
+        setSongMin(parseInt(minutes, 10));
+      }
+    }
+
+  }, [song]);
+
+  useEffect(() => {
     // console.log(`${process.env.media_url}/${songArray[0]?.Song_File}`)
     setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`);
   }, [songArray]);
@@ -111,6 +151,7 @@ const AlbumPage = ({ songs, album }) => {
     setAlbumName(songArray[currentSongIndex]?.Album_Name);
     setSongName(songArray[currentSongIndex]?.Song_Name);
     setLyrics(songArray[currentSongIndex]?.Song_Lyrics);
+
     setPic(
       `${process.env.media_url}/`.concat(
         songArray[currentSongIndex]?.Album_Image
@@ -234,7 +275,18 @@ const AlbumPage = ({ songs, album }) => {
   //     return seconds;
   // }
 
+  const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+  const handleChangeSong = (index) => {
+    setSelectedSongIndex(index);
+    setSelected(true);
+    console.log(selected);
+  };
+
+
+
   if (!songs || !songs.length) return <h1>Loading...</h1>;
+
+
 
   return (
     <div className={classes.albums}>
@@ -245,13 +297,13 @@ const AlbumPage = ({ songs, album }) => {
         <meta name="description" content={song?.Song_Name} />
       </Head>
       <br />
+
       <div
         style={{
           position: "fixed",
           top: "50%",
           right: "44vw",
           left: "44vw",
-
           // left: 0,
           // width: "100%",
           // height: "100%",
@@ -264,7 +316,39 @@ const AlbumPage = ({ songs, album }) => {
         <ClipLoader color="red" loading={loadingForAlbum} size={"10vw"} />
       </div>
       <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
-      <h1>{song?.Album_Name}</h1>
+      <h1>{song?.Album_Name} </h1>
+      {songHrShow ? (
+        <h3>
+          ({songHr} hr. {songMin !== 0 && `${songMin} min.)`}
+        </h3>
+      ) : (
+        songMin !== 0 && <h3>({songMin} min.)</h3>
+      )}
+
+
+      {/* ----------Lyrics Mode Switch---------- */}
+
+      <div className={classes.lyricsToggleButtonContainer}>
+        <div className={classes.lyricsToggleButtonMain} style={{ display: 'flex', alignItems: 'center' }}>
+          <label className={`switch ${isOn ? 'on' : 'off'} ${classes.lyricsToggleButtonLabel}`}>
+            <input className={classes.lyricsToggleButtonInput} type="checkbox" checked={isOn} onChange={toggleSwitch} />
+            <span className={`${classes.lyricsToggleButtonBackground} ${isOn ? classes.isOn : ''}`}>
+              <span className={`${classes.lyricsToggleButtonText} ${isOn ? classes.isOn : ''}`}>
+                {isOn ? 'ON' : 'OFF'}
+              </span>
+              <span className={`${classes.lyricsToggleButtonPointer} ${isOn ? classes.isOn : ''}`}></span>
+            </span>
+          </label>
+          <p className={classes.lyricsModeParagraph}>
+            <b>
+              Lyrics Mode <span className={classes.redTextColor}>(new feature!)</span>
+            </b>
+          </p>
+        </div>
+      </div>
+
+
+      {/* ----------Lyrics Modal---------- */}
       <LyricsModal
         open={open}
         setOpem={setOpen}
@@ -272,7 +356,11 @@ const AlbumPage = ({ songs, album }) => {
         handleClose={handleClose}
         lyrics={lyrics}
       />
-      <div className={classes.albumsMain}>
+
+      {/* ----------Music list and Lyrics View---------- */}
+
+      {/* <div className={classes.albumsMain}> */}
+      <div className={`${classes.albumsMain} ${isOn ? classes.isOn : ''}`}>
         <Card1
           title={song?.Album_Name}
           url={`${process.env.media_url}/${language.title === "eng"
@@ -281,28 +369,86 @@ const AlbumPage = ({ songs, album }) => {
             }`}
           disableFetch
         />
-        <div className={classes.albumsMainPlaylist}>
-          {songs?.map((albumSong, i) =>
-            songs.length - 1 !== i ? (
-              <Fragment key={i}>
+        <div style={{
+          flex: '1'
+        }}>
+          {!isOn ? <div>
+            <div className={classes.albumsMainPlaylist}>
+              {/* {songs?.map((albumSong, i) =>
+                songs.length - 1 !== i ? ( */}
+              {/* <div key={albumSong._id} onClick={() => handleChangeSong(i)} > */}
+              {/* <Fragment key={i}> */}
+              <Fragment >
                 <MusicTracker
+                  singleSong={singleSong}
                   currentTime={currentTime}
                   setCurrentTime={setCurrentTime}
-                  albumSong={albumSong}
-                  order={i}
+                  // albumSong={albumSong}
+                  // order={i}
                   songs={songs}
+                  songName={songName}//
                   setSongName={setSongName}
                   trial={user?.hasOwnProperty("expiresIn")}
                   setSongArray={setSongArray}
                   setSingleSong={setSingleSong}
+                  selected={selected}//
+                  screenRefresh={screenRefresh}//
+                  setScreenRefresh={setScreenRefresh}//
+                  songPlaying={songPlaying}//
                 />
                 {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
               </Fragment>
-            ) : null
-          )}
+              {/* </div> */}
+              {/* ) : null
+              )} */}
+            </div>
+          </div> :
+            <div className={classes.lyricsViewMain}>
+              <div className={classes.lyricsViewTextContainer} >
+                <div style={{ padding: '20px' }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{
+                      color: 'white',
+                      textAlign: 'center',
+                      fontSize: '1rem',
+                    }}
+                  >
+                    {(() => {
+                      const lyricsInString = JSON.stringify(lyrics);
+                      const lyricsArray = lyricsInString.replace(/"/g, '').split('\\r\\n');
+
+                      if (lyricsArray.length === 1 && lyricsArray[0] === '') {
+                        return (
+                          <p>No lyrics to display</p>
+                        );
+                      } else {
+                        return (
+                          lyricsArray.map((text, index) => (
+                            <p key={index} style={{ color: 'unset', textAlign: 'justify', fontSize: '1.2rem' }}>
+                              {text}
+                            </p>
+                          ))
+                        );
+                      }
+                    })()}
+
+                  </Typography>
+                </div>
+                <div style={{ flex: '1' }}>
+                  <div style={{ position: 'relative' }}>
+                    <button className={classes.lyricsViewCloseButton} checked={isOn} onClick={toggleSwitch}>
+                      <span style={{ marginRight: '5px' }}>&#9660;</span>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </div>
-
       <div className={style.music}>
         <div className={classes.hoverStyling}>
           <img src={pic}></img>
@@ -311,7 +457,7 @@ const AlbumPage = ({ songs, album }) => {
           <p className={style.Album_Name}>{albumName}</p>
           {/* <br></br> */}
           <p>{songName}</p>
-          {lyrics !== "" && (
+          {/* {lyrics !== "" && (
             <p
               style={{
                 fontSize: "12px",
@@ -322,7 +468,7 @@ const AlbumPage = ({ songs, album }) => {
             >
               Show Lyrics
             </p>
-          )}
+          )} */}
         </div>
         <div className={style.trash}></div>
         <div className={style.trash}></div>
@@ -335,11 +481,13 @@ const AlbumPage = ({ songs, album }) => {
           src={singleSong}
           onEnded={(e) => onEndSong()}
           autoPlay={true}
+          onPause={(e) => onPauseSong()}
+          onPlay={(e) => onPlaySong()}
         />
-      </div>
+      </div>;
 
       {/* <MusicPlayer currentTime={currentTime} setCurrentTime={setCurrentTime} songs={songs} trial={user?.hasOwnProperty("expiresIn")} songName={songName} setSongName={setSongName} setLyrics={setLyrics} lyrics={lyrics} /> */}
-    </div>
+    </div >
   );
 };
 // Nothing

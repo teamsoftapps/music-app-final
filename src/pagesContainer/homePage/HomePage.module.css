@@ -66,6 +66,7 @@
 .arrows:hover {
   cursor: pointer;
 }
+
 .loading {
   display: flex;
   justify-content: center;
@@ -82,4 +83,74 @@
   background: rgba(0, 0, 0, 0.4);
   color: #ffffff;
   text-align: center;
+}
+
+.homePagePlaylistsText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 50px;
+  /* border: 1px solid #ccc; */
+  font-size: 20px;
+}
+
+.separationLine {
+  border: none;
+  height: 2px;
+  background-color: #ccaa6b;
+  display: flex;
+  justify-content: center;
+  margin: calc(1rem + 1vw) calc(3vw);
+}
+
+.playlistBoxes {
+  flex: 0 0 auto;
+  height: 120px;
+  width: 100px;
+  /* backgroundColor: #ccaa6b; */
+  display: flex;
+
+}
+
+.playlistItemText {
+  margin-top: 5px;
+  white-space: normal;
+  width: 95px;
+  text-align: center;
+}
+
+.playlistItemImage {
+  width: 70px;
+  height: 70px;
+  /* background-color: white; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playlistItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.playlistsMain {
+  display: flex;
+  margin: calc(1rem + 1vw) calc(3vw);
+  justify-content: flex-start;
+  /* gap: 10px; */
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.playlistsList {
+  display: flex;
+  margin: calc(0) calc(3vw);
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
 }

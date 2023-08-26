@@ -154,7 +154,7 @@ const TemporaryDrawer = () => {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
-      // className={classes.drawerWrap}
+    // className={classes.drawerWrap}
     >
       <h1 className={classes.playlistDrawerHeading}>
         {language.title === "nl" ? "Jouw afspeellijst" : "Your Playlist"}
@@ -198,7 +198,7 @@ const TemporaryDrawer = () => {
     <div className={classes.mainWrap}>
       {["right"].map((anchor) => (
         <Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>
+          {/* <Button onClick={toggleDrawer(anchor, true)}>
             <div className={classes.playlistWrap}>
               <div className={classes.playlistText}>
                 {language.title === "nl" ? "Afspeellijst" : "Playlist"}
@@ -215,7 +215,7 @@ const TemporaryDrawer = () => {
             classes={{ paper: classes.paper }}
           >
             {list(anchor)}
-          </Drawer>
+          </Drawer> */}
         </Fragment>
       ))}
     </div>

@@ -9,6 +9,7 @@ const Card1 = ({ title, album, url, disableFetch }) => {
     <>
       <div className={classes.card1}>
         <div className={classes.cardImage} style={{ width: 280, height: 280 }}>
+
           <Image
             src={url}
             alt={url}
