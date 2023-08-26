@@ -35,6 +35,7 @@
         "react-spinners": "^0.13.4",
         "react-switcher-rc": "^1.1.13",
         "react-timer-hook": "^3.0.5",
+        "react-useanimations": "^2.10.0",
         "sass": "^1.49.9",
         "sharp": "^0.29.2"
     },

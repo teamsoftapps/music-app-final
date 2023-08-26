@@ -11,6 +11,11 @@
   margin-top: 2rem;
 }
 
+.albums h3 {
+  color: var(--primary-color);
+  text-align: center;
+}
+
 .albumsMain {
   margin: 1rem calc(5vw);
   display: flex;

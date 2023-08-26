@@ -12,11 +12,6 @@ import Card1 from "./../../components/card1/Card1";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import { Typography } from "@mui/material";
-// import ToggleSwitch from "../../components/toggleSwitch/ToggleSwitch";
-// import { SwitchComponent, ButtonComponent } from '@syncfusion/ej2-react-buttons';
-// import Switcher from 'react-switcher-rc';
-// import Switch from 'react-input-switch';
-// import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import {
   setAlbum,
   setFavouriteId,
@@ -55,8 +50,13 @@ const AlbumPage = ({ songs, album }) => {
   const [loadingForAlbum, setLoadingForAlbum] = useState(false);
   const [songPlay, setSongPlay] = useState(false);
   const [lockedSongs, setLockedSongs] = useState(false);
-  const [value, setValue] = useState(false);
   const [isOn, setIsOn] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const [screenRefresh, setScreenRefresh] = useState(false);
+  const [songHr, setSongHr] = useState(0);
+  const [songMin, setSongMin] = useState(0);
+  const [songHrShow, setSongHrShow] = useState(false);
+  const [songPlaying, setSongPlaying] = useState(false);
 
   const toggleSwitch = () => {
     setIsOn(prevState => !prevState);
@@ -71,7 +71,12 @@ const AlbumPage = ({ songs, album }) => {
       length: ele.Song_Length,
     };
   });
-
+  const onPauseSong = () => {
+    setSongPlaying(false);
+  };
+  const onPlaySong = () => {
+    setSongPlaying(true);
+  };
   const onEndSong = () => {
     let currentSongIndex;
 
@@ -106,6 +111,29 @@ const AlbumPage = ({ songs, album }) => {
       setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`);
     }
   };
+
+  useEffect(() => {
+    console.log(song?.Song_Length);
+    setScreenRefresh(true);
+
+    if (song && song.Song_Length) {
+      const timeComponents = song.Song_Length.split(":");
+
+      if (timeComponents.length === 2) {
+        // Format: MM:SS
+        setSongHrShow(false);
+        const [minutes, seconds] = timeComponents;
+        setSongMin(parseInt(minutes, 10));
+      } else if (timeComponents.length === 3) {
+        // Format: HH:MM:SS
+        setSongHrShow(true);
+        const [hours, minutes, seconds] = timeComponents;
+        setSongHr(parseInt(hours, 10));
+        setSongMin(parseInt(minutes, 10));
+      }
+    }
+
+  }, [song]);
 
   useEffect(() => {
     // console.log(`${process.env.media_url}/${songArray[0]?.Song_File}`)
@@ -247,7 +275,18 @@ const AlbumPage = ({ songs, album }) => {
   //     return seconds;
   // }
 
+  const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+  const handleChangeSong = (index) => {
+    setSelectedSongIndex(index);
+    setSelected(true);
+    console.log(selected);
+  };
+
+
+
   if (!songs || !songs.length) return <h1>Loading...</h1>;
+
+
 
   return (
     <div className={classes.albums}>
@@ -277,7 +316,15 @@ const AlbumPage = ({ songs, album }) => {
         <ClipLoader color="red" loading={loadingForAlbum} size={"10vw"} />
       </div>
       <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
-      <h1>{song?.Album_Name}</h1>
+      <h1>{song?.Album_Name} </h1>
+      {songHrShow ? (
+        <h3>
+          ({songHr} hr. {songMin !== 0 && `${songMin} min.)`}
+        </h3>
+      ) : (
+        songMin !== 0 && <h3>({songMin} min.)</h3>
+      )}
+
 
       {/* ----------Lyrics Mode Switch---------- */}
 
@@ -327,24 +374,33 @@ const AlbumPage = ({ songs, album }) => {
         }}>
           {!isOn ? <div>
             <div className={classes.albumsMainPlaylist}>
-              {songs?.map((albumSong, i) =>
-                songs.length - 1 !== i ? (
-                  <Fragment key={i}>
-                    <MusicTracker
-                      currentTime={currentTime}
-                      setCurrentTime={setCurrentTime}
-                      albumSong={albumSong}
-                      order={i}
-                      songs={songs}
-                      setSongName={setSongName}
-                      trial={user?.hasOwnProperty("expiresIn")}
-                      setSongArray={setSongArray}
-                      setSingleSong={setSingleSong}
-                    />
-                    {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
-                  </Fragment>
-                ) : null
-              )}
+              {/* {songs?.map((albumSong, i) =>
+                songs.length - 1 !== i ? ( */}
+              {/* <div key={albumSong._id} onClick={() => handleChangeSong(i)} > */}
+              {/* <Fragment key={i}> */}
+              <Fragment >
+                <MusicTracker
+                  singleSong={singleSong}
+                  currentTime={currentTime}
+                  setCurrentTime={setCurrentTime}
+                  // albumSong={albumSong}
+                  // order={i}
+                  songs={songs}
+                  songName={songName}//
+                  setSongName={setSongName}
+                  trial={user?.hasOwnProperty("expiresIn")}
+                  setSongArray={setSongArray}
+                  setSingleSong={setSingleSong}
+                  selected={selected}//
+                  screenRefresh={screenRefresh}//
+                  setScreenRefresh={setScreenRefresh}//
+                  songPlaying={songPlaying}//
+                />
+                {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
+              </Fragment>
+              {/* </div> */}
+              {/* ) : null
+              )} */}
             </div>
           </div> :
             <div className={classes.lyricsViewMain}>
@@ -370,7 +426,7 @@ const AlbumPage = ({ songs, album }) => {
                       } else {
                         return (
                           lyricsArray.map((text, index) => (
-                            <p key={index} style={{ color: 'unset', textAlign: 'justify' }}>
+                            <p key={index} style={{ color: 'unset', textAlign: 'justify', fontSize: '1.2rem' }}>
                               {text}
                             </p>
                           ))
@@ -390,13 +446,9 @@ const AlbumPage = ({ songs, album }) => {
                 </div>
               </div>
             </div>
-
           }
         </div>
       </div>
-
-
-
       <div className={style.music}>
         <div className={classes.hoverStyling}>
           <img src={pic}></img>
@@ -405,7 +457,7 @@ const AlbumPage = ({ songs, album }) => {
           <p className={style.Album_Name}>{albumName}</p>
           {/* <br></br> */}
           <p>{songName}</p>
-          {lyrics !== "" && (
+          {/* {lyrics !== "" && (
             <p
               style={{
                 fontSize: "12px",
@@ -416,7 +468,7 @@ const AlbumPage = ({ songs, album }) => {
             >
               Show Lyrics
             </p>
-          )}
+          )} */}
         </div>
         <div className={style.trash}></div>
         <div className={style.trash}></div>
@@ -429,6 +481,8 @@ const AlbumPage = ({ songs, album }) => {
           src={singleSong}
           onEnded={(e) => onEndSong()}
           autoPlay={true}
+          onPause={(e) => onPauseSong()}
+          onPlay={(e) => onPlaySong()}
         />
       </div>;
 

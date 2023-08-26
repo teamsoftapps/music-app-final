@@ -1,14 +1,19 @@
 import { IconButton } from "@material-ui/core";
-import { Lock, MusicNote } from "@material-ui/icons";
+import { Lock, MusicNote, MoreHoriz, BarChart } from "@material-ui/icons";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import api from "./../../../services/api";
 import { setFavourites, setSong, setSongs } from "./../../store/musicReducer";
 import classes from "./MusicTrack.module.css";
+import { Menu, MenuItem } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import UseAnimations from 'react-useanimations';
+import loading2 from 'react-useanimations/lib/loading2';
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -17,28 +22,69 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const postSelector = (state) => state.music;
 
 const MusicTracker = ({
-  albumSong,
-  order,
-  songs,
+  // albumSong,
+  // order,
+  // songName,
+  // songs,
+  // currentTime,
+  // setCurrentTime,
+  // trial,
+  // setSongName,
+  // setSongArray,
+  // setSingleSong,
+  // singleSong,
+  // selected,
+  // screenRefresh,
+  // setScreenRefresh,
+  singleSong,
   currentTime,
   setCurrentTime,
-  trial,
+  songs,
+  songName,
   setSongName,
+  trial,
   setSongArray,
   setSingleSong,
+  selected,
+  screenRefresh,
+  setScreenRefresh,
+  songPlaying,
 }) => {
   const { song, user, favourites, favouriteId } = useSelector(
     postSelector,
     shallowEqual
   );
-
   const dispatch = useDispatch();
 
-  const [myCommutativeLength, setMyCommutativeLength] = useState(0);
+  const [myCommutativeLength, setMyCommutativeLength] = useState(0); // myCommutativeLength not used
   const [locked, setLocked] = useState(false);
   const [liked, setLiked] = useState(false);
   const [open, setOpen] = useState(false);
   const [subscriptionSongs, setSubscriptionSongs] = useState(null);
+  const [selectedSongName, setSelectedSongName] = useState('');
+
+  useEffect(() => {
+    console.log("Song Name: ", songName);
+    localStorage.setItem('selectedSongName', songName);
+    setSelectedSongName(songName);
+  }, [songName]);
+
+  // useEffect(() => {
+  //   console.log("Current song index updated");
+  //   console.log(localStorage.getItem("currentSongIndex"));
+  // }, [localStorage.getItem("currentSongIndex")]);
+
+  // const [currentSongIndex, setCurrentSongIndex] = useState(localStorage.getItem("currentSongIndex"));
+
+  // useEffect(() => {
+  //   console.log("Current song index updated");
+  //   console.log(localStorage.getItem("currentSongIndex"));
+  //   setCurrentSongIndex(localStorage.getItem("currentSongIndex"));
+  // }, [currentSongIndex]);
+
+  //  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
+
   // const [eachAlbumSongs,setEachAlbumSongs]=useState(null)
 
   // useEffect(()=>{
@@ -49,30 +95,29 @@ const MusicTracker = ({
 
   const subscriptionSongsArr = subscriptionSongs?.map((obj) => obj.songs);
 
-  // let unlockedSongs=false;
   let lockedSongs = false;
-
   // console.log("subscriptionSongsArr >>>>>>>>>>", subscriptionSongsArr);
   // console.log("albumSongName====>", albumSong.Song_Name);
   // console.log("Subscription-Songs====>",subscriptionSongs)
   // eachAlbumSongs && console.log("Each_Album_Songs===>",eachAlbumSongs)
 
-  subscriptionSongsArr &&
-    subscriptionSongsArr[0]?.map((elem, index) => {
-      if (elem.Song_Name === albumSong.Song_Name) {
+  function subscriptionCheck(albumSong, i) {
+    subscriptionSongsArr && //                           Asad commented
+      subscriptionSongsArr[0]?.map((elem, index) => {
+        if (elem.Song_Name === albumSong.Song_Name) {
+          lockedSongs = true;
+        }
+        //  else{
+        //   lockedSongs=false;
+        //  }
+      });
+    subscriptionSongs?.forEach((elem) => {
+      //  console.log("Subscrition-Songs..",elem?.songs[0])
+      if (elem?.songs[0] === "all") {
         lockedSongs = true;
       }
-      //  else{
-      //   lockedSongs=false;
-      //  }
     });
-
-  subscriptionSongs?.forEach((elem) => {
-    //  console.log("Subscrition-Songs..",elem?.songs[0])
-    if (elem?.songs[0] === "all") {
-      lockedSongs = true;
-    }
-  });
+  }
 
   // eachAlbumSongs && eachAlbumSongs.forEach((elem)=>{
   //    if(elem?.Song_Name===albumSong?.Song_Name){
@@ -94,7 +139,6 @@ const MusicTracker = ({
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -104,7 +148,7 @@ const MusicTracker = ({
     }
   }, []);
 
-  function songHandler() {
+  function songHandler() { // Not used
     // if (locked) return;
     if (lockedSongs) return;
 
@@ -113,7 +157,7 @@ const MusicTracker = ({
     // dispatch(setIsPlaying(false));
   }
 
-  function calculateSeconds(hms) {
+  function calculateSeconds(hms) { // myCommutativeLength not used
     var a = hms.split(":");
     let seconds = a[0] * 60 + +a[1];
     if (a.length > 2) {
@@ -122,11 +166,11 @@ const MusicTracker = ({
     return seconds;
   }
 
-  function setMyCommutativeLengthFunction() {
+  function setMyCommutativeLengthFunction() { // myCommutativeLength not used
     let count = 0;
 
-    songs.map((song, i) => {
-      if (i < order) {
+    songs.map((song, index) => {
+      if (index < i) {
         count += calculateSeconds(song.Song_Length);
       }
     });
@@ -134,11 +178,15 @@ const MusicTracker = ({
     setMyCommutativeLength(count);
   }
 
-  function songJump() {
+  const [selectedSongIndex, setSelectedSongIndex] = useState(null);
+
+  function songJump(albumSong, i) {
     // console.log("songJump >>>>>>>>>>>>>");
 
     // if (locked) return;
     if (!lockedSongs) return;
+    // setSelectedSongIndex(i);
+    // setSelectedSongName('');
 
     let songArray;
 
@@ -171,10 +219,10 @@ const MusicTracker = ({
     setSongArray(songArray);
   }
 
-  const handleChangeSong = () => {
-    // console.log("clicked!!");
-    // handleSingleSong();
-  };
+  // const handleChangeSong = () => {
+  // console.log("clicked!!");
+  // handleSingleSong();
+  // };
 
   const handleLike = async (id) => {
     // console.log("handleLike id >>>>>>>>>>>>>>>>>>>", id);
@@ -218,12 +266,11 @@ const MusicTracker = ({
 
   useEffect(() => {
     dispatch(setSongs(songs));
-    setMyCommutativeLengthFunction();
+    // setMyCommutativeLengthFunction(i); // myCommutativeLength not used
 
-    if (trial && order !== 1 && order % 5 !== 0) {
+    if (trial && i !== 1 && i % 5 !== 0) {
       setLocked(true);
     }
-
     // handleLike(albumSong?._id);
 
     if (localStorage.getItem("subscriptionSongDetails")) {
@@ -231,75 +278,275 @@ const MusicTracker = ({
         JSON.parse(localStorage.getItem("subscriptionSongDetails"))
       );
     }
+    const storedSelectedSongName = localStorage.getItem('selectedSongName');
+    if (storedSelectedSongName) {
+      setSelectedSongName(storedSelectedSongName);
+    }
   }, []);
 
+  // const [anchorEl, setAnchorEl] = useState(null);
+
+  // const handleMenuClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  // };
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const closeMenuOnOutsideClick = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        // setIsMenuOpen(false);
+        setMenuOpenStates(new Array(songs.length).fill(false));
+      }
+    };
+
+    document.addEventListener('mousedown', closeMenuOnOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', closeMenuOnOutsideClick);
+    };
+  }, []);
+
+  // Three dot (more) menu
+
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // const handleMenuClick = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
+
+  const handleMenuItemClick = () => {
+    // setIsMenuOpen(false);
+    setMenuOpenStates(new Array(songs.length).fill(false));
+  };
+
+  // Selection
+
+
+  // function handleChangeSong(albumSong, i) {
+  //   if (!lockedSongs) return;
+  //   let songArray;
+  //   if (typeof window !== "undefined") {
+  //     songArray = localStorage.getItem("songArray");
+  //   }
+  //   songArray = JSON.parse(songArray);
+  //   const index = songArray.findIndex((o) => {
+  //     return o.Song_Name === albumSong.Song_Name;
+  //   });
+  //   const songName = index !== -1 ? songArray[index].Song_Name : '';
+  //   setSelectedSongName(songName);
+  //   localStorage.setItem('selectedSongName', songName);
+  // };
+
+  // function test() {
+  //   console.log("Test run...");
+  // }
+
+  // function screenRefreshCheck(albumSong, i) {
+  //   if (screenRefresh) {
+  //     let songArray;
+  //     if (typeof window !== "undefined") {
+  //       songArray = localStorage.getItem("songArray");
+  //     }
+  //     songArray = JSON.parse(songArray);
+  //     // const index = songArray.findIndex((o) => {
+  //     //   return o.Song_Name === albumSong.Song_Name;
+  //     // });
+  //     // const songName = index !== -1 ? songArray[0].Song_Name : '';
+  //     const songName = songArray[0].Song_Name;
+  //     localStorage.setItem('selectedSongName', songName);
+  //     setScreenRefresh(false);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   let songArray;
+  //   if (typeof window !== "undefined") {
+  //     songArray = localStorage.getItem("songArray");
+  //   }
+  //   songArray = JSON.parse(songArray);
+  //   const songName = songArray[0].Song_Name;
+  //   localStorage.setItem('selectedSongName', songName);
+  //   setScreenRefresh(false);
+  // }, [screenRefresh]);
+
+
+
+  const [menuOpenStates, setMenuOpenStates] = useState([]);
+
+  // Initialize the menu states array in the useEffect
+  useEffect(() => {
+    setMenuOpenStates(new Array(songs.length).fill(false));
+  }, [songs]);
+
+  // Update the handleMenuClick function to update the specific menu state
+  const handleMenuClick = (index) => {
+    const newMenuStates = [...menuOpenStates];
+    newMenuStates[index] = !newMenuStates[index];
+    setMenuOpenStates(newMenuStates);
+  };
+
   return (
-    <div onClick={handleChangeSong}>
-      <div
-        ref={albumSong?._id === song?._id ? trackRef : null}
-        // onClick={isMobile ? songJump : songHandler}
-        // onClick={isMobile ? songJump : songJump}
-        className={`${classes.musicTrack} ${albumSong?._id === song?._id ? classes.musicTrackActive : null
-          } ${!lockedSongs ? classes.showCursor : null}`}
-        style={{ cursor: locked && "not-allowed" }}
-      // disabled={lockedSongs}
-      // disabled={(trial && index === 0) || !lockedSongs}
-      >
-        <div className={classes.musicTrackLeft}>
-          <IconButton className={classes.songTune}>
-            <MusicNote />
-          </IconButton>
-          {lockedSongs && (
-            <IconButton
-              className={classes.songTune}
-              onClick={() => handleLike(albumSong?._id)}
+    <div>
+      {songs?.map((albumSong, i) =>
+        songs.length - 1 !== i ? (
+          // {/* <div key={albumSong._id} onClick={() => handleChangeSong(index)}> */ }
+          <div key={albumSong._id} >
+            {/* {test()} */}
+            {subscriptionCheck(albumSong, i)}
+            {/* {screenRefreshCheck(albumSong, i)} */}
+            {/* <div onClick={handleChangeSong}> */}
+            < div ref={albumSong?._id === song?._id ? trackRef : null}
+              //${albumSong?._id === songs[i]?._id ? classes.musicTrackActive : classes.musicTrack}
+              // className={`${classes.musicTrack} 
+              className={`${classes.musicTrack} ${selectedSongName === albumSong?.Song_Name ? classes.musicTrackActive : classes.musicTrack}
+              
+             
+            ${!lockedSongs ? classes.showCursor : null}`}
+              style={{ cursor: locked && "not-allowed" }}
+            // style={{ cursor: locked && "not-allowed", backgroundColor: selectedSongName === albumSong?.Song_Name ? '#201009' : 'transparent', }}
+            // disabled={lockedSongs}
+            // disabled={(trial && index === 0) || !lockedSongs}
             >
-              {favourites?.some((item) => item?._id === songs[order]?._id) ? (
-                <FavoriteIcon style={{ transition: "all 0.3s ease" }} />
-              ) : (
-                <FavoriteBorderIcon style={{ transition: "all 0.3s ease" }} />
-              )}
-            </IconButton>
-          )}
-          {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
+              <div className={classes.musicTrackLeft}>
+                <IconButton className={classes.songTune}>
+                  {/* {selectedSongName === albumSong?.Song_Name ? {songPlaying===true?<BarChart />: <Lock/>}: < MusicNote />} */}
+                  {selectedSongName === albumSong?.Song_Name ? (
+                    songPlaying ? <UseAnimations animation={loading2} strokeColor='inherit' fillColor='#FFFFFF' size={32} wrapperStyle={{ padding: '1px' }} /> : <BarChart />
+                  ) : (
+                    <MusicNote />
+                  )}
+                  {/* <MusicNote /> */}
+                </IconButton>
+                {lockedSongs && (
+                  <IconButton
+                    className={classes.songTune}
+                    onClick={() => handleLike(albumSong?._id)}
+                  >
+                    {favourites?.some((item) => item?._id === songs[i]?._id) ? (
+                      <FavoriteIcon style={{ transition: "all 0.3s ease" }} />
+                    ) : (
+                      <FavoriteBorderIcon style={{ transition: "all 0.3s ease" }} />
+                    )}
+                  </IconButton>
+                )}
+                {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
               <marquee behavior="scroll" direction="left" scrollamount="8">
               {albumSong?.Song_Lyrics}
               </marquee>
-          ) : ( */}
-          <h4 onClick={songJump}>{albumSong?.Song_Name}</h4>
-          {/* )} */}
-        </div>
-        <div></div>
-        {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
-        <div className={classes.musicTrackRight}>
-          {!lockedSongs && (
-            <span className={classes.locked}>
-              <Lock />
-            </span>
-          )}
+              ) : ( */}
+                {/* <h4 onClick={() => { songJump(albumSong, i); handleChangeSong(albumSong, i); }} */}
+                <h4 onClick={() => { songJump(albumSong, i); }}
+                > {albumSong?.Song_Name}</h4>
+                {/* <h4
+              // onClick={() => handleChangeSong(index)}
+              // onClick={() => { console.log(selected); }}
+              style={{
+                // backgroundColor: selectedSongIndex === index ? 'black' : 'transparent', color: selectedSongIndex === index ? 'white' : 'inherit',
+                backgroundColor: selected === true ? 'black' : 'transparent',
+                color: selected === true ? 'white' : 'inherit',
+              }}
+            >
+              {albumSong.Song_Name}
+            </h4> */}
 
-          <h3>{albumSong?.Song_Length}</h3>
-        </div>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={open}
-          autoHideDuration={1000}
-          onClose={handleClose}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
+                {/* )} */}
+              </div>
+              {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
+              <div className={classes.musicTrackRight}>
+                {!lockedSongs && (
+                  <span className={classes.locked}>
+                    <Lock />
+                  </span>
+                )}
+
+                <h3>{albumSong?.Song_Length}</h3>
+
+                {/* <IconButton className={classes.songTune} onClick={handleMenuClick}> */}
+                <IconButton className={classes.songTune} >
+                  {/* <MoreHoriz onClick={handleMenuClick} /> */}
+                  <MoreHoriz onClick={() => handleMenuClick(i)} />
+                </IconButton>
+                {/*
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left', // Set anchorOrigin to left
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right', // Set transformOrigin to right
+            }}
+            PaperProps={{
+              style: {
+                backgroundColor: '#171107', // Set background color to black
+                border: '1px solid black', // Add border
+                borderRadius: '8px', // Add rounded corners
+              },
+            }}
           >
-            Favourites Updated!
-          </Alert>
-        </Snackbar>
-      </div>
-    </div>
+            <MenuItem onClick={handleMenuClose} style={{ backgroundColor: "#171107", border: '1px solid black', borderRadius: '8px', borderColor: 'white', margin: '3px' }}>
+              <Typography variant="body2" color="white" >
+                Add to playlist
+              </Typography>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose} style={{ backgroundColor: "#171107", border: '1px solid black', borderRadius: '8px', borderColor: 'white', margin: '3px' }}>
+              <Typography variant="body2" color="white" >
+                Create a new playlist
+              </Typography>
+            </MenuItem>
+          </Menu> */}
+
+
+                {/* <div className={classes.popuptrigger}>
+                  {isMenuOpen && (
+                    <div ref={menuRef} className={classes.popupmenu}>
+                      <button onClick={handleMenuItemClick}>Add to playlist</button>
+                      <button onClick={handleMenuItemClick}>Create a new playlist</button>
+                    </div>
+                  )}
+                </div> */}
+                <div className={classes.popuptrigger}>
+                  {menuOpenStates[i] && (
+                    <div ref={menuRef} className={classes.popupmenu}>
+                      <button onClick={handleMenuItemClick}>Add to playlist</button>
+                      <button onClick={handleMenuItemClick}>Create a new playlist</button>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+              <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={open}
+                autoHideDuration={1000}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
+                  Favourites Updated!
+                </Alert>
+              </Snackbar>
+            </div>
+          </div >
+        ) : null)
+      }
+    </div >
   );
 };
 
-export default React.memo(MusicTracker, (prevState, currentState) => {
-  if (prevState.albumSong?._id !== currentState.albumSong?._id) return false;
-  return true;
-});
+// export default React.memo(MusicTracker, (prevState, currentState) => {
+//   if (prevState.albumSong?._id !== currentState.albumSong?._id) return false;
+//   return true;
+// });
+export default MusicTracker;
+
