@@ -13,6 +13,7 @@ import { Menu, MenuItem } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import UseAnimations from 'react-useanimations';
 import loading2 from 'react-useanimations/lib/loading2';
+import { useRouter } from 'next/router';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -22,20 +23,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const postSelector = (state) => state.music;
 
 const MusicTracker = ({
-  // albumSong,
-  // order,
-  // songName,
-  // songs,
-  // currentTime,
-  // setCurrentTime,
-  // trial,
-  // setSongName,
-  // setSongArray,
-  // setSingleSong,
-  // singleSong,
-  // selected,
-  // screenRefresh,
-  // setScreenRefresh,
   singleSong,
   currentTime,
   setCurrentTime,
@@ -55,7 +42,7 @@ const MusicTracker = ({
     shallowEqual
   );
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const [myCommutativeLength, setMyCommutativeLength] = useState(0); // myCommutativeLength not used
   const [locked, setLocked] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -69,29 +56,8 @@ const MusicTracker = ({
     setSelectedSongName(songName);
   }, [songName]);
 
-  // useEffect(() => {
-  //   console.log("Current song index updated");
-  //   console.log(localStorage.getItem("currentSongIndex"));
-  // }, [localStorage.getItem("currentSongIndex")]);
-
-  // const [currentSongIndex, setCurrentSongIndex] = useState(localStorage.getItem("currentSongIndex"));
-
-  // useEffect(() => {
-  //   console.log("Current song index updated");
-  //   console.log(localStorage.getItem("currentSongIndex"));
-  //   setCurrentSongIndex(localStorage.getItem("currentSongIndex"));
-  // }, [currentSongIndex]);
-
   //  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
-
-  // const [eachAlbumSongs,setEachAlbumSongs]=useState(null)
-
-  // useEffect(()=>{
-  //     if (typeof window !== "undefined") {
-  //       setEachAlbumSongs(JSON.parse(localStorage.getItem("songArray")))
-  //     }
-  // },[eachAlbumSongs])
 
   const subscriptionSongsArr = subscriptionSongs?.map((obj) => obj.songs);
 
@@ -102,7 +68,7 @@ const MusicTracker = ({
   // eachAlbumSongs && console.log("Each_Album_Songs===>",eachAlbumSongs)
 
   function subscriptionCheck(albumSong, i) {
-    subscriptionSongsArr && //                           Asad commented
+    subscriptionSongsArr &&
       subscriptionSongsArr[0]?.map((elem, index) => {
         if (elem.Song_Name === albumSong.Song_Name) {
           lockedSongs = true;
@@ -256,7 +222,7 @@ const MusicTracker = ({
         },
       });
 
-      // console.log("handleLike API data >>>>>>>>>>>>>>>", data);
+      console.log("handleLike API data >>>>>>>>>>>>>>>", data);
 
       dispatch(setFavourites(data?.favourites));
     } catch (err) {
@@ -387,12 +353,14 @@ const MusicTracker = ({
     const newMenuStates = [...menuOpenStates];
     newMenuStates[index] = !newMenuStates[index];
     setMenuOpenStates(newMenuStates);
+
+    router.push('/playlist/create-playlist');
   };
 
   return (
     <div>
       {songs?.map((albumSong, i) =>
-        songs.length - 1 !== i ? (
+        songs.length !== i ? (
           // {/* <div key={albumSong._id} onClick={() => handleChangeSong(index)}> */ }
           <div key={albumSong._id} >
             {/* {test()} */}
@@ -415,7 +383,7 @@ const MusicTracker = ({
                 <IconButton className={classes.songTune}>
                   {/* {selectedSongName === albumSong?.Song_Name ? {songPlaying===true?<BarChart />: <Lock/>}: < MusicNote />} */}
                   {selectedSongName === albumSong?.Song_Name ? (
-                    songPlaying ? <UseAnimations animation={loading2} strokeColor='inherit' fillColor='#FFFFFF' size={32} wrapperStyle={{ padding: '1px' }} /> : <BarChart />
+                    songPlaying ? <UseAnimations animation={loading2} fillColor='#FFFFFF' strokeColor='#201009' size={32} wrapperStyle={{ padding: '1px' }} /> : <BarChart />
                   ) : (
                     <MusicNote />
                   )}
@@ -467,7 +435,6 @@ const MusicTracker = ({
 
                 {/* <IconButton className={classes.songTune} onClick={handleMenuClick}> */}
                 <IconButton className={classes.songTune} >
-                  {/* <MoreHoriz onClick={handleMenuClick} /> */}
                   <MoreHoriz onClick={() => handleMenuClick(i)} />
                 </IconButton>
                 {/*

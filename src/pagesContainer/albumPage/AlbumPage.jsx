@@ -25,12 +25,15 @@ const postSelector = (state) => state.music;
 const AlbumPage = ({ songs, album }) => {
   console.log("AlbumPage >>>>>>>>");
 
+  // console.log("Songs: ", songs);
+  // console.log("Album: ", album);
+
   const { song, language, user, favouriteId } = useSelector(
     postSelector,
     shallowEqual
   );
 
-  // console.log(ind);
+  // console.log(songs);
 
   const route = useRouter();
   const dispatch = useDispatch();
@@ -282,11 +285,7 @@ const AlbumPage = ({ songs, album }) => {
     console.log(selected);
   };
 
-
-
   if (!songs || !songs.length) return <h1>Loading...</h1>;
-
-
 
   return (
     <div className={classes.albums}>
