@@ -93,6 +93,7 @@
   height: 50px;
   /* border: 1px solid #ccc; */
   font-size: 20px;
+  margin-bottom: 1rem;
 }
 
 .separationLine {
@@ -110,7 +111,7 @@
   width: 100px;
   /* backgroundColor: #ccaa6b; */
   display: flex;
-
+  cursor: pointer;
 }
 
 .playlistItemText {
@@ -149,7 +150,7 @@
 
 .playlistsList {
   display: flex;
-  margin: calc(0) calc(3vw);
+  margin: calc(0) calc(1vw);
   justify-content: flex-start;
   gap: 10px;
   flex-wrap: wrap;

@@ -131,7 +131,6 @@
 .popupmenu {
   position: absolute;
   top: -10px;
-  /* Adjust this value to position the menu above the trigger */
   right: 0;
   background-color: #362508;
   border: 1px solid black;
@@ -141,7 +140,6 @@
   justify-content: center;
   width: 150px;
   padding: 5px;
-  /* Ensure the menu appears above other content */
 }
 
 .popupmenu button {

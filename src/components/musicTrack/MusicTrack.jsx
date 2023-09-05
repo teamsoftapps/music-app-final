@@ -13,6 +13,7 @@ import { Menu, MenuItem } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
 import UseAnimations from 'react-useanimations';
 import loading2 from 'react-useanimations/lib/loading2';
+import { useRouter } from 'next/router';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -22,20 +23,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const postSelector = (state) => state.music;
 
 const MusicTracker = ({
-  // albumSong,
-  // order,
-  // songName,
-  // songs,
-  // currentTime,
-  // setCurrentTime,
-  // trial,
-  // setSongName,
-  // setSongArray,
-  // setSingleSong,
-  // singleSong,
-  // selected,
-  // screenRefresh,
-  // setScreenRefresh,
   singleSong,
   currentTime,
   setCurrentTime,
@@ -49,13 +36,14 @@ const MusicTracker = ({
   screenRefresh,
   setScreenRefresh,
   songPlaying,
+  caller,
 }) => {
   const { song, user, favourites, favouriteId } = useSelector(
     postSelector,
     shallowEqual
   );
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const [myCommutativeLength, setMyCommutativeLength] = useState(0); // myCommutativeLength not used
   const [locked, setLocked] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -69,40 +57,15 @@ const MusicTracker = ({
     setSelectedSongName(songName);
   }, [songName]);
 
-  // useEffect(() => {
-  //   console.log("Current song index updated");
-  //   console.log(localStorage.getItem("currentSongIndex"));
-  // }, [localStorage.getItem("currentSongIndex")]);
-
-  // const [currentSongIndex, setCurrentSongIndex] = useState(localStorage.getItem("currentSongIndex"));
-
-  // useEffect(() => {
-  //   console.log("Current song index updated");
-  //   console.log(localStorage.getItem("currentSongIndex"));
-  //   setCurrentSongIndex(localStorage.getItem("currentSongIndex"));
-  // }, [currentSongIndex]);
-
   //  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 });
-
-  // const [eachAlbumSongs,setEachAlbumSongs]=useState(null)
-
-  // useEffect(()=>{
-  //     if (typeof window !== "undefined") {
-  //       setEachAlbumSongs(JSON.parse(localStorage.getItem("songArray")))
-  //     }
-  // },[eachAlbumSongs])
 
   const subscriptionSongsArr = subscriptionSongs?.map((obj) => obj.songs);
 
   let lockedSongs = false;
-  // console.log("subscriptionSongsArr >>>>>>>>>>", subscriptionSongsArr);
-  // console.log("albumSongName====>", albumSong.Song_Name);
-  // console.log("Subscription-Songs====>",subscriptionSongs)
-  // eachAlbumSongs && console.log("Each_Album_Songs===>",eachAlbumSongs)
 
   function subscriptionCheck(albumSong, i) {
-    subscriptionSongsArr && //                           Asad commented
+    subscriptionSongsArr &&
       subscriptionSongsArr[0]?.map((elem, index) => {
         if (elem.Song_Name === albumSong.Song_Name) {
           lockedSongs = true;
@@ -256,7 +219,7 @@ const MusicTracker = ({
         },
       });
 
-      // console.log("handleLike API data >>>>>>>>>>>>>>>", data);
+      console.log("handleLike API data >>>>>>>>>>>>>>>", data);
 
       dispatch(setFavourites(data?.favourites));
     } catch (err) {
@@ -318,9 +281,29 @@ const MusicTracker = ({
   //   setIsMenuOpen(!isMenuOpen);
   // };
 
-  const handleMenuItemClick = () => {
-    // setIsMenuOpen(false);
+  const handleAddToPlaylistClick = (i) => {
     setMenuOpenStates(new Array(songs.length).fill(false));
+    console.log("Song Details from Music Track: ", songs[i]);
+    router.push({
+      pathname: '/playlist/add-to-playlist',
+      query: { songID: JSON.stringify(songs[i]._id), songName: JSON.stringify(songs[i].Song_Name) }
+    });
+  };
+
+  const handleCreateNewPlaylistClick = (i) => {
+    setMenuOpenStates(new Array(songs.length).fill(false));
+    console.log("Song Details from Music Track: ", songs[i]);
+    // router.push('/playlist/create-playlist');
+    // localStorage.setItem('selectedSongForNewPlaylist', JSON.stringify(songs[i]));
+    router.push({
+      pathname: '/playlist/create-playlist',
+      query: { songID: JSON.stringify(songs[i]._id), songName: JSON.stringify(songs[i].Song_Name) }
+    });
+  };
+
+  const handleRemoveFromPlaylistClick = (i) => {
+    setMenuOpenStates(new Array(songs.length).fill(false));
+    console.log("Remove from playlist clicked for song with id: ", songs[i]._id);
   };
 
   // Selection
@@ -392,7 +375,7 @@ const MusicTracker = ({
   return (
     <div>
       {songs?.map((albumSong, i) =>
-        songs.length - 1 !== i ? (
+        songs.length !== i ? (
           // {/* <div key={albumSong._id} onClick={() => handleChangeSong(index)}> */ }
           <div key={albumSong._id} >
             {/* {test()} */}
@@ -404,7 +387,6 @@ const MusicTracker = ({
               // className={`${classes.musicTrack} 
               className={`${classes.musicTrack} ${selectedSongName === albumSong?.Song_Name ? classes.musicTrackActive : classes.musicTrack}
               
-             
             ${!lockedSongs ? classes.showCursor : null}`}
               style={{ cursor: locked && "not-allowed" }}
             // style={{ cursor: locked && "not-allowed", backgroundColor: selectedSongName === albumSong?.Song_Name ? '#201009' : 'transparent', }}
@@ -415,13 +397,13 @@ const MusicTracker = ({
                 <IconButton className={classes.songTune}>
                   {/* {selectedSongName === albumSong?.Song_Name ? {songPlaying===true?<BarChart />: <Lock/>}: < MusicNote />} */}
                   {selectedSongName === albumSong?.Song_Name ? (
-                    songPlaying ? <UseAnimations animation={loading2} strokeColor='inherit' fillColor='#FFFFFF' size={32} wrapperStyle={{ padding: '1px' }} /> : <BarChart />
+                    songPlaying ? <UseAnimations animation={loading2} fillColor='#FFFFFF' strokeColor='#201009' size={32} wrapperStyle={{ padding: '1px' }} /> : <BarChart />
                   ) : (
                     <MusicNote />
                   )}
                   {/* <MusicNote /> */}
                 </IconButton>
-                {lockedSongs && (
+                {caller === "album" && lockedSongs && (
                   <IconButton
                     className={classes.songTune}
                     onClick={() => handleLike(albumSong?._id)}
@@ -433,27 +415,10 @@ const MusicTracker = ({
                     )}
                   </IconButton>
                 )}
-                {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
-              <marquee behavior="scroll" direction="left" scrollamount="8">
-              {albumSong?.Song_Lyrics}
-              </marquee>
-              ) : ( */}
-                {/* <h4 onClick={() => { songJump(albumSong, i); handleChangeSong(albumSong, i); }} */}
+
                 <h4 onClick={() => { songJump(albumSong, i); }}
                 > {albumSong?.Song_Name}</h4>
-                {/* <h4
-              // onClick={() => handleChangeSong(index)}
-              // onClick={() => { console.log(selected); }}
-              style={{
-                // backgroundColor: selectedSongIndex === index ? 'black' : 'transparent', color: selectedSongIndex === index ? 'white' : 'inherit',
-                backgroundColor: selected === true ? 'black' : 'transparent',
-                color: selected === true ? 'white' : 'inherit',
-              }}
-            >
-              {albumSong.Song_Name}
-            </h4> */}
 
-                {/* )} */}
               </div>
               {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
               <div className={classes.musicTrackRight}>
@@ -467,7 +432,6 @@ const MusicTracker = ({
 
                 {/* <IconButton className={classes.songTune} onClick={handleMenuClick}> */}
                 <IconButton className={classes.songTune} >
-                  {/* <MoreHoriz onClick={handleMenuClick} /> */}
                   <MoreHoriz onClick={() => handleMenuClick(i)} />
                 </IconButton>
                 {/*
@@ -515,8 +479,11 @@ const MusicTracker = ({
                 <div className={classes.popuptrigger}>
                   {menuOpenStates[i] && (
                     <div ref={menuRef} className={classes.popupmenu}>
-                      <button onClick={handleMenuItemClick}>Add to playlist</button>
-                      <button onClick={handleMenuItemClick}>Create a new playlist</button>
+                      <button onClick={() => handleAddToPlaylistClick(i)} style={{ fontWeight: 'bold' }}>Add to playlist</button>
+                      <button onClick={() => handleCreateNewPlaylistClick(i)} style={{ fontWeight: 'bold' }}>Create a new playlist</button>
+                      {caller === "playlist" && lockedSongs && (
+                        <button onClick={() => handleRemoveFromPlaylistClick(i)} style={{ fontWeight: 'bold' }}>Remove from playlist</button>
+                      )}
                     </div>
                   )}
                 </div>

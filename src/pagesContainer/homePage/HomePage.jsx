@@ -11,11 +11,57 @@ import Card from "./../../components/card/Card";
 import Footer from "./../../components/footer";
 import { setFavourites } from "./../../store/musicReducer";
 import classes from "./HomePage.module.css";
+import PlaylistCard from "../../components/playlistCard/PlaylistCard";
 
 const postSelector = (state) => state.music;
 
 const HomePage = ({ albums }) => {
   // console.log("HomePage >>>>>>>>>>>>>>");
+
+  const playlistsOrder = [
+    {
+      Playlist_Image: "/images/Icons-01.png",
+      Playlist_Image_nl: "/images/Icons-01.png",
+      Playlist_Name: "You Favourites",
+      Singer_Name: "Mulder",
+      Song_Desc: "Music performed by Ian Mulder & The London Symphony Orchestra.\n...",
+      index: 1,
+      __v: 0,
+      _id: "61710878ef45b9107c721284"
+    },
+    {
+      Playlist_Image: "/images/Icons-02.png",
+      Playlist_Image_nl: "/images/Icons-02.png",
+      Playlist_Name: "Inspirational Music",
+      Singer_Name: "Mulder",
+      Song_Desc: "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
+      index: 2,
+      __v: 0,
+      _id: "61710878ef45b9107c721286"
+    },
+    {
+      Playlist_Image: "/images/Icons-03.png",
+      Playlist_Image_nl: "/images/Icons-03.png",
+      Playlist_Name: "Mulder's Original",
+      Singer_Name: "Mulder",
+      Song_Desc: "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
+      index: 2,
+      __v: 0,
+      _id: "61710878ef45b9107c721286"
+    },
+    {
+      Playlist_Image: "/images/Icons-04.png",
+      Playlist_Image_nl: "/images/Icons-04.png",
+      Playlist_Name: "Calm/Studying Music",
+      Singer_Name: "Mulder",
+      Song_Desc: "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
+      index: 2,
+      __v: 0,
+      _id: "61710878ef45b9107c721286"
+    },
+
+    // ... Add more album objects here
+  ];
 
   const route = useRouter();
 
@@ -78,6 +124,7 @@ const HomePage = ({ albums }) => {
         // Perform localStorage action
         // ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
         token = JSON.parse(localStorage.getItem("music-app-credentials"));
+
       }
 
       const { data } = await api.get(`/api/getFavourites`, {
@@ -90,7 +137,7 @@ const HomePage = ({ albums }) => {
 
       dispatch(setFavourites(data?.favourites));
 
-      // console.log("get favourites", data.favourites);
+      console.log("Get favourites: ", data);
     } catch (err) {
       console.error("err?.response?.data >>>>>>>>>>", err?.response?.data);
 
@@ -144,6 +191,7 @@ const HomePage = ({ albums }) => {
     // }
     if (data.Album_Name === "Love Divine 1") {
       theOrder[0] = data;
+      console.log("Get album: ", data);
     }
     if (data.Album_Name === "Love Divine 2") {
       theOrder[1] = data;
@@ -210,7 +258,7 @@ const HomePage = ({ albums }) => {
     setAlbumsOrder(theOrder);
   }, []);
 
-  // console.log("albumsOrder >>>>>>>>>", albumsOrder);
+  console.log("albumsOrder >>>>>>>>>", albumsOrder);
 
   return (
     <div className={classes.homePage}>
@@ -260,15 +308,52 @@ const HomePage = ({ albums }) => {
       </div>
 
       <hr className={classes.separationLine}></hr>
+
+      {/* Playlist card addition */}
+
       <div className={classes.playlistsMain}>
         <div className={classes.homePagePlaylistsText} >
           <p><b>Playlists</b></p>
         </div>
+        {/* <FlipMove className={classes.cards}> */}
         <div className={classes.playlistsList}>
-          <div className={classes.playlistBoxes}>
-            <div className={classes.playlistItem}>
-              <div className={classes.playlistItemImage}><Image priority src="/images/Icons-01.png" alt="" width={70} height={70} /></div>
-              <div className={classes.playlistItemText}>Your Favorites</div>
+          {playlistsOrder?.length > 0 &&
+            playlistsOrder?.map((playlist, index) => {
+              const url = playlist?.Playlist_Image;    // Temporary
+              // const url = `${process.env.media_url}/${language.title === "eng" ? playlist?.Playlist_Image : playlist?.Playlist_Image.replace("eng", "nl") }`;
+              return (
+                <PlaylistCard
+                  key={playlist?._id + language.title}
+                  playlist={playlist}
+                  url={url}
+                  index={index}
+                  trial={user?.hasOwnProperty("expiresIn")}
+                  setLoading={setLoading}
+                  subscriptionAlbum={subscriptionAlbum} // No subscription playlist currently available so this code is not changed
+                />
+              );
+            })
+          }
+        </div>
+      </div>
+
+      {/* Playlist card addition */}
+
+      {/* <div className={classes.playlistsMain}>
+        <div className={classes.homePagePlaylistsText} >
+          <p><b>Playlists</b></p>
+        </div>
+        <div className={classes.playlistsList}>
+          <div className={classes.playlistBoxes} onClick={() => route.push(`/playlist/yourfavourites`)}>
+            <div className={classes.playlistItem} >
+              <div className={classes.playlistItemImage} style={{
+                transformOrigin: 'center center',
+                transition: 'transform 1.5s ease',
+              }}
+                onMouseEnter={(e) => (e.target.style.transform = 'scale(1.1)')}
+                onMouseLeave={(e) => (e.target.style.transform = 'scale(1) ')}
+              ><Image priority src="/images/Icons-01.png" alt="" width={70} height={70} /></div>
+              <div className={classes.playlistItemText} >Your Favourites</div>
             </div>
           </div>
           <div className={classes.playlistBoxes}>
@@ -290,7 +375,7 @@ const HomePage = ({ albums }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <hr className={classes.separationLine}></hr>
 
       {/* Code for Advertisement (end) */}
@@ -337,7 +422,7 @@ const HomePage = ({ albums }) => {
               />
             );
           })}
-      </FlipMove>;
+      </FlipMove>
 
       {/* *********** MY WORK ************* */}
       {/* <FlipMove className={classes.cards}>

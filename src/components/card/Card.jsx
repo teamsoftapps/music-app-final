@@ -18,9 +18,7 @@ const Card = forwardRef(
     // console.log("Card component >>>>>>>>");
 
     const route = useRouter();
-
     const { user } = useSelector(postSelector, shallowEqual);
-
     const [error, setError] = useState(false);
     const [msg, setMsg] = useState(false);
 
