@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import api from "./../../../services/api";
-import classes from "./CreateNewPlaylistPage.module.css";
+import classes from "./AddToPlaylistPage.module.css";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Image from "next/image";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -13,8 +14,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const postSelector = (state) => state.music;
 
-const CreateNewPlaylistPage = () => {
-    console.log("Create new playlist page >>>>>>>>");
+const AddToPlaylistPage = ({ playlistsOrder }) => {
+    console.log("Create new playlist page >>>>>>>>", playlistsOrder);
     const canvasRef = useRef(null);
     const router = useRouter();
     const { language, user } = useSelector(postSelector, shallowEqual);
@@ -22,14 +23,12 @@ const CreateNewPlaylistPage = () => {
     let parsedSongName = null;
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [selectedPlaylistImage, setSelectedPlaylistImage] = useState(null);
-    const [changeImage, setChangeImage] = useState(null);
     const [selectedSongName, setSelectedSongName] = useState(null);
     const [selectedSongID, setSelectedSongID] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [playlistName, setPlaylistName] = useState("");
-    const [croppedImageDataURL, setCroppedImageDataURL] = useState(null);
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+    const [selectedPlaylistID, setSelectedPlaylistID] = useState(null);
 
     useEffect(() => {
         const fetchDataFromRouterQuery = () => {
@@ -43,65 +42,26 @@ const CreateNewPlaylistPage = () => {
         };
         fetchDataFromRouterQuery();
     }, []);
-    const cropImage = (image) => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const aspectRatio = 1;
-        const size = Math.min(image.width, image.height);
-        canvas.width = size;
-        canvas.height = size;
-        const x = (image.width - size) / 2;
-        const y = (image.height - size) / 2;
-        ctx.drawImage(image, x, y, size, size, 0, 0, size, size);
-        const dataURL = canvas.toDataURL('image/jpeg');
-        return dataURL;
-    };
-    const handleImageChange = async (event) => {
-        setChangeImage(event.target.files[0]);
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const image = new Image();
-                image.src = e.target.result;
-                image.onload = async () => {
-                    const croppedDataURL = cropImage(image);
-                    if (file.size <= 1 * 1000 * 1024) {
-                        setCroppedImageDataURL(croppedDataURL);
-                        setSelectedPlaylistImage(file);
-                    } else {
-                        setOpenSnackbar(true);
-                        setSnackbarMessage("File with maximum size of 1MB is allowed");
-                        console.log("File with maximum size of 1MB is allowed");
-                    }
-                };
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+
     const handleGoBack = () => {
         setLoading(true);
         router.back();
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(playlistName, selectedSongID);
-        if (!playlistName || !selectedSongID || !selectedPlaylistImage) {
-            if (!playlistName) {
-                setSnackbarMessage("Please enter playlist name.");
-                setOpenSnackbar(true);
-            }
+        console.log("Selected Playlist Name:", selectedPlaylist?.Playlist_Name);
+        if (!selectedSongID || !selectedPlaylist) {
             if (!selectedSongID) {
                 setSnackbarMessage("Please go to album or playlist page.");
                 setOpenSnackbar(true);
             }
-            if (!selectedPlaylistImage) {
-                setSnackbarMessage("Please select an image.");
+            if (!selectedPlaylist) {
+                setSnackbarMessage("Please select a playlist.");
                 setOpenSnackbar(true);
             }
-            return;
         }
-        return;             //----------This return will be removed once Post API start working.----------
+        return;
         setLoading(true);
         let token;
         if (typeof window !== "undefined") {
@@ -109,11 +69,10 @@ const CreateNewPlaylistPage = () => {
         }
         try {
             const body = {
-                playlistName,
+                selectedPlaylistID,
                 selectedSongID,
-                selectedPlaylistImage
             };
-            let { data } = await api.post(`/api/create-new-playlist`, body, {
+            let { data } = await api.post(`/api/add-to-playlist`, body, {
                 headers: {
                     authorization: `Bearer ${token}`,
                 }
@@ -131,6 +90,16 @@ const CreateNewPlaylistPage = () => {
             setTimeout(() => {
                 setError("");
             }, 3000);
+        }
+    };
+
+    const handleSelectPlaylist = (playlist) => {
+        if (selectedPlaylist === playlist) {
+            setSelectedPlaylist(playlist);
+            setSelectedPlaylistID(playlist._id);
+        } else {
+            setSelectedPlaylist(playlist);
+            setSelectedPlaylistID(playlist._id);
         }
     };
 
@@ -170,18 +139,18 @@ const CreateNewPlaylistPage = () => {
                         ? "Mulder muziekstreaming"
                         : "Mulder Music Streaming"}{" "}
                     |{" "}
-                    {language.title === "nl" ? "NULL" : "Create a New Playlist"}
+                    {language.title === "nl" ? "NULL" : "Add to Playlist"}
                 </title>
             </Head>
             <h1>
                 {language.title === "nl"
                     ? "NULL"
-                    : "Create a New Playlist"}
+                    : "Add to Playlist"}
             </h1>
             <div>
                 {selectedSongName !== null && (
                     <div>
-                        <p>{`"${selectedSongName}" will be automatically added to the playlist.`}</p>
+                        <p>{`Note: "${selectedSongName}" will be added to the selected playlist.`}</p>
                     </div>
                 )}
             </div>
@@ -191,48 +160,39 @@ const CreateNewPlaylistPage = () => {
                 </div>
             )}
             {error && <h3 style={{ color: "red" }}>{error}</h3>}
-            <div className={classes.input}>
-                <div style={{ display: "flex", alignItems: "center" }}>
-
-                    <div style={{ flex: 1, marginLeft: 0 }}>
-                        <input
-                            value={playlistName}
-                            onChange={(e) => {
-                                setPlaylistName(e.target.value);
-                            }}
-                            required
-                            placeholder={
-                                language.title === "nl"
-                                    ? "NULL"
-                                    : "Enter Playlist Name"
-                            }
-                        />
-                    </div>
-                </div>
-            </div>
             <br />
-            <label className="custom-file-upload" style={{ display: "block", width: "100%" }}>
-                {selectedPlaylistImage ? <span>Change Image</span> : <span>Choose Image</span>}
-                <input
-                    key={changeImage}
-                    type="file"
-                    name="myImage"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    style={{ display: 'none' }}
-                />
-                <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-            </label>
+            <h2>
+                Please select a playlist.
+            </h2>
+            <br />
             <div>
-                {croppedImageDataURL && (
-                    <div>
-                        <img alt="not found" width={"250px"} src={croppedImageDataURL} />
-                        <br />
-                    </div>
-                )}
+                {playlistsOrder?.map((playlist, i) =>
+                    playlistsOrder.length !== i ? (
+                        <div
+                            className={`${classes.playlistItem} ${selectedPlaylist?.Playlist_Name === playlist.Playlist_Name
+                                ? classes.selectedPlaylistItem
+                                : ""
+                                }`}
+                            onClick={() => handleSelectPlaylist(playlist)}
+                        >
+                            <div className={classes.playlistItemImage}>
+                                <img
+                                    priority
+                                    src={playlist.Playlist_Image}
+                                    alt=""
+                                    width={70}
+                                    height={70}
+                                    style={{ borderRadius: '10%', border: '1px solid white', }}
+                                />
+                            </div>
+                            <div className={classes.playlistItemText}>
+                                {playlist.Playlist_Name}
+                            </div>
+                        </div>
+                    ) : null)}
             </div>
             <div>
-                <button>Submit Playlist</button>
+                <button>Confirm add to Playlist</button>
             </div>
             <p>
                 <span className={classes.linkBoxWrapper}>
@@ -262,5 +222,5 @@ const CreateNewPlaylistPage = () => {
     );
 };
 
-export default CreateNewPlaylistPage;
+export default AddToPlaylistPage;
 

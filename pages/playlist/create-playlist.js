@@ -5,7 +5,7 @@ const index = () => {
     return (
         <>
             <CreateNewPlaylistPage />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

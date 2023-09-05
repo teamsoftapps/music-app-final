@@ -15,7 +15,13 @@
 .auth h1 {
     font-size: 3rem;
     font-weight: 500;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 550px) {
+    .auth h1 {
+        font-size: 2rem;
+    }
 }
 
 .input {
@@ -42,7 +48,7 @@
     transition: 0.3s ease;
     width: 100%;
     color: #000;
-    padding-left: 4.5rem;
+    /* padding-left: 4.5rem; */
 }
 
 .input input:focus {
@@ -114,4 +120,10 @@
     border-radius: 30px;
     background: var(--button-color);
     color: #000;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+
+    /* Hide the input element */
 }

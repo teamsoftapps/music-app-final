@@ -12,6 +12,8 @@ import Card1 from "../../components/card1/Card1";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import { Typography } from "@mui/material";
+import { DeleteOutline } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
 
 import {
     setAlbum,
@@ -287,6 +289,22 @@ const PlaylistPage = ({ songs, playlist }) => {
             </div>
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
             {/* <h1>{song?.Playlist_Name}</h1> */}
+            {/* <div className={classes.deleteButtonContainer}>
+                <div>
+                    <IconButton disableRipple="true" className={classes.deleteButton}>
+                        <div style={{ fontSize: "12px" }}>Delete playlist</div>
+                        <DeleteOutline />
+                    </IconButton>
+                </div>
+            </div> */}
+            <div className={classes.deleteButtonContainer}>
+                <div>
+                    <IconButton disableRipple="true" className={classes.deleteButton}>
+                        <div className={classes.deleteButtonText}>Delete playlist</div>
+                        <DeleteOutline />
+                    </IconButton>
+                </div>
+            </div>
             <h1>{playlistName}</h1>
 
             {/* ----------Lyrics Mode Switch---------- */}
@@ -359,6 +377,7 @@ const PlaylistPage = ({ songs, playlist }) => {
                                     screenRefresh={screenRefresh}//
                                     setScreenRefresh={setScreenRefresh}//
                                     songPlaying={songPlaying}//
+                                    caller="playlist"//
                                 />
                                 {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
                             </Fragment>

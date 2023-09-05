@@ -394,6 +394,7 @@ const AlbumPage = ({ songs, album }) => {
                   screenRefresh={screenRefresh}//
                   setScreenRefresh={setScreenRefresh}//
                   songPlaying={songPlaying}//
+                  caller="album"//
                 />
                 {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
               </Fragment>
