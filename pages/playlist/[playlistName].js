@@ -51,6 +51,8 @@ const playlistData = [
     }
 ];
 
+
+
 const index = ({ songs, playlist }) => {
     return <PlaylistPage songs={songsData} playlist={playlistData} />;
 };

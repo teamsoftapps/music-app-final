@@ -8,7 +8,7 @@
 .albums h1 {
     color: var(--primary-color);
     text-align: center;
-    /* margin-top: 2rem; */
+    margin-top: 2rem;
 }
 
 .albums h3 {
@@ -259,37 +259,4 @@
     display: flex;
     align-items: center;
 
-}
-
-.deleteButtonContainer {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 20px;
-}
-
-
-.deleteButton {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid transparent;
-    transition: background-color 0.3s, transform 0.3s;
-    cursor: pointer;
-}
-
-.deleteButton:hover {
-    background-color: #ff0000;
-}
-
-.deleteButton:active {
-    transform: scale(0.95);
-}
-
-.deleteButtonText {
-    font-size: 12px;
-    color: white;
-    margin-top: 5px;
 }

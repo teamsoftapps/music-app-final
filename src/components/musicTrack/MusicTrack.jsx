@@ -36,7 +36,6 @@ const MusicTracker = ({
   screenRefresh,
   setScreenRefresh,
   songPlaying,
-  caller,
 }) => {
   const { song, user, favourites, favouriteId } = useSelector(
     postSelector,
@@ -63,6 +62,10 @@ const MusicTracker = ({
   const subscriptionSongsArr = subscriptionSongs?.map((obj) => obj.songs);
 
   let lockedSongs = false;
+  // console.log("subscriptionSongsArr >>>>>>>>>>", subscriptionSongsArr);
+  // console.log("albumSongName====>", albumSong.Song_Name);
+  // console.log("Subscription-Songs====>",subscriptionSongs)
+  // eachAlbumSongs && console.log("Each_Album_Songs===>",eachAlbumSongs)
 
   function subscriptionCheck(albumSong, i) {
     subscriptionSongsArr &&
@@ -281,29 +284,9 @@ const MusicTracker = ({
   //   setIsMenuOpen(!isMenuOpen);
   // };
 
-  const handleAddToPlaylistClick = (i) => {
+  const handleMenuItemClick = () => {
+    // setIsMenuOpen(false);
     setMenuOpenStates(new Array(songs.length).fill(false));
-    console.log("Song Details from Music Track: ", songs[i]);
-    router.push({
-      pathname: '/playlist/add-to-playlist',
-      query: { songID: JSON.stringify(songs[i]._id), songName: JSON.stringify(songs[i].Song_Name) }
-    });
-  };
-
-  const handleCreateNewPlaylistClick = (i) => {
-    setMenuOpenStates(new Array(songs.length).fill(false));
-    console.log("Song Details from Music Track: ", songs[i]);
-    // router.push('/playlist/create-playlist');
-    // localStorage.setItem('selectedSongForNewPlaylist', JSON.stringify(songs[i]));
-    router.push({
-      pathname: '/playlist/create-playlist',
-      query: { songID: JSON.stringify(songs[i]._id), songName: JSON.stringify(songs[i].Song_Name) }
-    });
-  };
-
-  const handleRemoveFromPlaylistClick = (i) => {
-    setMenuOpenStates(new Array(songs.length).fill(false));
-    console.log("Remove from playlist clicked for song with id: ", songs[i]._id);
   };
 
   // Selection
@@ -370,6 +353,8 @@ const MusicTracker = ({
     const newMenuStates = [...menuOpenStates];
     newMenuStates[index] = !newMenuStates[index];
     setMenuOpenStates(newMenuStates);
+
+    router.push('/playlist/create-playlist');
   };
 
   return (
@@ -387,6 +372,7 @@ const MusicTracker = ({
               // className={`${classes.musicTrack} 
               className={`${classes.musicTrack} ${selectedSongName === albumSong?.Song_Name ? classes.musicTrackActive : classes.musicTrack}
               
+             
             ${!lockedSongs ? classes.showCursor : null}`}
               style={{ cursor: locked && "not-allowed" }}
             // style={{ cursor: locked && "not-allowed", backgroundColor: selectedSongName === albumSong?.Song_Name ? '#201009' : 'transparent', }}
@@ -403,7 +389,7 @@ const MusicTracker = ({
                   )}
                   {/* <MusicNote /> */}
                 </IconButton>
-                {caller === "album" && lockedSongs && (
+                {lockedSongs && (
                   <IconButton
                     className={classes.songTune}
                     onClick={() => handleLike(albumSong?._id)}
@@ -415,10 +401,27 @@ const MusicTracker = ({
                     )}
                   </IconButton>
                 )}
-
+                {/* {albumSong?._id === song?._id && song?.Song_Lyrics ? (
+              <marquee behavior="scroll" direction="left" scrollamount="8">
+              {albumSong?.Song_Lyrics}
+              </marquee>
+              ) : ( */}
+                {/* <h4 onClick={() => { songJump(albumSong, i); handleChangeSong(albumSong, i); }} */}
                 <h4 onClick={() => { songJump(albumSong, i); }}
                 > {albumSong?.Song_Name}</h4>
+                {/* <h4
+              // onClick={() => handleChangeSong(index)}
+              // onClick={() => { console.log(selected); }}
+              style={{
+                // backgroundColor: selectedSongIndex === index ? 'black' : 'transparent', color: selectedSongIndex === index ? 'white' : 'inherit',
+                backgroundColor: selected === true ? 'black' : 'transparent',
+                color: selected === true ? 'white' : 'inherit',
+              }}
+            >
+              {albumSong.Song_Name}
+            </h4> */}
 
+                {/* )} */}
               </div>
               {/* <Alert className={classes.alert} severity="error">Not Available In Trial Period</Alert> */}
               <div className={classes.musicTrackRight}>
@@ -479,11 +482,8 @@ const MusicTracker = ({
                 <div className={classes.popuptrigger}>
                   {menuOpenStates[i] && (
                     <div ref={menuRef} className={classes.popupmenu}>
-                      <button onClick={() => handleAddToPlaylistClick(i)} style={{ fontWeight: 'bold' }}>Add to playlist</button>
-                      <button onClick={() => handleCreateNewPlaylistClick(i)} style={{ fontWeight: 'bold' }}>Create a new playlist</button>
-                      {caller === "playlist" && lockedSongs && (
-                        <button onClick={() => handleRemoveFromPlaylistClick(i)} style={{ fontWeight: 'bold' }}>Remove from playlist</button>
-                      )}
+                      <button onClick={handleMenuItemClick}>Add to playlist</button>
+                      <button onClick={handleMenuItemClick}>Create a new playlist</button>
                     </div>
                   )}
                 </div>
