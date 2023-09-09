@@ -89,10 +89,6 @@
     display: flex;
 }
 
-/* .lyricsStyle {
-      border: 1px solid black;
-  } */
-
 .hoverStyling img:hover {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     cursor: pointer;
@@ -124,12 +120,14 @@
 }
 
 .lyricsToggleButtonContainer {
-    margin: 1rem calc(6vw);
-    /* margin-left: calc(6vw); */
-    /* margin-right: 5rem calc(5vw); */
+    margin-top: 1rem;
+    margin-right: calc(6vw);
+    /* margin-bottom: 1rem; */
+    margin-left: calc(6vw);
+    /* margin: 1rem calc(6vw); */
+    justify-content: space-between;
     display: flex;
     flex: 1;
-    /* margin-bottom: 10rem; */
 }
 
 .redTextColor {
@@ -138,6 +136,8 @@
 
 .lyricsModeParagraph {
     margin-left: 10px;
+    font-size: 20px;
+    margin-bottom: 4px;
 }
 
 .lyricsToggleButtonMain {
@@ -173,10 +173,6 @@
     background-color: white;
 }
 
-.lyricsToggleButtonBackground.isOn {
-    background-color: #2196F3;
-}
-
 .lyricsToggleButtonText {
     position: absolute;
     display: flex;
@@ -190,12 +186,11 @@
     flex-direction: row;
     font-weight: bold;
     left: 25px;
-    color: #ccc;
+    color: #3B2A10;
 }
 
 .lyricsToggleButtonText.isOn {
-    left: 5px;
-    color: white;
+    left: 7px;
 }
 
 .lyricsToggleButtonPointer {
@@ -204,7 +199,7 @@
     width: 15px;
     left: 2px;
     bottom: 2px;
-    background-color: #ccc;
+    background-color: #3B2A10;
     transition: 0.4s;
     border-radius: 50%;
     border-radius: white;
@@ -215,30 +210,60 @@
     transform: translateX(39px);
 }
 
+@media (max-width: 550px) {
+    .lyricsToggleButtonLabel {
+        width: 50px;
+        height: 25px;
+    }
+
+    .lyricsToggleButtonPointer {
+        height: 10px;
+        width: 10px;
+    }
+
+    .lyricsToggleButtonText {
+        font-size: 11px;
+        left: 15px;
+        bottom: 3px;
+    }
+
+    .lyricsToggleButtonPointer.isOn {
+        transform: translateX(25px);
+    }
+
+    .lyricsToggleButtonText.isOn {
+        left: 3px;
+    }
+
+    .lyricsToggleButtonLabel {
+        min-width: 50px;
+    }
+
+    .lyricsModeParagraph {
+        margin-left: 10px;
+        font-size: 14px;
+        margin-bottom: 0px;
+    }
+}
+
 .lyricsViewMain {
     display: flex;
     flex: 1;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     flex-direction: column;
     height: 100%;
-    min-height: 600px;
-
+    min-height: 500px;
 }
 
 .lyricsViewTextContainer {
     flex: 1;
-    /* padding-left: 2rem; */
-    /* overflow-y: scroll;
-      height: clamp(550px, 550px, 600px); */
-    /* scrollbar-width: none;
-    -ms-overflow-style: none; */
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-left: 1px solid white;
     border-right: 1px solid white;
     border-top: 1px solid white;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     padding: 20px;
     background-color: transparent;
@@ -246,7 +271,8 @@
     margin-top: 5px;
     margin-left: 5px;
     margin-right: 5px;
-
+    padding: 30px;
+    /* gap: 10px; */
 }
 
 .lyricsViewCloseButton {
@@ -258,38 +284,76 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+}
 
+.lyricsText {
+    color: white;
+    text-align: justify;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 550px) {
+    .lyricsText {
+        font-size: 1rem;
+    }
+
+    .lyricsViewTextContainer {
+        padding: 20px;
+    }
 }
 
 .deleteButtonContainer {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 20px;
+    flex-direction: row;
+    /* width: 85px;
+    height: 65px; */
+    margin-bottom: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    cursor: pointer;
 }
 
+.deleteButtonContainer:hover {
+    background-color: #1F100A;
+}
 
 .deleteButton {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid transparent;
     transition: background-color 0.3s, transform 0.3s;
     cursor: pointer;
 }
 
-.deleteButton:hover {
-    background-color: #ff0000;
-}
-
-.deleteButton:active {
+.deleteButtonContainer:active {
     transform: scale(0.95);
 }
 
 .deleteButtonText {
-    font-size: 12px;
+    font-size: 15px;
     color: white;
-    margin-top: 5px;
+    margin-left: 10px;
+}
+
+@media (max-width: 550px) {
+    .deleteButtonText {
+        font-size: 11px;
+        margin-top: 0px;
+    }
+
+    .deleteButtonContainer {
+        height: 50px;
+        margin-top: 10px;
+
+    }
+}
+
+@media (min-width: 500px) {
+    .deleteButtonContainer {
+        width: 20%;
+    }
 }
