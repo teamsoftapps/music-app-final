@@ -1,133 +1,61 @@
+import { Button } from "@material-ui/core";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useState, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import api from "./../../../services/api";
 import classes from "./CreateNewPlaylistPage.module.css";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import Image from "next/image";
 
 const postSelector = (state) => state.music;
 
 const CreateNewPlaylistPage = () => {
-    console.log("Create new playlist page >>>>>>>>");
-    const canvasRef = useRef(null);
+    // console.log("Auth ForgotPage >>>>>>>>");
+
     const router = useRouter();
+
     const { language, user } = useSelector(postSelector, shallowEqual);
-    let parsedSongID = null;
-    let parsedSongName = null;
+
+    const dispatch = useDispatch();
+
+    const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [selectedPlaylistImage, setSelectedPlaylistImage] = useState(null);
-    const [changeImage, setChangeImage] = useState(null);
-    const [selectedSongName, setSelectedSongName] = useState(null);
-    const [selectedSongID, setSelectedSongID] = useState(null);
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [playlistName, setPlaylistName] = useState("");
-    const [croppedImageDataURL, setCroppedImageDataURL] = useState(null);
-    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [selectedImage, setSelectedImage] = useState(null);
 
-    useEffect(() => {
-        const fetchDataFromRouterQuery = () => {
-            const { songID, songName } = router.query;
-            if (songID && songName) {
-                parsedSongID = JSON.parse(songID);
-                parsedSongName = JSON.parse(songName);
-                setSelectedSongName(parsedSongName);
-                setSelectedSongID(parsedSongID);
-            }
-        };
-        fetchDataFromRouterQuery();
-    }, []);
-    const cropImage = (image) => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const aspectRatio = 1;
-        const size = Math.min(image.width, image.height);
-        canvas.width = size;
-        canvas.height = size;
-        const x = (image.width - size) / 2;
-        const y = (image.height - size) / 2;
-        ctx.drawImage(image, x, y, size, size, 0, 0, size, size);
-        const dataURL = canvas.toDataURL('image/jpeg');
-        return dataURL;
-    };
-    const handleImageChange = async (event) => {
-        setChangeImage(event.target.files[0]);
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const image = new Image();
-                image.src = e.target.result;
-                image.onload = async () => {
-                    const croppedDataURL = cropImage(image);
-                    if (file.size <= 1 * 1000 * 1024) {
-                        setCroppedImageDataURL(croppedDataURL);
-                        setSelectedPlaylistImage(file);
-                    } else {
-                        setOpenSnackbar(true);
-                        setSnackbarMessage("File with maximum size of 1MB is allowed");
-                        console.log("File with maximum size of 1MB is allowed");
-                    }
-                };
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    const handleGoBack = () => {
-        setLoading(true);
-        router.back();
-    };
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(playlistName, selectedSongID);
-        if (!playlistName || !selectedSongID || !selectedPlaylistImage) {
-            if (!playlistName) {
-                setSnackbarMessage("Please enter playlist name.");
-                setOpenSnackbar(true);
-            }
-            if (!selectedSongID) {
-                setSnackbarMessage("Please go to album or playlist page.");
-                setOpenSnackbar(true);
-            }
-            if (!selectedPlaylistImage) {
-                setSnackbarMessage("Please select an image.");
-                setOpenSnackbar(true);
-            }
-            return;
-        }
-        return;             //----------This return will be removed once Post API start working.----------
         setLoading(true);
-        let token;
-        if (typeof window !== "undefined") {
-            ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
-        }
+
+        e.preventDefault();
+
         try {
             const body = {
-                playlistName,
-                selectedSongID,
-                selectedPlaylistImage
+                email,
             };
-            let { data } = await api.post(`/api/create-new-playlist`, body, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                }
-            });
+
+            let { data } = await api.post(`/api/forgot-password`, body);
+            console.log("forgot data==>", data?.data?.id);
+
+            if (data) {
+                // if (typeof window !== "undefined") {
+                //   // Perform localStorage action
+                localStorage.setItem("userID", data?.data?.id);
+            }
+
             setLoading(false);
-            console.log("API data >>>>>>>>>>>>>>>", data);
+
+            router.push("/reset-password");
+            // }
         } catch (err) {
             setLoading(false);
-            console.error(err);
+            // router.push("/reset-password");
             console.error(
                 "err?.response?.data?.message >>>>>>>>>>",
                 err?.response?.data?.message
             );
+
             setError(err?.response?.data?.message);
+
             setTimeout(() => {
                 setError("");
             }, 3000);
@@ -139,24 +67,6 @@ const CreateNewPlaylistPage = () => {
             router.replace("/login");
         }
     }, [user]);
-
-    useEffect(() => {
-        const handlePopstate = () => {
-            setLoading(true);
-        };
-        window.addEventListener('popstate', handlePopstate);
-        return () => {
-            window.removeEventListener('popstate', handlePopstate);
-        };
-    }, []);
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setOpenSnackbar(false);
-        setSnackbarMessage("");
-    };
 
     return (
         <form
@@ -173,33 +83,34 @@ const CreateNewPlaylistPage = () => {
                     {language.title === "nl" ? "NULL" : "Create a New Playlist"}
                 </title>
             </Head>
+
             <h1>
                 {language.title === "nl"
-                    ? "NULL"
+                    ? "Wachtwoord opnieuw instellen"
                     : "Create a New Playlist"}
             </h1>
-            <div>
-                {selectedSongName !== null && (
-                    <div>
-                        <p>{`"${selectedSongName}" will be automatically added to the playlist.`}</p>
-                    </div>
-                )}
-            </div>
+
             {loading && (
                 <div className={classes.loading}>
                     <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
                 </div>
             )}
+
             {error && <h3 style={{ color: "red" }}>{error}</h3>}
+
             <div className={classes.input}>
                 <div style={{ display: "flex", alignItems: "center" }}>
-
-                    <div style={{ flex: 1, marginLeft: 0 }}>
+                    <div>
+                        <Image src='/images/email2.png' alt="email" width={100} height={100} />
+                    </div>
+                    <div style={{ flex: 1, marginLeft: -80 }}>
                         <input
-                            value={playlistName}
+                            value={email}
                             onChange={(e) => {
-                                setPlaylistName(e.target.value);
+                                setEmail(e.target.value);
                             }}
+                            // disabled={loading ? true : false}
+                            type="email"
                             required
                             placeholder={
                                 language.title === "nl"
@@ -210,54 +121,101 @@ const CreateNewPlaylistPage = () => {
                     </div>
                 </div>
             </div>
+
             <br />
-            <label className="custom-file-upload" style={{ display: "block", width: "100%" }}>
-                {selectedPlaylistImage ? <span>Change Image</span> : <span>Choose Image</span>}
+
+            <label className="custom-file-upload">
+                Choose File
                 <input
-                    key={changeImage}
                     type="file"
                     name="myImage"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    style={{ display: 'none' }}
+                    onChange={(event) => {
+                        console.log(event.target.files[0]);
+                        setSelectedImage(event.target.files[0]);
+                    }}
                 />
-                <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
             </label>
             <div>
-                {croppedImageDataURL && (
+                {selectedImage && (
                     <div>
-                        <img alt="not found" width={"250px"} src={croppedImageDataURL} />
+                        <img
+                            alt="not found"
+                            width={"250px"}
+                            src={URL.createObjectURL(selectedImage)}
+                        />
                         <br />
+                        <button onClick={() => setSelectedImage(null)}>Remove</button>
                     </div>
                 )}
+
             </div>
-            <div>
-                <button>Submit Playlist</button>
-            </div>
-            <p>
+
+            {/* <div>
+                {selectedImage && (
+                    <div>
+                        <img
+                            alt="not found"
+                            width={"250px"}
+                            src={URL.createObjectURL(selectedImage)}
+                        />
+                        <br />
+                        <button onClick={() => setSelectedImage(null)}>Remove</button>
+                    </div>
+                )}
+
+                <br />
+                <br />
+
+                <input
+                    type="file"
+                    name="myImage"
+                    onChange={(event) => {
+                        console.log(event.target.files[0]);
+                        setSelectedImage(event.target.files[0]);
+                    }}
+                />
+            </div> */}
+
+            {/* <div className={classes.input}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <div>
+                        <Image src='/images/email2.png' alt="email" width={100} height={100} />
+                    </div>
+                    <div style={{ flex: 1, marginLeft: -80 }}>
+                        <input
+                            value={email}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                            }}
+                            // disabled={loading ? true : false}
+                            type="email"
+                            required
+                            placeholder={
+                                language.title === "nl"
+                                    ? "Vul email adres in"
+                                    : "Enter Email Address"
+                            }
+                        />
+                    </div>
+                </div>
+            </div> */}
+
+            {/* <Button type="submit" variant="contained">
+                {language.title === "nl" ? "Doorgaan" : "Continue"}
+            </Button>
+            <br /> */}
+            {/* <p>
                 <span className={classes.linkBoxWrapper}>
                     <span
                         style={{ color: "#fff", textDecoration: "underline" }}
-                        onClick={handleGoBack}
+                        onClick={() => {
+                            router.push("/login");
+                        }}
                     >
-                        {language.title === "nl" ? "NULL" : "Go back to previous screen"}
+                        {language.title === "nl" ? "Terug naar Inloggen" : "Back to Login"}
                     </span>
                 </span>
-            </p>
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                open={openSnackbar}
-                autoHideDuration={3000}
-                onClose={handleSnackbarClose}
-            >
-                <Alert
-                    onClose={handleSnackbarClose}
-                    severity="warning"
-                    sx={{ width: "100%" }}
-                >
-                    {snackbarMessage || "Please go back to previous page."}
-                </Alert>
-            </Snackbar>
+            </p> */}
         </form>
     );
 };

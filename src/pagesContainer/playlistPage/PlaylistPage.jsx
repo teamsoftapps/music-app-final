@@ -13,8 +13,6 @@ import LyricsModal from "../../components/lyricsModal/LyricsModal";
 import DeletePlaylistModal from "../../components/deletePlaylistModal/DeletePlaylistModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import { Typography } from "@mui/material";
-import { DeleteOutline } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
 
 import {
     setAlbum,
@@ -304,6 +302,9 @@ const PlaylistPage = ({ songs, playlist }) => {
                 <ClipLoader color="red" loading={loadingForPlaylist} size={"10vw"} />
             </div>
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
+
+            {/* <h1>{song?.Playlist_Name}</h1> */}
+
             <h1>{playlistName}</h1>
 
             {/* ----------Lyrics Mode Switch---------- */}
@@ -392,7 +393,6 @@ const PlaylistPage = ({ songs, playlist }) => {
                                     screenRefresh={screenRefresh}//
                                     setScreenRefresh={setScreenRefresh}//
                                     songPlaying={songPlaying}//
-                                    caller="playlist"//
                                 />
                                 {/* <div className={classes.lyricsStyle}>Lyrics</div> */}
                             </Fragment>

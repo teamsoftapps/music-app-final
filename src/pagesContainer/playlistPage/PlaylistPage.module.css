@@ -8,7 +8,7 @@
 .albums h1 {
     color: var(--primary-color);
     text-align: center;
-    /* margin-top: 2rem; */
+    margin-top: 2rem;
 }
 
 .albums h3 {
@@ -286,6 +286,7 @@
     align-items: center;
 }
 
+
 .lyricsText {
     color: white;
     text-align: justify;
@@ -356,4 +357,5 @@
     .deleteButtonContainer {
         width: 20%;
     }
+
 }
