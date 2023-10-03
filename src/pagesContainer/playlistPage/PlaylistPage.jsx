@@ -10,6 +10,7 @@ import style from "../../../styles/global.module.scss";
 import Card from "../../components/card/Card";
 import Card1 from "../../components/card1/Card1";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
+import DeletePlaylistModal from "../../components/deletePlaylistModal/DeletePlaylistModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import { Typography } from "@mui/material";
 
@@ -90,9 +91,24 @@ const PlaylistPage = ({ songs, playlist }) => {
     const [time, setTime] = useState(1000);
     const [showLyrics, setShowLyrics] = useState(false);
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [loadingForPlaylist, setloadingForPlaylist] = useState(false);
+    const [openDeletePlaylistModal, setOpenDeletePlaylistModal] = React.useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+        console.log("Delete playlist clicked");
+    };
+    const handleOpenDeletePlaylistModal = () => {
+        setOpenDeletePlaylistModal(true);
+        console.log("Delete playlist clicked");
+    };
+    const handleClose = () => {
+        setOpen(false);
+        console.log("Delete playlist clicked");
+    };
+    const handleCloseDeletePlaylistModal = () => {
+        setOpenDeletePlaylistModal(false);
+        console.log("Delete playlist clicked");
+    };
+    const [loadingForPlaylist, setLoadingForPlaylist] = useState(false);
     const [songPlay, setSongPlay] = useState(false);
     const [lockedSongs, setLockedSongs] = useState(false);
     const [isOn, setIsOn] = useState(false);
@@ -286,7 +302,9 @@ const PlaylistPage = ({ songs, playlist }) => {
                 <ClipLoader color="red" loading={loadingForPlaylist} size={"10vw"} />
             </div>
             <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
+
             {/* <h1>{song?.Playlist_Name}</h1> */}
+
             <h1>{playlistName}</h1>
 
             {/* ----------Lyrics Mode Switch---------- */}
@@ -308,14 +326,30 @@ const PlaylistPage = ({ songs, playlist }) => {
                         </b>
                     </p>
                 </div>
+                <div style={{ width: "5rem" }}></div>
+                <div className={classes.deleteButtonContainer} onClick={() => setOpenDeletePlaylistModal(true)}>
+                    <div className={classes.deleteButtonText}>Delete playlist</div>
+                    <IconButton disableRipple="true" className={classes.deleteButton}>
+
+                        <DeleteOutline />
+                    </IconButton>
+                </div>
             </div>
 
             {/* ----------Lyrics Modal---------- */}
             <LyricsModal
                 open={open}
-                setOpem={setOpen}
+                setOpen={setOpen}
                 handleOpen={handleOpen}
                 handleClose={handleClose}
+                lyrics={lyrics}
+            />
+
+            <DeletePlaylistModal
+                openDeletePlaylistModal={openDeletePlaylistModal}
+                setOpenDeletePlaylistModal={setOpenDeletePlaylistModal}
+                handleOpenDeletePlaylistModal={handleOpenDeletePlaylistModal}
+                handleCloseDeletePlaylistModal={handleCloseDeletePlaylistModal}
                 lyrics={lyrics}
             />
 
@@ -369,7 +403,13 @@ const PlaylistPage = ({ songs, playlist }) => {
                     </div> :
                         <div className={classes.lyricsViewMain}>
                             <div className={classes.lyricsViewTextContainer} >
-                                <div style={{ padding: '20px' }}>
+                                <div style={{ position: 'relative', width: "100%", flex: "none", height: '40px' }}>
+                                    <button className={classes.lyricsViewCloseButton} checked={isOn} onClick={toggleSwitch}>
+                                        <span style={{ margin: '5px' }}>&#9660;</span>
+                                        Close
+                                    </button>
+                                </div>
+                                <div style={{ position: 'relative', width: "100%", flex: 1 }}>
                                     <Typography
                                         variant="h6"
                                         gutterBottom
@@ -390,23 +430,14 @@ const PlaylistPage = ({ songs, playlist }) => {
                                             } else {
                                                 return (
                                                     lyricsArray.map((text, index) => (
-                                                        <p key={index} style={{ color: 'unset', textAlign: 'justify', fontSize: '1.2rem' }}>
+                                                        <p key={index} className={classes.lyricsText}>
                                                             {text}
                                                         </p>
                                                     ))
                                                 );
                                             }
                                         })()}
-
                                     </Typography>
-                                </div>
-                                <div style={{ flex: '1' }}>
-                                    <div style={{ position: 'relative' }}>
-                                        <button className={classes.lyricsViewCloseButton} checked={isOn} onClick={toggleSwitch}>
-                                            <span style={{ marginRight: '5px' }}>&#9660;</span>
-                                            Close
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
