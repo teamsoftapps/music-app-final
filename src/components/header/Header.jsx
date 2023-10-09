@@ -51,11 +51,11 @@ function Header() {
 
       if (data) {
         // console.log("API ExpiringDays Data >>>>>>>>", data);
-        console.log("expiring api =====>", data?.data?.days)
+        console.log("expiring api =====>", data?.data?.days);
         setExpireDays(data);
         localStorage.setItem("Expiring-Days-Api", JSON.stringify(data));
         if (data?.data?.days === null) {
-          router.push('/extend-subscription')
+          router.push("/extend-subscription");
         }
       }
 
@@ -99,7 +99,6 @@ function Header() {
           setError("");
         }, 3000);
       }
-
     }
   };
 
@@ -108,8 +107,6 @@ function Header() {
       fetchExpiringDays();
     }
   }, [user]);
-
-
 
   useEffect(() => {
     getLocationInfo();
@@ -128,7 +125,7 @@ function Header() {
       }
     });
     return () => {
-      window.removeEventListener("resize", () => { });
+      window.removeEventListener("resize", () => {});
     };
   }, []);
 
@@ -177,12 +174,10 @@ function Header() {
       <div className={classes.headerTop}>
         {sideBar && (
           <div className={classes.headerLogo}>
-
-
             {userInfo?.expiresIn === undefined ? (
               <div
                 className={classes.playlistMobile}
-              // onClick={() => console.log("clicked")}
+                // onClick={() => console.log("clicked")}
               >
                 <SideDrawer />
               </div>
@@ -191,8 +186,9 @@ function Header() {
             <Link href="/">
               <a>
                 <Image
-                  src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"
-                    }.svg`}
+                  src={`/images/${
+                    language.title === "nl" ? "logo_dutch" : "logo"
+                  }.svg`}
                   alt={language.title}
                   width={200}
                   height={50}
@@ -228,7 +224,6 @@ function Header() {
             )}
           </div>
         )}
-
       </div>
       {!sideBar && (
         <div className={classes.headerMain}>
@@ -244,8 +239,9 @@ function Header() {
             <Link href="/">
               <a>
                 <Image
-                  src={`/images/${language.title === "nl" ? "logo_dutch" : "logo"
-                    }.svg`}
+                  src={`/images/${
+                    language.title === "nl" ? "logo_dutch" : "logo"
+                  }.svg`}
                   alt=""
                   width={550}
                   height={150}
@@ -269,8 +265,9 @@ function Header() {
                           ? language.title === "nl"
                             ? "Vandaag"
                             : "Today"
-                          : `In ${user?.expiresIn} ${language.title === "nl" ? "Dagen" : "Days"
-                          }`}
+                          : `In ${user?.expiresIn} ${
+                              language.title === "nl" ? "Dagen" : "Days"
+                            }`}
                       </p>
                     </div>
                   ) : (
@@ -286,8 +283,9 @@ function Header() {
                             ? language.title === "nl"
                               ? "Vandaag"
                               : "Today"
-                            : `In ${userInfo?.expiringDays} ${language.title === "nl" ? "Dagen" : "Days"
-                            }`}{" "}
+                            : `In ${userInfo?.expiringDays} ${
+                                language.title === "nl" ? "Dagen" : "Days"
+                              }`}{" "}
                         </p>
                       </div>
                     )

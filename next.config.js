@@ -8,7 +8,7 @@ module.exports = (phase) => {
       reactStrictMode: true,
       images: {
         domains: [
-          "http://localhost:5000",
+          "localhost",
           "musicfilesforheroku.s3.us-west-1.amazonaws.com",
         ],
       },
@@ -34,7 +34,7 @@ module.exports = (phase) => {
         "musicfilesforheroku.s3.us-west-1.amazonaws.com",
       ],
     },
-    // images: { domains: ["localhost", "musicfilesforheroku.s3.us-west-1.amazonaws.com"] },
+    // images: { domains: ["music-app-backend-mu.vercel.app","localhost:5000", "musicfilesforheroku.s3.us-west-1.amazonaws.com"] },
     env: {
       // base_url: "https://music-app-backend-alpha.vercel.app",
       base_url: "https://music-app-backend-mu.vercel.app",

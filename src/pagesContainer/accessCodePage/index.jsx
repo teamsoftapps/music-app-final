@@ -39,6 +39,7 @@ const AccessCodePage = () => {
       if (typeof window !== "undefined") {
         // Perform localStorage action
         localStorage.setItem("music-app-credentials", JSON.stringify(data));
+
       }
 
       dispatch(setUser(data));
