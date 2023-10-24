@@ -68,7 +68,7 @@ const PlaylistCard = forwardRef(
       return;
     };
 
-    const onConfirm = () => {};
+    const onConfirm = () => { };
 
     function handleClick(playlistName) {
       console.log("comes here");
@@ -93,7 +93,7 @@ const PlaylistCard = forwardRef(
         msg
           ? route.push(`/playlist/${playlist?.Playlist_Name}`)
           : // route.push(`/playlist/${playlist?.playlist_id}`)
-            handleExpireAlert();
+          handleExpireAlert();
       } else {
         // route.push(`/playlist/${playlist?.Playlist_Name}`);
         localStorage.setItem("playlistid", `${playlist_id}`);
@@ -153,7 +153,8 @@ const PlaylistCard = forwardRef(
               <Image
                 priority
                 // <Image className={classes.playlistItemImage} priority
-                src={`${process.env.base_url}/${playlist.Playlist_Image}`}
+                // src={`${process.env.base_url}/${playlist.Playlist_Image}`}
+                src={playlist.Playlist_Image}
                 alt=""
                 width={70}
                 height={70}
@@ -183,7 +184,7 @@ const PlaylistCard = forwardRef(
             open={openSnackbar}
             autoHideDuration={1500}
             onClose={onCancel}
-            // classes={{ content: customSnackbarClass }}
+          // classes={{ content: customSnackbarClass }}
           >
             <Alert
               onClose={onCancel}

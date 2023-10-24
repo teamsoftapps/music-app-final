@@ -191,6 +191,8 @@ const PlaylistPage = ({ songs }) => {
       // );
       // setPic(process.env.baseus.concat(songArray[0].Playlist_Image));
       setPic(`${process.env.media_url}/${songArray[0]?.Album_Image}`);
+      // setPic(songArray[0]?.Album_Image);
+      // console.log(songArray[0]?.Album_Image);
 
       setSingleSong(`${process.env.media_url}/${songArray[0]?.Song_File}`);
     }
@@ -224,6 +226,7 @@ const PlaylistPage = ({ songs }) => {
     //         )
     //         );
     setPic(`${process.env.media_url}/${songArray[0]?.Album_Image}`);
+    // setPic(songArray[0]?.Album_Image);
   }, [singleSong]);
 
   useEffect(() => {
@@ -355,9 +358,8 @@ const PlaylistPage = ({ songs }) => {
           style={{ display: "flex", alignItems: "center" }}
         >
           <label
-            className={`switch ${isOn ? "on" : "off"} ${
-              classes.lyricsToggleButtonLabel
-            }`}
+            className={`switch ${isOn ? "on" : "off"} ${classes.lyricsToggleButtonLabel
+              }`}
           >
             <input
               className={classes.lyricsToggleButtonInput}
@@ -366,21 +368,18 @@ const PlaylistPage = ({ songs }) => {
               onChange={toggleSwitch}
             />
             <span
-              className={`${classes.lyricsToggleButtonBackground} ${
-                isOn ? classes.isOn : ""
-              }`}
+              className={`${classes.lyricsToggleButtonBackground} ${isOn ? classes.isOn : ""
+                }`}
             >
               <span
-                className={`${classes.lyricsToggleButtonText} ${
-                  isOn ? classes.isOn : ""
-                }`}
+                className={`${classes.lyricsToggleButtonText} ${isOn ? classes.isOn : ""
+                  }`}
               >
                 {isOn ? "ON" : "OFF"}
               </span>
               <span
-                className={`${classes.lyricsToggleButtonPointer} ${
-                  isOn ? classes.isOn : ""
-                }`}
+                className={`${classes.lyricsToggleButtonPointer} ${isOn ? classes.isOn : ""
+                  }`}
               ></span>
             </span>
           </label>
@@ -437,9 +436,8 @@ const PlaylistPage = ({ songs }) => {
           //     }`}
 
           // url={'/images/Icons-01.png'}  //
-          url={`${process.env.base_url}/${localStorage.getItem(
-            "playlistimage"
-          )}`} //
+          // url={`${process.env.base_url}/${localStorage.getItem("playlistimage")}`}
+          url={localStorage.getItem("playlistimage")}
           disableFetch
         />
         <div

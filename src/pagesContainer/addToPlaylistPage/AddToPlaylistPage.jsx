@@ -215,17 +215,17 @@ const AddToPlaylistPage = ({ playlistsOrder }) => {
         {playlistsOrder?.map((playlist, i) =>
           playlistsOrder.length !== i ? (
             <div
-              className={`${classes.playlistItem} ${
-                selectedPlaylist?._id === playlist._id
+              className={`${classes.playlistItem} ${selectedPlaylist?._id === playlist._id
                   ? classes.selectedPlaylistItem
                   : ""
-              }`}
+                }`}
               onClick={() => handleSelectPlaylist(playlist)}
             >
               <div className={classes.playlistItemImage}>
                 <img
                   priority
-                  src={`${process.env.base_url}/${playlist.Playlist_Image}`}
+                  // src={`${process.env.base_url}/${playlist.Playlist_Image}`}
+                  src={playlist.Playlist_Image}
                   alt=""
                   width={70}
                   height={70}
