@@ -12,11 +12,58 @@ import Footer from "./../../components/footer";
 import { setFavourites } from "./../../store/musicReducer";
 import classes from "./HomePage.module.css";
 import PlaylistCard from "../../components/playlistCard/PlaylistCard";
+import axios from "axios";
+
+// / ye ha home page
 
 const postSelector = (state) => state.music;
 
-const HomePage = ({ albums }) => {
-  // console.log("HomePage >>>>>>>>>>>>>>");
+// const HomePage = ({ albums,playlists }) => {
+const HomePage = ({ albums, playlists }) => {
+  // console.log("playlists from index ", playlists)
+  const [fetchedPlaylists, setFetchedPlaylists] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
+
+  // added function
+
+  const fetchPlaylists = async () => {
+    try {
+      // const playlistid = localStorage.getItem('playlistid');
+
+      // console.log(playlistid, "fetched from local steroage")
+      let token;
+      // console.log("idhar aya")
+      if (typeof window !== "undefined") {
+        token = JSON.parse(localStorage.getItem("music-app-credentials"));
+      }
+      // todo abhi hard quoted
+      // const {data} = await api.get("/api/playlists/635bd8fdcb397b3a044d9867", {    // step 1
+      // const {data} = await api.get(`/api/playlists/`, {    // step 1
+      // const {data} = await api.get(`/api/playlists/${user.subscriptionID}`, {    // step 1
+      // const {data} = await api.get(`/api/playlists/64dfabdf0f5eba1e101b3d00}`, {    // step 1
+      const { data } = await api.get(`/api/playlists`, {
+        // step 1
+        headers: {
+          authorization: `Bearer ${token?.token}`,
+        },
+      });
+      setFetchedPlaylists(data);
+      setIsFetching(true);
+      console.log(data, " fetched playlists from homepage");
+    } catch (err) {
+      console.log(err, "error in fetching");
+    }
+  };
+
+  useEffect(() => {
+    console.log(
+      localStorage.getItem("music-app-credentials"),
+      " user credintials  "
+    );
+    fetchPlaylists();
+  }, []);
+
+  // console.log(process.env.base_url, "base url ")
 
   const playlistsOrder = [
     {
@@ -24,40 +71,44 @@ const HomePage = ({ albums }) => {
       Playlist_Image_nl: "/images/Icons-01.png",
       Playlist_Name: "You Favourites",
       Singer_Name: "Mulder",
-      Song_Desc: "Music performed by Ian Mulder & The London Symphony Orchestra.\n...",
+      Song_Desc:
+        "Music performed by Ian Mulder & The London Symphony Orchestra.\n...",
       index: 1,
       __v: 0,
-      _id: "61710878ef45b9107c721284"
+      _id: "61710878ef45b9107c721284",
     },
     {
       Playlist_Image: "/images/Icons-02.png",
       Playlist_Image_nl: "/images/Icons-02.png",
       Playlist_Name: "Inspirational Music",
       Singer_Name: "Mulder",
-      Song_Desc: "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
+      Song_Desc:
+        "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
       index: 2,
       __v: 0,
-      _id: "61710878ef45b9107c721286"
+      _id: "61710878ef45b9107c721286",
     },
     {
       Playlist_Image: "/images/Icons-03.png",
       Playlist_Image_nl: "/images/Icons-03.png",
       Playlist_Name: "Mulder's Original",
       Singer_Name: "Mulder",
-      Song_Desc: "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
+      Song_Desc:
+        "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
       index: 2,
       __v: 0,
-      _id: "61710878ef45b9107c721286"
+      _id: "61710878ef45b9107c721286",
     },
     {
       Playlist_Image: "/images/Icons-04.png",
       Playlist_Image_nl: "/images/Icons-04.png",
       Playlist_Name: "Calm/Studying Music",
       Singer_Name: "Mulder",
-      Song_Desc: "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
+      Song_Desc:
+        "Music performed by Ian Mulder & the London Symphony Orchestra\n...",
       index: 2,
       __v: 0,
-      _id: "61710878ef45b9107c721286"
+      _id: "61710878ef45b9107c721286",
     },
 
     // ... Add more album objects here
@@ -77,12 +128,19 @@ const HomePage = ({ albums }) => {
   const [subscriptionAlbum, setSubscriptionAlbum] = useState(null);
 
   let albumArray = [];
+  // let playlistsArray =[]
 
   albums?.forEach((element) => {
     // console.log(element)
     let { index } = element;
     albumArray[index - 1] = element;
   });
+
+  // playlists?.forEach((element) => {
+  //   // console.log(element)
+  //   let { index } = element;
+  //   playlistsArray[index - 1] = element;
+  // });
 
   // console.log(albumArray)
 
@@ -124,9 +182,8 @@ const HomePage = ({ albums }) => {
         // Perform localStorage action
         // ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
         token = JSON.parse(localStorage.getItem("music-app-credentials"));
-
       }
-
+      // get favourates
       const { data } = await api.get(`/api/getFavourites`, {
         headers: {
           authorization: `Bearer ${token?.token}`,
@@ -312,28 +369,42 @@ const HomePage = ({ albums }) => {
       {/* Playlist card addition */}
 
       <div className={classes.playlistsMain}>
-        <div className={classes.homePagePlaylistsText} >
-          <p><b>Playlists</b></p>
+        <div className={classes.homePagePlaylistsText}>
+          <p>
+            <b>Playlists</b>
+          </p>
         </div>
         {/* <FlipMove className={classes.cards}> */}
         <div className={classes.playlistsList}>
-          {playlistsOrder?.length > 0 &&
-            playlistsOrder?.map((playlist, index) => {
-              const url = playlist?.Playlist_Image;    // Temporary
+          {fetchedPlaylists?.result?.length > 0 &&
+            fetchedPlaylists?.result?.map((playlist, index) => {
+              // {playlists.result?.length > 0 &&
+              //   playlists.result?.map((playlist, index) => {
+              {
+                /* {playlistsOrder?.length > 0 &&
+            playlistsOrder?.map((playlist, index) => { */
+              }
+              const url = playlist?.Playlist_Image; // Temporary
               // const url = `${process.env.media_url}/${language.title === "eng" ? playlist?.Playlist_Image : playlist?.Playlist_Image.replace("eng", "nl") }`;
+              //  console.log(playlist._id, "isko redux mn daalo")
+
               return (
                 <PlaylistCard
-                  key={playlist?._id + language.title}
+                  songs={playlist?.songs}
+                  playlist_id={playlist._id}
+                  // key={playlist?._id + language.title}
+                  key={playlist?._id}
                   playlist={playlist}
+                  // url={`${apiUrl}/${url}`}
                   url={url}
                   index={index}
                   trial={user?.hasOwnProperty("expiresIn")}
+                  // user={user}
                   setLoading={setLoading}
                   subscriptionAlbum={subscriptionAlbum} // No subscription playlist currently available so this code is not changed
                 />
               );
-            })
-          }
+            })}
         </div>
       </div>
 
@@ -385,9 +456,6 @@ const HomePage = ({ albums }) => {
           top: "50%",
           right: "44vw",
           left: "44vw",
-          // left: 0,
-          // width: "100%",
-          // height: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -405,14 +473,20 @@ const HomePage = ({ albums }) => {
       <FlipMove className={classes.cards}>
         {albumsOrder?.length > 0 &&
           albumsOrder?.map((album, index) => {
-            const url = `${process.env.media_url}/${language.title === "eng"
-              ? album?.Album_Image
-              : album?.Album_Image.replace("eng", "nl")
-              }`;
+            const url = `${process.env.media_url}/${
+              language.title === "eng"
+                ? album?.Album_Image
+                : album?.Album_Image.replace("eng", "nl")
+            }`;
+
+            if (!isFetching) {
+              return null;
+            }
 
             return (
               <Card
-                key={album?._id + language.title}
+                // key={album?._id + language.title}
+                key={album?._id + album?.Album_Name}
                 album={album}
                 url={url}
                 index={index}
@@ -438,7 +512,7 @@ const HomePage = ({ albums }) => {
       {/* https://githubmemory.com/repo/joshwcomeau/react-flip-move/issues/256 */}
       {/* Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. */}
       <Footer />
-    </div >
+    </div>
   );
 };
 

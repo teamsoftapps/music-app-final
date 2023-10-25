@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { setSong, setSongs, setUser } from "../../store/musicReducer";
 import api from "./../../../services/api";
 import styles from "./ExtendSubscription.module.css";
-import { codes } from '../../data/data'
+import { codes } from "../../data/data";
 
 const postSelector = (state) => state.music;
 
@@ -24,24 +24,23 @@ const ExtendSubscription = () => {
   const [error, setError] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [currency, setCurrency] = useState();
-  const [premiumAccessCode, setPremiumAccessCode] = useState('');
+  const [premiumAccessCode, setPremiumAccessCode] = useState("");
 
   useEffect(() => {
     if (codes.includes(code)) {
-      setPremiumAccessCode('PREMIUM')
-      return
-    } else if (code == 'premium' || code == 'PREMIUM' || code == 'Premium') {
-      setPremiumAccessCode('PREMIUM')
-      return
-    } else if (code == 'ldtrial' || code == 'LDTRIAL' || code == 'Ldtrial') {
-      setPremiumAccessCode('LDTRIAL')
-      return
+      setPremiumAccessCode("PREMIUM");
+      return;
+    } else if (code == "premium" || code == "PREMIUM" || code == "Premium") {
+      setPremiumAccessCode("PREMIUM");
+      return;
+    } else if (code == "ldtrial" || code == "LDTRIAL" || code == "Ldtrial") {
+      setPremiumAccessCode("LDTRIAL");
+      return;
     } else {
-      setPremiumAccessCode(code)
-      return
+      setPremiumAccessCode(code);
+      return;
     }
-
-  }, [code])
+  }, [code]);
 
   useEffect(() => {
     console.log("user >>>>>>>>", user);
@@ -95,6 +94,9 @@ const ExtendSubscription = () => {
         code: premiumAccessCode,
       };
 
+      if (!body) {
+        return;
+      }
       let { data } = await api.patch(`/api/extend-subscription/${email}`, body);
 
       // console.log("data >>>>>>>>>>>>>", data);
@@ -129,7 +131,7 @@ const ExtendSubscription = () => {
 
   const handleNavigation = () => {
     localStorage.removeItem("trial-info");
-    localStorage.clear()
+    localStorage.clear();
     router.push("/login");
   };
 
@@ -143,7 +145,7 @@ const ExtendSubscription = () => {
         console.log("api data=============>", data);
         setCountryCode(data?.country);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {

@@ -13,12 +13,16 @@ const initialState = {
     favourites: null,
     favouriteId: null,
     tokenObj: null,
+    playlistid:null
 };
 
 export const counterSlice = createSlice({
     name: "playlists",
     initialState,
     reducers: {
+        setPlaylistId: (state, { payload }) => {
+            state.playlistid = payload;
+        },
         // language Mode
         setLanguageMode: (state, { payload }) => {
             state.language = payload;
@@ -83,6 +87,7 @@ export const {
     setFavourites,
     setFavouriteId,
     setTokenQuery,
+    setPlaylistId,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

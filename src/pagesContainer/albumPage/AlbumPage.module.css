@@ -174,7 +174,8 @@
 }
 
 .lyricsToggleButtonBackground.isOn {
-  background-color: #2196F3;
+  /* background-color: #2196F3; */
+  background-color: white;
 }
 
 .lyricsToggleButtonText {
@@ -190,12 +191,13 @@
   flex-direction: row;
   font-weight: bold;
   left: 25px;
-  color: #ccc;
+  /* color: #ccc; */
+  color: #201009;
 }
 
 .lyricsToggleButtonText.isOn {
   left: 5px;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 .lyricsToggleButtonPointer {
@@ -204,7 +206,9 @@
   width: 15px;
   left: 2px;
   bottom: 2px;
-  background-color: #ccc;
+  /* background-color: #ccc; */
+  background-color: #201009;
+  
   transition: 0.4s;
   border-radius: 50%;
   border-radius: white;
