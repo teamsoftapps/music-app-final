@@ -168,7 +168,7 @@ const CreateNewPlaylistPage = () => {
       console.log(data);
       setSnackbarSaverity("success");
       setSnackbarMessage("Playlist created successfully");
-
+      setOpenSnackbar(true);
       // router.back()
       setTimeout(() => {
         router.back();
@@ -180,9 +180,8 @@ const CreateNewPlaylistPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(playlistName, selectedSongID);
-    CreatePlaylist();
-    setOpenSnackbar(true);
-    if (!playlistName || !selectedSongID || !selectedPlaylistImage) {
+    // if (!playlistName || !selectedSongID || !selectedPlaylistImage) {
+    if (!playlistName || !selectedSongID) {
       if (!playlistName) {
         setSnackbarMessage("Please enter playlist name.");
         setOpenSnackbar(true);
@@ -191,16 +190,16 @@ const CreateNewPlaylistPage = () => {
         setSnackbarMessage("Please go to album or playlist page.");
         setOpenSnackbar(true);
       }
-      if (!selectedPlaylistImage) {
-        setSnackbarMessage("Please select an image.");
-        setOpenSnackbar(true);
-      }
-      console.log("comes here");
-      // CreatePlaylist()
-
+      // if (!selectedPlaylistImage) {
+      //   setSnackbarMessage("Please select an image.");
+      //   setOpenSnackbar(true);
+      // }
       return;
     }
-    return; //----------This return will be removed once Post API start working.----------
+    CreatePlaylist();
+    return;
+
+    //----------This return will be removed once Post API start working.----------
     // setLoading(true);
     // let token;
     // if (typeof window !== "undefined") {
