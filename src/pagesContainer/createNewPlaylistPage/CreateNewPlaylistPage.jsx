@@ -139,19 +139,13 @@ const CreateNewPlaylistPage = () => {
   const CreatePlaylist = async () => {
     console.log("function called ");
     try {
-      const parts = croppedImageDataURL.split(",");
-      console.log("selected playlist base creation");
-
-      let base64Data = parts[1];
-
-      console.log(typeof base64Data, "base64 image ");
-      console.log(base64Data, "base64 image ");
+      // const parts = croppedImageDataURL.split(",");
+      // let base64Data = parts[1];
       let userID = localStorage.getItem("userid");
-      console.log(userID, "mn uerki id hn");
       const body = {
         Playlist_Name: playlistName,
         SongId: selectedSongID,
-        Playlist_ImageBase64: base64Data,
+        // Playlist_ImageBase64: base64Data,
       };
       if (!body) {
         return;
@@ -207,36 +201,36 @@ const CreateNewPlaylistPage = () => {
       return;
     }
     return; //----------This return will be removed once Post API start working.----------
-    setLoading(true);
-    let token;
-    if (typeof window !== "undefined") {
-      ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
-    }
-    try {
-      const body = {
-        playlistName,
-        selectedSongID,
-        selectedPlaylistImage,
-      };
-      let { data } = await api.post(`/api/create-new-playlist`, body, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-      setLoading(false);
-      console.log("API data >>>>>>>>>>>>>>>", data);
-    } catch (err) {
-      setLoading(false);
-      console.error(err);
-      console.error(
-        "err?.response?.data?.message >>>>>>>>>>",
-        err?.response?.data?.message
-      );
-      setError(err?.response?.data?.message);
-      setTimeout(() => {
-        setError("");
-      }, 3000);
-    }
+    // setLoading(true);
+    // let token;
+    // if (typeof window !== "undefined") {
+    //   ({ token } = JSON.parse(localStorage.getItem("music-app-credentials")));
+    // }
+    // try {
+    //   const body = {
+    //     playlistName,
+    //     selectedSongID,
+    //     selectedPlaylistImage,
+    //   };
+    //   let { data } = await api.post(`/api/create-new-playlist`, body, {
+    //     headers: {
+    //       authorization: `Bearer ${token}`,
+    //     },
+    //   });
+    //   setLoading(false);
+    //   console.log("API data >>>>>>>>>>>>>>>", data);
+    // } catch (err) {
+    //   setLoading(false);
+    //   console.error(err);
+    //   console.error(
+    //     "err?.response?.data?.message >>>>>>>>>>",
+    //     err?.response?.data?.message
+    //   );
+    //   setError(err?.response?.data?.message);
+    //   setTimeout(() => {
+    //     setError("");
+    //   }, 3000);
+    // }
   };
 
   useEffect(() => {
@@ -308,7 +302,7 @@ const CreateNewPlaylistPage = () => {
         </div>
       </div>
       <br />
-      <label
+      {/* <label
         className="custom-file-upload"
         style={{ display: "block", width: "100%" }}
       >
@@ -334,7 +328,7 @@ const CreateNewPlaylistPage = () => {
             <br />
           </div>
         )}
-      </div>
+      </div> */}
       <div>
         <button>Submit Playlist</button>
       </div>
