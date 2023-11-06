@@ -21,6 +21,7 @@ const Card = forwardRef(
     const { user } = useSelector(postSelector, shallowEqual);
     const [error, setError] = useState(false);
     const [msg, setMsg] = useState(false);
+    console.log("yahan aa rha ha ");
 
     // const [subscriptionAlbum, setSubscriptionAlbum] = useState(null);
     // const [albumName,setAlbumName]=useState(false)
@@ -39,42 +40,11 @@ const Card = forwardRef(
 
     subscriptionAlbum?.forEach((elem, index) => {
       if (album?.Album_Name === elem.album) {
-        //  console.log("hello world!");
         albumName = true;
       }
     });
 
-    // useEffect(() => {
-    //   if (typeof window !== "undefined") {
-    //     setSubscriptionAlbum(
-    //       JSON.parse(localStorage.getItem("subscriptionSongDetails"))
-    //     );
-    //   }
-    // }, [albumName]);
-
-    //   subscriptionAlbum?.forEach((elem, index) => {
-    //     if (album?.Album_Name === elem.album) {
-    //       // console.log("hello world!");
-    //       albumName = true;
-    //     }
-    //   });
-
-    // console.log(albumName);
-
-    function handleClick(albumName) {
-      // console.log("card clicked....", albumName);
-      //  setLoading(true);
-
-      // subscriptionAlbum?.forEach((elem, index) => {
-      //   if (elem.album === albumName) {
-      //     setMsg(true);
-      //     alert("han true");
-      //   } else {
-      //     setMsg(false);
-      //     alert("han false");
-      //   }
-      // });
-
+    function handleClick() {
       if (!user) {
         route.replace("/login");
         return;
@@ -83,33 +53,15 @@ const Card = forwardRef(
       if (disableFetch) return;
 
       setLoading(true);
-
-      // console.log(loading)
-
       if (user?.hasOwnProperty("expiresIn")) {
-        // console.log(
-        //   "`/album/${album?.Album_Name}` >>>>>>>>>>",
-        //   `/album/${album?.Album_Name}`
-        // );
-
-        //  index===0
-        msg ? route.push(`/album/${album?.Album_Name}`) : handleExpireAlert();
+        let uri = album?.Album_Name;
+        let encoded = encodeURIComponent(uri);
+        msg ? route.push(`/album/${encoded}`) : handleExpireAlert();
       } else {
-        // console.log(
-        //   "`/album/${album?.Album_Name}` >>>>>>>>>>",
-        //   `/album/${album?.Album_Name}`
-        // );
-        route.push(`/album/${album?.Album_Name}`);
+        let uri = album?.Album_Name;
+        let encoded = encodeURIComponent(uri);
+        route.push(`/album/${encoded}`);
       }
-
-      // try {
-      // const { data } = await axios.get(`${process.env.base_url}/songs/${album?.Album_Name}`);
-      // dispatch(setSongs(data));
-      // dispatch(setSong(data[0]));
-      // route.push(`/album/${album?.Album_Name}`);
-      // } catch (err) {
-      //     console.error(err);
-      // }
     }
 
     const handleExpireAlert = () => {
@@ -125,7 +77,7 @@ const Card = forwardRef(
         <div
           ref={ref}
           className={classes.card}
-          onClick={() => handleClick(album?.Album_Name)}
+          onClick={() => handleClick()}
           style={disableFetch && { cursor: "auto" }}
           disabled={(trial && index === 0) || !albumName}
         >

@@ -39,6 +39,7 @@ const ForgotPage = () => {
         // if (typeof window !== "undefined") {
         //   // Perform localStorage action
         localStorage.setItem("userID", data?.data?.id);
+        console.log(data?.data?.id, "isko mn nikiaal ln ?")
       }
 
       setLoading(false);

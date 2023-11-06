@@ -5,6 +5,7 @@
     /* backgroundColor: #ccaa6b; */
     display: flex;
     cursor: pointer;
+    
 }
 
 .playlistItemText {
@@ -12,6 +13,7 @@
     white-space: normal;
     width: 95px;
     text-align: center;
+    height:300px
 }
 
 .playlistItemImage {
@@ -21,6 +23,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: 1px solid wheat; */
+     /* border: 2px solid wheat; */
+    /* border-radius: 5px ;  */
+
 }
 
 .playlistItem {
@@ -28,6 +34,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+   
 
 }
 
