@@ -116,6 +116,10 @@ const AlbumPage = ({ songs, album }) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     console.log(song?.Song_Length);
     setScreenRefresh(true);
 
@@ -314,7 +318,7 @@ const AlbumPage = ({ songs, album }) => {
       >
         <ClipLoader color="red" loading={loadingForAlbum} size={"10vw"} />
       </div>
-      <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
+      <h4 style={{ color: "white", textAlign: "center" }}>{language.title === "nl" ? "STREAMEN" : "STREAMING"}</h4>
       <h1>{song?.Album_Name} </h1>
       {songHrShow ? (
         <h3>
@@ -333,14 +337,21 @@ const AlbumPage = ({ songs, album }) => {
             <input className={classes.lyricsToggleButtonInput} type="checkbox" checked={isOn} onChange={toggleSwitch} />
             <span className={`${classes.lyricsToggleButtonBackground} ${isOn ? classes.isOn : ''}`}>
               <span className={`${classes.lyricsToggleButtonText} ${isOn ? classes.isOn : ''}`}>
-                {isOn ? 'ON' : 'OFF'}
+                {/* {isOn ? 'ON' : 'OFF'} */}
+                {isOn ? (language.title === "nl" ? "AAN" : "ON") : (language.title === "nl" ? "UIT" : "OFF")}
               </span>
               <span className={`${classes.lyricsToggleButtonPointer} ${isOn ? classes.isOn : ''}`}></span>
             </span>
           </label>
           <p className={classes.lyricsModeParagraph}>
-            <b>
+            {/* <b>
               Lyrics Mode <span className={classes.redTextColor}>(new feature!)</span>
+            </b> */}
+            <b>{language.title === "nl" ? "Liedteksten" : "Lyrics Mode"}
+              {" "}
+              <span className={classes.redTextColor}>
+                {language.title === "nl" ? "(nieuw!)" : "(new feature!)"}
+              </span>
             </b>
           </p>
         </div>

@@ -94,7 +94,7 @@ const PremiumCode = () => {
         {/* {loading && <h3>Loading..</h3>} */}
         {loading && (
           <div className={classes.loading}>
-            <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+            <h1 style={{ fontSize: "2rem" }}>Loading...</h1>
           </div>
         )}
 
