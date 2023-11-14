@@ -27,7 +27,7 @@ const ProtectedRoute = (WrappedComponent) => {
       checkAuth();
     }, [authenticated]);
 
-    if (loading) return <h1>Loading...</h1>;
+    if (loading) return <h2>Loading...</h2>;
     return <WrappedComponent {...props} />;
   };
 };

@@ -39,7 +39,7 @@ const ForgotPage = () => {
         // if (typeof window !== "undefined") {
         //   // Perform localStorage action
         localStorage.setItem("userID", data?.data?.id);
-        console.log(data?.data?.id, "isko mn nikiaal ln ?")
+        console.log(data?.data?.id, "isko mn nikiaal ln ?");
       }
 
       setLoading(false);
@@ -98,7 +98,7 @@ const ForgotPage = () => {
 
       {loading && (
         <div className={classes.loading}>
-          <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+          <h1 style={{ fontSize: "2rem" }}>Loading...</h1>
         </div>
       )}
 

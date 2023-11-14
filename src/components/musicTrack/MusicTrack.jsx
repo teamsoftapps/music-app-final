@@ -41,6 +41,7 @@ const MusicTracker = ({
   const { song, favourites } = useSelector(postSelector, shallowEqual);
   const dispatch = useDispatch();
   const router = useRouter();
+  const { language, user } = useSelector(postSelector, shallowEqual);
   const [myCommutativeLength, setMyCommutativeLength] = useState(0); // myCommutativeLength not used
   const [locked, setLocked] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -454,11 +455,10 @@ const MusicTracker = ({
               ref={albumSong?._id === song?._id ? trackRef : null}
               //${albumSong?._id === songs[i]?._id ? classes.musicTrackActive : classes.musicTrack}
               // className={`${classes.musicTrack}
-              className={`${classes.musicTrack} ${
-                selectedSongName === albumSong?.Song_Name
-                  ? classes.musicTrackActive
-                  : classes.musicTrack
-              }
+              className={`${classes.musicTrack} ${selectedSongName === albumSong?.Song_Name
+                ? classes.musicTrackActive
+                : classes.musicTrack
+                }
           
           ${!lockedSongs ? classes.showCursor : null}`}
               style={{ cursor: locked && "not-allowed" }}
@@ -569,13 +569,13 @@ const MusicTracker = ({
                         onClick={() => handleAddToPlaylistClick(i)}
                         style={{ fontWeight: "bold" }}
                       >
-                        Add to playlist
+                        {language.title === "nl" ? "Toevoegen aan Playlist" : "Add to playlist"}
                       </button>
                       <button
                         onClick={() => handleCreateNewPlaylistClick(i)}
                         style={{ fontWeight: "bold" }}
                       >
-                        Create a new playlist
+                        {language.title === "nl" ? "Nieuwe Playlist" : "Create a new playlist"}
                       </button>
                       {caller === "playlist" &&
                         lockedSongs &&
@@ -584,8 +584,8 @@ const MusicTracker = ({
                           <button
                             onClick={() => handleRemoveFromPlaylistClick(i)}
                             style={{ fontWeight: "bold" }}
-                          >
-                            Remove from playlist
+                          >{language.title === "nl" ? "Verwijderen uit playlist" : "Remove from playlist"}
+
                           </button>
                         )}
                     </div>

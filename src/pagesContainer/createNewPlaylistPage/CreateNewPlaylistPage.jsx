@@ -118,8 +118,8 @@ const CreateNewPlaylistPage = () => {
             // setCroppedImageDataURL(compressedDataURL);
 
             // setSelectedPlaylistImage(file);
-            console.log(file, "playlist ki res km ho gy ");
-            console.log(croppedDataURL, "data url ");
+            // console.log(file, "playlist ki res km ho gy ");
+            // console.log(croppedDataURL, "data url ");
             // localStorage.setItem("image",file )
           } else {
             setOpenSnackbar(true);
@@ -183,11 +183,11 @@ const CreateNewPlaylistPage = () => {
     // if (!playlistName || !selectedSongID || !selectedPlaylistImage) {
     if (!playlistName || !selectedSongID) {
       if (!playlistName) {
-        setSnackbarMessage("Please enter playlist name.");
+        setSnackbarMessage(language.title === "nl" ? "Voer de naam van de afspeellijst in." : "Please enter playlist name.");
         setOpenSnackbar(true);
       }
       if (!selectedSongID) {
-        setSnackbarMessage("Please go to album or playlist page.");
+        setSnackbarMessage(language.title === "nl" ? "Ga naar de album- of afspeellijstpagina." : "Please go to album or playlist page.");
         setOpenSnackbar(true);
       }
       // if (!selectedPlaylistImage) {
@@ -267,20 +267,20 @@ const CreateNewPlaylistPage = () => {
           {language.title === "nl"
             ? "Mulder muziekstreaming"
             : "Mulder Music Streaming"}{" "}
-          | {language.title === "nl" ? "NULL" : "Create a New Playlist"}
+          | {language.title === "nl" ? "Nieuwe Playlist" : "Create a New Playlist"}
         </title>
       </Head>
-      <h1>{language.title === "nl" ? "NULL" : "Create a New Playlist"}</h1>
+      <h1>{language.title === "nl" ? "Nieuwe Playlist" : "Create a New Playlist"}</h1>
       <div>
         {selectedSongName !== null && (
           <div>
-            <p>{`"${selectedSongName}" will be automatically added to the playlist.`}</p>
+            <p>{`"${selectedSongName}"`}{language.title === "nl" ? " zal worden toegevoegd aan uw playlist" : " will be automatically added to the playlist."}</p>
           </div>
         )}
       </div>
       {loading && (
         <div className={classes.loading}>
-          <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+          <h1 style={{ fontSize: "2rem" }}>Loading...</h1>
         </div>
       )}
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
@@ -294,7 +294,7 @@ const CreateNewPlaylistPage = () => {
               }}
               required
               placeholder={
-                language.title === "nl" ? "NULL" : "Enter Playlist Name"
+                language.title === "nl" ? "Playlist naam" : "Enter Playlist Name"
               }
             />
           </div>
@@ -329,7 +329,7 @@ const CreateNewPlaylistPage = () => {
         )}
       </div> */}
       <div>
-        <button>Submit Playlist</button>
+        <button>{language.title === "nl" ? "Playlist aanmaken" : "Submit Playlist"}</button>
       </div>
       <p>
         <span className={classes.linkBoxWrapper}>
@@ -337,7 +337,7 @@ const CreateNewPlaylistPage = () => {
             style={{ color: "#fff", textDecoration: "underline" }}
             onClick={handleGoBack}
           >
-            {language.title === "nl" ? "NULL" : "Go back to previous screen"}
+            {language.title === "nl" ? "Terug" : "Go back to previous screen"}
           </span>
         </span>
       </p>

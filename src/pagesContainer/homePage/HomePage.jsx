@@ -465,7 +465,7 @@ const HomePage = ({ albums, playlists }) => {
         {/* <ClipLoader color="red" loading={loading} size={"10vw"} /> */}
         {loading && (
           <div className={classes.loading}>
-            <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+            <h1 style={{ fontSize: "2rem" }}>Loading...</h1>
           </div>
         )}
       </div>
@@ -473,11 +473,10 @@ const HomePage = ({ albums, playlists }) => {
       <FlipMove className={classes.cards}>
         {albumsOrder?.length > 0 &&
           albumsOrder?.map((album, index) => {
-            const url = `${process.env.media_url}/${
-              language.title === "eng"
-                ? album?.Album_Image
-                : album?.Album_Image.replace("eng", "nl")
-            }`;
+            const url = `${process.env.media_url}/${language.title === "eng"
+              ? album?.Album_Image
+              : album?.Album_Image.replace("eng", "nl")
+              }`;
 
             if (!isFetching) {
               return null;
