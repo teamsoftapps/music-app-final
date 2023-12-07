@@ -14,6 +14,7 @@ import api from "../../../services/api";
 import React, { useState, useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { shallowEqual, useSelector } from "react-redux";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -99,6 +100,7 @@ BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
+const postSelector = (state) => state.music;
 
 const LyricsDialogs = ({
   setOpenDeletePlaylistModal,
@@ -108,6 +110,7 @@ const LyricsDialogs = ({
   lyrics,
 }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { language, user } = useSelector(postSelector, shallowEqual);
   const [snackbarMessage, setSnackbarMessage] = useState(
     "Please go to the previous page"
   );
@@ -134,7 +137,7 @@ const LyricsDialogs = ({
       setSnackbarMessage(data.message);
       router.back();
       console.log("yahan snackbar ");
-    } catch (err) {}
+    } catch (err) { }
   };
 
   function onConfirm() {
@@ -161,11 +164,14 @@ const LyricsDialogs = ({
           id="customized-dialog-title"
           onClose={handleCloseDeletePlaylistModal}
         >
-          Delete Playlist Confirmation
+
+          {language.title === "nl" ? "Playlist verwijderen" : "Delete Playlist Confirmation"}
+
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <div style={{ color: "black", width: "100%", marginTop: "10px" }}>
-            Are you sure you want to delete the playlist?
+            {language.title === "nl" ? "Weet u zeker dat u de playlist wilt verwijderen?" : "Are you sure you want to delete the playlist?"}
+
           </div>
           <div
             className={classes.buttonContainer}
@@ -181,8 +187,7 @@ const LyricsDialogs = ({
                 flex: "auto",
               }}
               onClick={onConfirm}
-            >
-              Yes
+            >{language.title === "nl" ? "Ja" : "Yes"}
             </button>
             <button
               style={{
@@ -194,8 +199,8 @@ const LyricsDialogs = ({
                 flex: "auto",
               }}
               onClick={onCancel}
-            >
-              Cancel
+            >{language.title === "nl" ? "Nee" : "Cancel"}
+
             </button>
           </div>
           {/* </div> */}

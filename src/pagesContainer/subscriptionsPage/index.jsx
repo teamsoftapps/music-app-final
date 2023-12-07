@@ -167,7 +167,7 @@ const SubscriptionsPage = () => {
           ))
         ) : (
           <div className={styles.loading}>
-            <h1>Loading...</h1>
+            <h3>Loading...</h3>
           </div>
         )}
       </div>
@@ -182,7 +182,7 @@ const SubscriptionsPage = () => {
         >
           {loading || loader ? (
             <div className={styles.loading_div}>
-              <h1>Loading...</h1>
+              <h3>Loading...</h3>
             </div>
           ) : (
             <Box sx={style} className={styles.modal_container}>

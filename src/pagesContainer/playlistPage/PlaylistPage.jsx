@@ -139,6 +139,7 @@ const PlaylistPage = ({ songs }) => {
   const [songHrShow, setSongHrShow] = useState(false);
   const [songPlaying, setSongPlaying] = useState(false);
 
+
   const toggleSwitch = () => {
     setIsOn((prevState) => !prevState);
   };
@@ -298,6 +299,10 @@ const PlaylistPage = ({ songs }) => {
   }, []);
   // }, [playlist]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   const [selectedSongIndex, setSelectedSongIndex] = useState(null);
   const handleChangeSong = (index) => {
     setSelectedSongIndex(index);
@@ -307,7 +312,9 @@ const PlaylistPage = ({ songs }) => {
 
   if (!songs || !songs.length)
     return (
-      <h1 style={{ textAlign: "center" }}>There is no songs in the playlist</h1>
+      <h1 style={{ textAlign: "center" }}>
+        {language.title === "nl" ? "Er staan ​​geen nummers in de afspeellijst" : "There is no songs in the playlist"}
+      </h1>
     );
   // if (!songs || !songs.length) return <h1>Loading...=</h1>
 
@@ -347,7 +354,7 @@ const PlaylistPage = ({ songs }) => {
       >
         <ClipLoader color="red" loading={loadingForPlaylist} size={"10vw"} />
       </div>
-      <h4 style={{ color: "white", textAlign: "center" }}>STREAMING</h4>
+      <h4 style={{ color: "white", textAlign: "center" }}>{language.title === "nl" ? "STREAMEN" : "STREAMING"}</h4>
       <h1>{playlistName}</h1>
 
       {/* ----------Lyrics Mode Switch---------- */}
@@ -375,7 +382,7 @@ const PlaylistPage = ({ songs }) => {
                 className={`${classes.lyricsToggleButtonText} ${isOn ? classes.isOn : ""
                   }`}
               >
-                {isOn ? "ON" : "OFF"}
+                {isOn ? (language.title === "nl" ? "AAN" : "ON") : (language.title === "nl" ? "UIT" : "OFF")}
               </span>
               <span
                 className={`${classes.lyricsToggleButtonPointer} ${isOn ? classes.isOn : ""
@@ -384,9 +391,11 @@ const PlaylistPage = ({ songs }) => {
             </span>
           </label>
           <p className={classes.lyricsModeParagraph}>
-            <b>
-              Lyrics Mode{" "}
-              <span className={classes.redTextColor}>(new feature!)</span>
+            <b>{language.title === "nl" ? "Liedteksten" : "Lyrics Mode"}
+              {" "}
+              <span className={classes.redTextColor}>
+                {language.title === "nl" ? "(nieuw!)" : "(new feature!)"}
+              </span>
             </b>
           </p>
         </div>
@@ -396,7 +405,9 @@ const PlaylistPage = ({ songs }) => {
             className={classes.deleteButtonContainer}
             onClick={() => setOpenDeletePlaylistModal(true)}
           >
-            <div className={classes.deleteButtonText}>Delete playlist</div>
+            <div className={classes.deleteButtonText}>
+              {language.title === "nl" ? "Playlist verwijderen" : "Delete playlist"}
+            </div>
             <IconButton disableRipple="true" className={classes.deleteButton}>
               <DeleteOutline />
             </IconButton>

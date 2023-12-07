@@ -55,7 +55,7 @@ const AddToPlaylistPage = ({ playlistsOrder }) => {
         }
       );
       console.log("here succes dialog ");
-      console.log(data, " add song to [playlsit hony ke baad ka response ha");
+      // console.log(data, " add song to [playlsit hony ke baad ka response ha");
       setSnackbarMessage(data.message);
       setOpenSnackbar(true);
       setTimeout(() => {
@@ -89,11 +89,13 @@ const AddToPlaylistPage = ({ playlistsOrder }) => {
     console.log("Selected Playlist Name:", selectedPlaylist?.Playlist_Name);
     if (!selectedSongID || !selectedPlaylist) {
       if (!selectedSongID) {
-        setSnackbarMessage("Please go to album or playlist page.");
+        setSnackbarMessage(language.title === "nl" ? "Ga naar de album- of afspeellijstpagina." : "Please go to album or playlist page.");
         setOpenSnackbar(true);
       }
       if (!selectedPlaylist) {
-        setSnackbarMessage("Please select a playlist.");
+        // setSnackbarMessage("Please select a playlist.");
+        setSnackbarMessage(language.title === "nl" ? "Selecteer een playlist." : "Please select a playlist.");
+
         setOpenSnackbar(true);
       }
     }
@@ -191,33 +193,33 @@ const AddToPlaylistPage = ({ playlistsOrder }) => {
           {language.title === "nl"
             ? "Mulder muziekstreaming"
             : "Mulder Music Streaming"}{" "}
-          | {language.title === "nl" ? "NULL" : "Add to Playlist"}
+          | {language.title === "nl" ? "Toevoegen aan Playlist" : "Add to Playlist"}
         </title>
       </Head>
-      <h1>{language.title === "nl" ? "NULL" : "Add to Playlist"}</h1>
+      <h1>{language.title === "nl" ? "Toevoegen aan Playlist" : "Add to Playlist"}</h1>
       <div>
         {selectedSongName !== null && (
           <div>
-            <p>{`Note: "${selectedSongName}" will be added to the selected playlist.`}</p>
+            <p>{`"${selectedSongName}"`}{language.title === "nl" ? " zal worden toegevoegd aan uw playlist" : " will be automatically added to the playlist."}</p>
           </div>
         )}
       </div>
       {loading && (
         <div className={classes.loading}>
-          <h1 style={{ fontSize: "2.5rem" }}>Loading...</h1>
+          <h1 style={{ fontSize: "2rem" }}>Loading...</h1>
         </div>
       )}
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
       <br />
-      <h2>Please select a playlist.</h2>
+      <h2>{language.title === "nl" ? "Selecteer een playlist" : "Please select a playlist."}</h2>
       <br />
       <div>
         {playlistsOrder?.map((playlist, i) =>
           playlistsOrder.length !== i ? (
             <div
               className={`${classes.playlistItem} ${selectedPlaylist?._id === playlist._id
-                  ? classes.selectedPlaylistItem
-                  : ""
+                ? classes.selectedPlaylistItem
+                : ""
                 }`}
               onClick={() => handleSelectPlaylist(playlist)}
             >
@@ -240,7 +242,7 @@ const AddToPlaylistPage = ({ playlistsOrder }) => {
         )}
       </div>
       <div>
-        <button onClick={addSongToPlayList}>Confirm add to Playlist</button>
+        <button onClick={addSongToPlayList}>{language.title === "nl" ? "U voegt nu een playlist toe" : "Confirm add to Playlist"}</button>
       </div>
       <p>
         <span className={classes.linkBoxWrapper}>
@@ -248,7 +250,7 @@ const AddToPlaylistPage = ({ playlistsOrder }) => {
             style={{ color: "#fff", textDecoration: "underline" }}
             onClick={handleGoBack}
           >
-            {language.title === "nl" ? "NULL" : "Go back to previous screen"}
+            {language.title === "nl" ? "Terug" : "Go back to previous screen"}
           </span>
         </span>
       </p>

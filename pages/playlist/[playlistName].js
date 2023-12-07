@@ -132,7 +132,7 @@ const fetchPlaylists = async ()=>{
         <PlaylistPage  songs={songssData} />
         </> 
     }else{
-        return <h1 style={{textAlign:"center"}}>Loading....</h1>
+        return <h2 style={{textAlign:"center"}}>Loading....</h2>
     
     }
 };          
