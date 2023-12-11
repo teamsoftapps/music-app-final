@@ -375,6 +375,10 @@ const HomePage = ({ albums, playlists }) => {
           </p>
         </div>
         {/* <FlipMove className={classes.cards}> */}
+
+
+        {/*=====>>>>>>>>>>>>>>>> Asad<<<<== */}
+
         <div className={classes.playlistsList}>
           {fetchedPlaylists?.result?.length > 0 &&
             fetchedPlaylists?.result?.map((playlist, index) => {
@@ -387,7 +391,17 @@ const HomePage = ({ albums, playlists }) => {
               const url = playlist?.Playlist_Image; // Temporary
               // const url = `${process.env.media_url}/${language.title === "eng" ? playlist?.Playlist_Image : playlist?.Playlist_Image.replace("eng", "nl") }`;
               //  console.log(playlist._id, "isko redux mn daalo")
-
+              //   <Card
+              //   // key={album?._id + language.title}
+              //   key={album?._id + album?.Album_Name}
+              //   album={album}
+              //   url={url}
+              //   index={index}
+              //   trial={user?.hasOwnProperty("expiresIn")}
+              //   setLoading={setLoading}
+              //   subscriptionAlbum={subscriptionAlbum}
+              // />
+              console.log("playlistcard", playlist);
               return (
                 <PlaylistCard
                   songs={playlist?.songs}
@@ -398,8 +412,9 @@ const HomePage = ({ albums, playlists }) => {
                   // url={`${apiUrl}/${url}`}
                   url={url}
                   index={index}
+
                   trial={user?.hasOwnProperty("expiresIn")}
-                  // user={user}
+                  user={user}
                   setLoading={setLoading}
                   subscriptionAlbum={subscriptionAlbum} // No subscription playlist currently available so this code is not changed
                 />

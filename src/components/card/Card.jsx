@@ -40,6 +40,7 @@ const Card = forwardRef(
 
     subscriptionAlbum?.forEach((elem, index) => {
       if (album?.Album_Name === elem.album) {
+        console.log("cardElem", elem,);
         albumName = true;
       }
     });
@@ -71,6 +72,11 @@ const Card = forwardRef(
         setError(false);
       }, 3000);
     };
+
+
+
+
+    console.log("trial card", trial, albumName);
 
     return (
       <>
