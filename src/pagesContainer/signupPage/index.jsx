@@ -14,10 +14,6 @@ const postSelector = (state) => state.music;
 const SignupPage = () => {
   // console.log("Auth SignupPage >>>>>>>>");
 
-
-
-
-
   const router = useRouter();
 
   const { email: userEmail, access_code } = router.query;
@@ -30,17 +26,15 @@ const SignupPage = () => {
   const [checkBox, setCheckBox] = useState(false);
   const [premiumAccessCode, setPremiumAccessCode] = useState('');
 
-
   const { language, user } = useSelector(postSelector, shallowEqual);
 
   useEffect(() => {
-    setEmail(userEmail !== "" ? userEmail : "");
-    setVerificationCode(access_code !== "" ? access_code : "");
+    // setEmail(userEmail !== "" ? userEmail : "");
+    // setVerificationCode(access_code !== "" ? access_code : "");
+    setEmail(userEmail ? userEmail : email);
+    setVerificationCode(access_code ? access_code : verificationCode);
+
   }, [userEmail, access_code]);
-
-  // console.log("Codes==>", codes)
-
-
 
 
   useEffect(() => {
@@ -60,34 +54,16 @@ const SignupPage = () => {
 
   }, [verificationCode]);
 
-
-
-
-  // useEffect(() => {
-  //   if (user) {
-  //     router.replace("/");
-  //   } else {
-  //     router.replace("/signup");
-  //   }
-
-  //   // if(!user){
-  //   //   router.replace(`/signup?email=${email}&&access_code=${access_code}`)
-  //   // }
-
-  // }, [user]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setLoading(true);
-
     try {
       let payload = {
         email: email.toLowerCase(),
         password,
         code: premiumAccessCode.toUpperCase(),
       };
-
       const { data } = await api.post("/api/signup", payload);
 
       if (data) {
@@ -103,7 +79,6 @@ const SignupPage = () => {
       }
     } catch (err) {
       setLoading(false);
-
       console.error(
         "err?.response?.data?.message >>>>>>>>>>",
         err?.response?.data?.message
@@ -142,7 +117,7 @@ const SignupPage = () => {
 
       <h1>{language.title === "nl" ? signupTextNl : signupTextEng}</h1>
 
-      {loading && <h3>Loading..</h3>}
+      {loading && <h3>Loading...</h3>}
       {error && <h3 style={{ color: "red" }}>{error}</h3>}
 
       <div className={styles.input}>
