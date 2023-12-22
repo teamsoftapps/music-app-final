@@ -24,6 +24,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import api from "../../../services/api";
 
 const postSelector = (state) => state.music;
 // const apiURL = process.env.
@@ -55,8 +56,55 @@ const PlaylistCard = forwardRef(
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSaverity, setSnackbarSaverity] = useState("warning");
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [userInfo, setUserInfo] = useState();
+    const [expireDays, setExpireDays] = useState(0);
+    const fetchExpiringDays = async () => {
+      try {
+        const { data } = await api.get(`/api/expiring-days/${user.email}`);
 
-    let playlistName = true;
+        if (data) {
+          // console.log("API ExpiringDays Data >>>>>>>>", data);
+          console.log("expiring api =====>", data?.data?.days);
+
+          let payload = {
+            ...user,
+            expireDays: data.data.days,
+
+
+          };
+
+          console.log("first", payload);
+          setUserInfo(payload);
+
+          setExpireDays(data);
+
+        }
+
+
+
+
+      } catch (err) {
+        console.error(
+          "err?.response?.data?.message >>>>>>>>>>",
+          err?.response?.data?.message
+        );
+
+
+      }
+    };
+    useEffect(() => {
+      console.log("days", userInfo);
+    }, [userInfo]);
+    useEffect(() => {
+      if (user) {
+        fetchExpiringDays();
+        console.log("userInfo1234", userInfo);
+      }
+    }, [user]);
+
+
+
+    let playlistName = false;
     const dispatch = useDispatch();
 
     const onCancel = () => {
@@ -70,32 +118,62 @@ const PlaylistCard = forwardRef(
 
     const onConfirm = () => { };
 
-    function handleClick(playlistName) {
+    subscriptionAlbum?.forEach((elem, index) => {
+      if (playlist?.Playlist_Name === elem?.playlist) {
+        console.log("elem.playlist", elem);
+        playlistName = true;
+      }
+    });
+
+    // function handleClick() {
+    //   if (!user) {
+    //     route.replace("/login");
+    //     return;
+    //   }
+
+    //   if (disableFetch) return;
+
+    //   setLoading(true);
+    //   if (user?.hasOwnProperty("expiresIn")) {
+    //     let uri = album?.Album_Name;
+    //     let encoded = encodeURIComponent(uri);
+    //     msg ? route.push(`/album/${encoded}`) : handleExpireAlert();
+    //   } else {
+    //     let uri = album?.Album_Name;
+    //     let encoded = encodeURIComponent(uri);
+    //     route.push(`/album/${encoded}`);
+    //   }
+    // }
+
+    function handleClick() {
       console.log("comes here");
       if (!user) {
         route.replace("/login");
         return;
       }
 
-      if (songs.length === 0 && playlist?.Playlist_Name !== "Your Favorites") {
-        console.log("show the snackbar here ");
-        setOpenSnackbar(true);
-        setSnackbarMessage("The playlist is Empty");
-        console.log("Show Dialog: ", showDialog);
-        return;
-      }
+      // if (songs.length === 0 && playlist?.Playlist_Name !== "Your Favorites") {
+      //   console.log("show the snackbar here ");
+      //   setOpenSnackbar(true);
+      //   setSnackbarMessage("The playlist is Empty");
+      //   console.log("Show Dialog: ", showDialog);
+      //   return;
+      // }
       if (disableFetch) return;
       setLoading(true);
       if (user?.hasOwnProperty("expiresIn")) {
-        localStorage.setItem("playlistid", `${playlist_id}`);
-        dispatch(setPlaylistId(playlist_id));
+        let uri = playlist?.Playlist_Name;
+        let encoded = encodeURIComponent(uri);
+        // route.push(`/playlist/${encoded}`);
+        // localStorage.setItem("playlistid", `${playlist_id}`);
+        // dispatch(setPlaylistId(playlist_id));
 
         msg
-          ? route.push(`/playlist/${playlist?.Playlist_Name}`)
-          : // route.push(`/playlist/${playlist?.playlist_id}`)
-          handleExpireAlert();
+          // ? route.push(`/playlist/${encoded}`)
+          ? route.push(`/playlist/${playlist?.playlist_id}`)
+          : handleExpireAlert();
       } else {
-        // route.push(`/playlist/${playlist?.Playlist_Name}`);
+        route.push(`/playlist/${playlist?.Playlist_Name}`);
         localStorage.setItem("playlistid", `${playlist_id}`);
         localStorage.setItem("isadmin", `${playlist.Is_Created_By_Admin}`);
         localStorage.setItem("playlistname", `${playlist?.Playlist_Name}`);
@@ -124,21 +202,29 @@ const PlaylistCard = forwardRef(
     //   backgroundColor: "green", // Change this to your desired background color
     //   color: "white", // Change this to your desired text color
     // };
+
+    console.log("trial playlist", trial, playlistName, "playlist", playlist);
+    console.log("userInfo?.expiresIn", userInfo?.expiresIn);
     return (
       <>
         <div
           className={classes.playlistBoxes}
-          onClick={() => handleClick(playlist?.Playlist_Name)}
+          onClick={() => userInfo?.expireDays < 30 ? null : handleClick()}
           // onClick={() => route.push(`/playlist/yourfavourites`)}
           style={disableFetch && { cursor: "auto" }}
           ref={ref}
-          disabled={(trial && index === 0) || !playlistName}
+        // disabled={userInfo?.expireDays > 365}
+
         >
           {error && (
             <Alert className={classes.alert} severity="error">
               Not Available In Trial Period
             </Alert>
           )}
+
+
+
+
           <div className={classes.playlistItem}>
             <div
               className={classes.playlistItemImage}
@@ -159,7 +245,7 @@ const PlaylistCard = forwardRef(
                 width={70}
                 height={70}
               />
-              {(trial || !playlistName) && ( // Combine conditions
+              {userInfo?.expireDays < 30 && (
                 <span className={classes.locked}>
                   <span
                     style={{
