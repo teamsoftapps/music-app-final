@@ -262,5 +262,21 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+}
 
+.castIconStyling{
+  position: absolute;
+  right: calc(60%/1.2);
+  top: 47px;
+}
+@media (max-width: 540px) {
+  .castIconStyling{
+      display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .castIconStyling{
+      right: calc(60%/1.35);
+  }
 }

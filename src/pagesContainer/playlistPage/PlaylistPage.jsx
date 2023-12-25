@@ -15,6 +15,7 @@ import MusicTracker from "../../components/musicTrack/MusicTrack";
 import { Typography } from "@mui/material";
 import { DeleteOutline } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
+import CastIcon from '@mui/icons-material/Cast';
 
 import {
   setAlbum,
@@ -537,7 +538,7 @@ const PlaylistPage = ({ songs }) => {
           )}
         </div>
       </div>
-      <div className={style.music}>
+      <div className={style.music} >
         <div className={classes.hoverStyling}>
           <img src={pic}></img>
         </div>
@@ -551,6 +552,7 @@ const PlaylistPage = ({ songs }) => {
         <div className={style.trash}></div>
         <div className={style.trash}></div>
         <div className={style.trash}></div>
+        <div className={classes.castIconStyling}><CastIcon /></div>
         <AudioPlayer
           className={style.player}
           progressJumpStep={3000}
