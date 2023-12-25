@@ -12,6 +12,7 @@ import Card1 from "./../../components/card1/Card1";
 import LyricsModal from "../../components/lyricsModal/LyricsModal";
 import MusicTracker from "../../components/musicTrack/MusicTrack";
 import { Typography } from "@mui/material";
+import CastIcon from '@mui/icons-material/Cast';
 import {
   setAlbum,
   setFavouriteId,
@@ -486,6 +487,7 @@ const AlbumPage = ({ songs, album }) => {
         <div className={style.trash}></div>
         <div className={style.trash}></div>
         <div className={style.trash}></div>
+        <div className={classes.castIconStyling}><CastIcon /></div>
         <AudioPlayer
           className={style.player}
           progressJumpStep={3000}

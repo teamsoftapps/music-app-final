@@ -333,6 +333,8 @@
     transform: scale(0.95);
 }
 
+
+
 .deleteButtonText {
     font-size: 15px;
     color: white;
@@ -355,5 +357,23 @@
 @media (min-width: 500px) {
     .deleteButtonContainer {
         width: 20%;
+    }
+}
+
+@media (max-width: 800px) {
+    .castIconStyling{
+        right: calc(60%/1.35);
+    }
+}
+
+
+.castIconStyling{
+    position: absolute;
+    right: calc(60%/1.2);
+    top: 47px;
+}
+@media (max-width: 540px) {
+    .castIconStyling{
+        display: none;
     }
 }
