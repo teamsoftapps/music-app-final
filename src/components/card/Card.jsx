@@ -127,7 +127,7 @@ const Card = forwardRef(
             className={classes.cardImage}
             style={{ width: 280, height: 280 }}
           >
-            <Image src={url} alt={url} width={280} height={280} />
+            <Image loading="lazy" src={url} alt={url} width={280} height={280} />
           </div>
           <h3>{album?.Album_Name}</h3>
         </div>
