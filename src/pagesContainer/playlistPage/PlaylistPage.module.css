@@ -360,11 +360,6 @@
     }
 }
 
-@media (max-width: 800px) {
-    .castIconStyling{
-        right: calc(60%/1.35);
-    }
-}
 
 
 .castIconStyling{
@@ -375,5 +370,10 @@
 @media (max-width: 540px) {
     .castIconStyling{
         display: none;
+    }
+}
+@media (max-width: 800px) {
+    .castIconStyling{
+        right: calc(60%/1.35);
     }
 }
