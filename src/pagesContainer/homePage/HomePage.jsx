@@ -338,6 +338,7 @@ const HomePage = ({ albums, playlists }) => {
           {!openAdd ? (
             <div>
               <Image
+                loading="lazy"
                 src={downarrow}
                 width={16}
                 height={16}
@@ -348,6 +349,7 @@ const HomePage = ({ albums, playlists }) => {
           ) : (
             <div>
               <Image
+                loading="lazy"
                 src={uparrow}
                 width={16}
                 height={16}
