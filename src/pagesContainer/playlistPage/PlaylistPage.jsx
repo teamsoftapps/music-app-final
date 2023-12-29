@@ -16,6 +16,7 @@ import { Typography } from "@mui/material";
 import { DeleteOutline } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import CastIcon from '@mui/icons-material/Cast';
+import CastButton from "../../components/castComponent/castComponent";
 
 import {
   setAlbum,
@@ -399,6 +400,7 @@ const PlaylistPage = ({ songs }) => {
               </span>
             </b>
           </p>
+          <div></div>
         </div>
         <div style={{ width: "5rem" }}></div>
         {!isadmin ? (
@@ -552,7 +554,7 @@ const PlaylistPage = ({ songs }) => {
         <div className={style.trash}></div>
         <div className={style.trash}></div>
         <div className={style.trash}></div>
-        <div className={classes.castIconStyling}><CastIcon /></div>
+        <div className={classes.castIconStyling}><CastButton><CastIcon /></CastButton></div>
         <AudioPlayer
           className={style.player}
           progressJumpStep={3000}
